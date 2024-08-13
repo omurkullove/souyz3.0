@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 50px 0px;
+    padding: 50px 0px;
+    background-color: var(--mode-bg4);
+
+    .key_stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        color: var(--mode-text);
+        font-weight: bold;
+        flex: 1;
+        border-right: 0.5px solid var(--mode-text);
+
+        .title {
+            text-transform: uppercase;
+            font-size: 18px;
+        }
+
+        .value {
+            font-size: 50px;
+        }
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+    transition: var(--transition-bg);
+    -webkit-transition: var(--transition-bg);
+    -moz-transition: var(--transition-bg);
+    -ms-transition: var(--transition-bg);
+    -o-transition: var(--transition-bg);
+}

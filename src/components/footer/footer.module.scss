@@ -1,0 +1,102 @@
+.container {
+    padding: 70px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+    .section_1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        .child_left,
+        .child_right {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .title {
+                color: var(--mode-text);
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 20px;
+                padding-bottom: 10px;
+            }
+
+            .link,
+            .link_right {
+                color: var(--mode-text);
+                font-size: 15px;
+                transition: color 0.3s ease;
+                -webkit-transition: color 0.3s ease;
+                -moz-transition: color 0.3s ease;
+                -ms-transition: color 0.3s ease;
+                -o-transition: color 0.3s ease;
+                font-size: 16px;
+
+                &:hover {
+                    color: var(--blue-dark);
+                }
+            }
+
+            .link_right {
+                text-align: right;
+            }
+
+            .sn_block {
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                padding-bottom: 5px;
+
+                justify-content: flex-end;
+
+                svg {
+                    cursor: pointer;
+                    border-radius: 10px;
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -ms-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    color: var(--mode-text);
+                    transition: color 0.3s ease;
+                    -webkit-transition: color 0.3s ease;
+                    -moz-transition: color 0.3s ease;
+                    -ms-transition: color 0.3s ease;
+                    -o-transition: color 0.3s ease;
+
+                    &:hover {
+                        color: var(--blue-dark);
+                    }
+                }
+            }
+        }
+    }
+
+    .section_2 {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            color: var(--mode-text);
+        }
+
+        .link {
+            padding-left: 10px;
+            color: var(--mode-text);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 18px;
+            padding-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .rights {
+            color: var(--mode-text);
+            font-weight: bold;
+        }
+    }
+}

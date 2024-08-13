@@ -1,0 +1,118 @@
+.container {
+    padding: 50px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-inline: 20px;
+
+        .title {
+            font-size: 35px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--mode-text);
+        }
+
+        .link {
+            background-color: var(--blue-light);
+            color: white;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            display: block;
+            width: max-content;
+
+            &:hover {
+                background-color: var(--hover-blue);
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+
+        .questions {
+            flex: 1;
+            border-right: 2px solid var(--mode-text);
+
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+
+            .question_item {
+                display: flex;
+                height: 100px;
+                cursor: pointer;
+                color: var(--mode-text);
+                align-items: center;
+                padding-inline: 10px;
+                gap: 20px;
+
+                .question_title {
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    flex: 4;
+                }
+
+                .icon {
+                    flex: 1;
+                    font-size: 25px;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                -ms-border-radius: 10px;
+                -o-border-radius: 10px;
+
+                &:hover {
+                    background-color: var(--blue-light);
+                    color: white;
+                }
+            }
+
+            .active {
+                background-color: var(--blue-light);
+                color: white;
+            }
+        }
+
+        .answer {
+            flex: 3;
+            padding: 20px;
+            margin-inline: 20px;
+            background-color: var(--mode-bg4);
+
+            .text {
+                color: var(--mode-text);
+                font-size: 16px;
+                line-height: 1.5;
+            }
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
+
+            transition: var(--transition-bg);
+            -webkit-transition: var(--transition-bg);
+            -moz-transition: var(--transition-bg);
+            -ms-transition: var(--transition-bg);
+            -o-transition: var(--transition-bg);
+        }
+    }
+}
