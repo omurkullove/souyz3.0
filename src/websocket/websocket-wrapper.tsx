@@ -49,7 +49,7 @@ const WebsocketWrapper = ({ children }: IWebsocketWrapperProps) => {
                 });
             }
         },
-        [handleUpdateCookie, user, updateUser, router]
+        [handleUpdateCookie, user, updateUser]
     );
 
     const handleClose = useCallback(async () => {
@@ -58,15 +58,14 @@ const WebsocketWrapper = ({ children }: IWebsocketWrapperProps) => {
             updateUser(null);
             router.refresh();
         });
-    }, [clearData, updateUser, router]);
+    }, [clearData, updateUser]);
 
     const handleError = useCallback(async () => {
         await clearData().then(() => {
             updateUser(null);
             router.refresh();
-            router.refresh();
         });
-    }, [clearData, updateUser, router]);
+    }, [clearData, updateUser]);
 
     useEffect(() => {
         if (ws) {
