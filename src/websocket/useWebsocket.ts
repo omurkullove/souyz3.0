@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from 'react';
 
 const useWebSocket = (url: string) => {
     const [ws, setWs] = useState<WebSocket | null>(null);
-    const reconnectInterval = useRef<number | null>(null);
 
     useEffect(() => {
         const connect = () => {
