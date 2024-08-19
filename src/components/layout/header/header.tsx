@@ -48,12 +48,14 @@ const Header = ({ translated }: { translated: TranslateType }) => {
     const handleMouseLeave = useCallback(() => setIsBlockShown(false), []);
 
     const switchLocale = useCallback(
-        (newLocale: Locale) => {
+        async (newLocale: Locale) => {
             if (newLocale !== locale) {
-                setIsBlockShown(false);
-                setTimeout(() => {
-                    router.replace(pathname, { locale: newLocale });
-                }, 500);
+                await fetch('/api/switch-locale', {
+                    method: 'POST',
+                    body: JSON.stringify({ locale: newLocale }),
+                    credentials: 'include',
+                });
+                router.refresh();
             }
         },
 

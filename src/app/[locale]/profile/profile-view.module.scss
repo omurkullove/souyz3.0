@@ -1,0 +1,105 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    min-height: 100%;
+    height: auto;
+
+    .content {
+        background-color: var(--mode-bg4);
+        margin-inline: 20px;
+        padding: 30px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        min-height: 300px;
+        height: auto;
+
+        display: flex;
+        gap: 50px;
+
+        .qr_block {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .image {
+            }
+
+            .download_btn {
+                padding: 10px;
+                border: none;
+                background-color: var(--blue-light);
+                cursor: pointer;
+
+                color: white;
+                font-weight: bold;
+                font-size: 15px;
+
+                &:hover {
+                    background-color: var(--hover-blue);
+                }
+            }
+        }
+
+        .info_container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            justify-content: space-between;
+
+            .info_block {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .fullName {
+                    font-size: 30px;
+                    text-transform: uppercase;
+                    padding-bottom: 10px;
+                    font-family: var(--font-profile);
+                    color: var(--mode-text);
+                }
+
+                .label {
+                    font-size: 17px;
+                    color: var(--mode-text);
+                    font-family: var(--font-profile);
+
+                    .value {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .logout {
+                padding: 10px;
+                border: none;
+                background-color: var(--blue-light);
+                cursor: pointer;
+                justify-self: flex-end;
+                align-self: flex-end;
+
+                color: white;
+                font-weight: bold;
+                font-size: 15px;
+
+                &:hover {
+                    background-color: var(--hover-blue);
+                }
+            }
+        }
+
+        transition: var(--transition-bg);
+        -webkit-transition: var(--transition-bg);
+        -moz-transition: var(--transition-bg);
+        -ms-transition: var(--transition-bg);
+        -o-transition: var(--transition-bg);
+    }
+}

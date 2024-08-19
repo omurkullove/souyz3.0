@@ -9,9 +9,9 @@ const locales = {
     kg,
 };
 
-export function withTranslate<P, N extends IntlNamespaces>(
-    WrappedComponent: ComponentType<P & { translated: IntlMessages[IntlNamespaces] }>,
-    namespaces: N[]
+export function withTranslate<P>(
+    WrappedComponent: ComponentType<P & { translated: IntlMessages }>,
+    namespaces: IntlNamespaces[]
 ) {
     const WithTranslate: FC<Omit<P, 'translated'>> = (props) => {
         const { locale } = useLocale();
@@ -20,7 +20,7 @@ export function withTranslate<P, N extends IntlNamespaces>(
             return namespaces.reduce((acc, namespace) => {
                 const namespaceTranslations = locales[locale]?.[namespace] || {};
                 return { ...acc, ...namespaceTranslations };
-            }, {} as IntlMessages[IntlNamespaces]);
+            }, {} as IntlMessages);
         }, [locale, namespaces]);
 
         return (

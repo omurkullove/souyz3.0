@@ -9,6 +9,7 @@ import { FaSun, FaMoon } from 'react-icons/fa';
 import WithAnimate from '@components/animation/with-animate';
 import { withTranslate } from '@i18n/withTranslate';
 import Image from 'next/image';
+import { useUser } from '@providers/user-provider';
 
 interface ISidebarProps {
     mode: ModeType;
@@ -32,6 +33,7 @@ const variants = {
 } as Variants;
 
 const Sidebar = ({ mode, translated }: ISidebarProps) => {
+    const { user } = useUser();
     const router = useRouter();
     const path = usePathname();
 
@@ -102,7 +104,11 @@ const Sidebar = ({ mode, translated }: ISidebarProps) => {
                                             <FaLongArrowAltRight />
                                         </motion.div>
 
-                                        <p className={styles.label}>{item.label}</p>
+                                        <p className={styles.label}>
+                                            {index === 0 && user
+                                                ? `${user.first_name} ${user.last_name}`
+                                                : item.label}
+                                        </p>
                                     </motion.div>
                                     {isLast && <div className={styles.beta_line}>Beta</div>}
                                 </Link>

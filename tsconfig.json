@@ -20,9 +20,10 @@
         "baseUrl": "./",
         "paths": {
             "@i18n/*": ["./src/i18n/*"],
-            "@types/*": ["./src/types/*"],
+            "@my_types/*": ["./src/types/*"],
             "@providers/*": ["./src/providers/*"],
             "@components/*": ["./src/components/*"],
+            "@service/*": ["./src/service/*"],
 
             "@src/*": ["./src/*"],
             "@/*": ["./*"]
@@ -33,7 +34,8 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "src/types/**/*.d.ts"
+        "src/types/**/*.d.ts",
+        "src/websocket/lib.js"
     ],
     "exclude": ["node_modules"]
 }

@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import styles from './layout.module.scss';
 
-import { Footer } from '@components/footer';
-import { Header } from '@components/header';
-import { Sidebar } from '@components/sidebar';
+import { Footer } from './footer';
+import { Header } from './header';
+import { Sidebar } from './sidebar';
+import { Toaster } from 'react-hot-toast';
 
 interface ILayoutProps {
     children: ReactNode;
@@ -13,6 +14,7 @@ interface ILayoutProps {
 const Layout = ({ children, mode }: ILayoutProps) => {
     return (
         <div className={styles.container}>
+            <Toaster position='bottom-right' />
             <aside className={styles.aside}>
                 <Sidebar mode={mode} />
             </aside>

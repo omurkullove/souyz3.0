@@ -14,7 +14,8 @@ type ImageKeyType =
     | 'partners'
     | 'reviews'
     | 'public-reception'
-    | 'about-us';
+    | 'about-us'
+    | 'profile';
 
 interface IHeroPagesProps {
     img_key: ImageKeyType;
@@ -30,6 +31,7 @@ const HeroPages = ({ img_key, title }: IHeroPagesProps) => {
                 src={`${path}${img_key}.webp`}
                 alt={title}
                 fill
+                sizes='1000'
                 className={styles.img}
                 priority
             />

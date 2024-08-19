@@ -5,7 +5,6 @@ import styles from './partners-view.module.scss';
 import { Link } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
 import { withTranslate } from '@i18n/withTranslate';
-import { table } from 'console';
 
 interface IPartnersViewProps {
     translated: IntlMessages['Partners'];
