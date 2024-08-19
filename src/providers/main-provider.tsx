@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { LocaleProvider } from './locale-provider';
 import { Layout } from '@components/layout';
 import { UserProvider } from './user-provider';
@@ -18,10 +18,12 @@ const MainProvider = async ({ children, mode }: IMainProviderProps) => {
     const locale = (cookieStore.get('NEXT_LOCALE')?.value || 'ru') as Locale;
     const user = decrypt(cookieStore.get('souyz_session')?.value || '');
 
+    const hostname = headers().get('Host')?.replace(':3000', '');
+
     return (
         <UserProvider user={user}>
             <LocaleProvider locale={locale}>
-                <WebsocketWrapper>
+                <WebsocketWrapper hostname={hostname ?? ''}>
                     <Layout mode={mode}>{children}</Layout>
                 </WebsocketWrapper>
             </LocaleProvider>

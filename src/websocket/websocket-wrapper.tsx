@@ -5,17 +5,18 @@ import { ReactNode, useEffect } from 'react';
 import { useRouter } from '@/navigation';
 import { IUpdateCookie } from '@my_types/auth-types';
 import { useUser } from '@providers/user-provider';
-import { pushAndRefresh } from '@src/utils';
-import { useLocale } from '@providers/locale-provider';
 
 interface IWebsocketWrapperProps {
     children: ReactNode;
+    hostname: string;
 }
 
-const WebsocketWrapper = ({ children }: IWebsocketWrapperProps) => {
+const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
     const { updateUser, user } = useUser();
-    const { locale } = useLocale();
-    const { ws } = useWebSocket('ws://localhost:8080');
+
+    const { ws } = useWebSocket(`ws://${hostname}:8080`);
+
+    console.log(hostname);
 
     const router = useRouter();
 
@@ -30,7 +31,6 @@ const WebsocketWrapper = ({ children }: IWebsocketWrapperProps) => {
     const clearData = async () => {
         await fetch('/api/clear-cookie', { method: 'POST' });
         updateUser(null);
-        pushAndRefresh(`/${locale}`);
     };
 
     useEffect(() => {
