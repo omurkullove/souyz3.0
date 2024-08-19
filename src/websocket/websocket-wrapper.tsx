@@ -14,7 +14,7 @@ interface IWebsocketWrapperProps {
 const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
     const { updateUser, user } = useUser();
 
-    const { ws } = useWebSocket(`ws://${hostname}:8080`);
+    const { ws } = useWebSocket(`wss://${hostname}:8080`);
 
     console.log(hostname);
 
