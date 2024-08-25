@@ -21,7 +21,7 @@ const fetchCachedNews = (page: number, cookie: string) => {
 
 const NewsPortal = async () => {
     const page = Number(decrypt(cookies().get('page')?.value || '')) || 1;
-    const cookie = cookies().get('access_token')?.value || '';
+    const cookie = cookies().get('access_token')?.value || 'static-key';
 
     const { data } = await fetchCachedNews(page, cookie);
 

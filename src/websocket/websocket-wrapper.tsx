@@ -37,6 +37,7 @@ const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
     useEffect(() => {
         if (ws) {
             ws.onmessage = async (event) => {
+                console.log('JAI JAI');
                 const { action, data } = JSON.parse(event.data);
 
                 if (action === 'update-token') {
