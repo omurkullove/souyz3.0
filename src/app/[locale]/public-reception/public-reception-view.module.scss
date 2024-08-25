@@ -1,0 +1,104 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .content {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        overflow: hidden;
+        margin: 10px;
+
+        .title {
+            color: var(--pc-text-color);
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            color: var(--pc-subtitle-color);
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .keys_title {
+            margin-top: 20px;
+            color: var(--pc-keys-title-color);
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .keys_list {
+            margin-top: 10px;
+            color: var(--pc-list-text-color);
+
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-left: 40px;
+            list-style-type: disc;
+        }
+
+        .footer_text {
+            margin-top: 20px;
+            color: var(--pc-subtitle-color);
+            font-size: 16px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .form {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+
+            .form_item {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .label {
+                    color: var(--mode-text);
+                }
+
+                .input {
+                    background-color: var(--mode-bg4) !important;
+                    overflow: hidden;
+                    border: none;
+                    color: var(--mode-text);
+                    padding: 20px;
+                    font-size: 17px;
+                    outline: none;
+                    transition: var(--transition-bg);
+
+                    border-radius: 10px;
+                }
+            }
+
+            .submit {
+                padding: 15px;
+                border-radius: 10px;
+                background-color: var(--blue-light);
+                color: white;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--hover-blue);
+                }
+
+                &:disabled {
+                    background-color: var(--hover-blue);
+                    opacity: 0.7;
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+}

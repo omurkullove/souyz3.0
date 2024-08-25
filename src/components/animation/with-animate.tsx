@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
 import {
-    motion,
-    useAnimation,
     AnimatePresence,
+    motion,
     TargetAndTransition,
+    useAnimation,
     VariantLabels,
 } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
 
 interface BaseProps {
     children: React.ReactNode;
@@ -17,6 +17,8 @@ interface BaseProps {
     };
     triggerInView?: boolean;
     className?: string;
+    onClick?: () => void;
+    stopPropagation?: boolean;
 }
 
 interface FadeProps extends BaseProps {
@@ -40,6 +42,8 @@ const WithAnimate: React.FC<GeneralAnimatedWrapperProps> = ({
     triggerInView = true,
     whileHover,
     className,
+    onClick,
+    stopPropagation,
 }) => {
     const controls = useAnimation();
     const ref = useRef<HTMLDivElement | null>(null);
@@ -102,9 +106,19 @@ const WithAnimate: React.FC<GeneralAnimatedWrapperProps> = ({
 
     const variants = customVariants || defaultVariants[type] || { hidden: {}, visible: {} };
 
+    const handleClick = (e: React.MouseEvent) => {
+        if (stopPropagation) {
+            e.stopPropagation();
+        }
+        if (onClick) {
+            onClick();
+        }
+    };
+
     return (
         <AnimatePresence>
             <motion.div
+                onClick={handleClick}
                 className={className}
                 whileHover={whileHover}
                 ref={ref}

@@ -26,7 +26,7 @@
             }
 
             .subtitle {
-                color: #666;
+                color: var(--gray);
                 font-size: 14px;
                 text-align: center;
             }
@@ -55,23 +55,6 @@
                 -moz-transition: var(--transition-bg);
                 -ms-transition: var(--transition-bg);
                 -o-transition: var(--transition-bg);
-            }
-
-            .password_block {
-                position: relative;
-                display: flex;
-                align-items: center;
-
-                .input {
-                    padding-right: 40px;
-                }
-
-                .icon {
-                    position: absolute;
-                    right: 12px;
-                    cursor: pointer;
-                    color: #888;
-                }
             }
 
             .forgot_password {

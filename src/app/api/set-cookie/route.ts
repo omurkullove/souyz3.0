@@ -1,10 +1,12 @@
 import { ISession, IUpdateCookie } from '@my_types/auth-types';
-import { encrypt } from '@src/utils';
+import { decrypt, encrypt } from '@src/utils/helpers';
 
 export async function POST(request: Request) {
-    const body: IUpdateCookie = await request.json();
+    const body = await request.json();
 
-    const { user, access_token, refresh_token, session_expires } = body;
+    const decrypted_body: IUpdateCookie = decrypt(body);
+
+    const { user, access_token, refresh_token, session_expires } = decrypted_body;
 
     const headers = new Headers();
 
@@ -12,8 +14,6 @@ export async function POST(request: Request) {
         ...user,
         session_expires: session_expires,
     } as ISession;
-
-    console.log(`New session in handler => ${JSON.stringify(souyz_session)}`);
 
     const encrypted_souyz_session = encrypt(souyz_session);
 

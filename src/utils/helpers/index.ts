@@ -2,15 +2,7 @@ import { IResponse } from '@my_types/main-types';
 import CryptoJS from 'crypto-js';
 import { ChangeEvent, FormEvent } from 'react';
 import toast from 'react-hot-toast';
-
-export const API_URL =
-    `${process.env.__NEXT_PRIVATE_ORIGIN}/api/v1` || 'http://localhost:3000/api/v1';
-export const CRYPTO_KEY = process.env.NEXT_PUBLIC_CRYPTO_KEY;
-
-export const patterns = {
-    password: '(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}',
-    only_cyrillic_text: '^[А-Яа-яЁёҢңҮүӨө]+(?: [А-Яа-яЁёҢңҮүӨө]+)*$',
-};
+import { CRYPTO_KEY } from '../constants';
 
 export const encrypt = (data: any) => {
     return CryptoJS.AES.encrypt(JSON.stringify(data), CRYPTO_KEY!).toString();
@@ -147,7 +139,6 @@ export const formattedNumber = (event: ChangeEvent<HTMLInputElement>) => {
             formattedInput += '-' + input.substring(9, 11);
         }
     } else if (input.startsWith('996')) {
-        // Формат для Кыргызстана
         formattedInput = '+996 ' + input.substring(3, 6);
 
         if (input.length > 6) {
@@ -165,3 +156,11 @@ export const formattedNumber = (event: ChangeEvent<HTMLInputElement>) => {
 
     event.target.value = formattedInput;
 };
+
+export function decodeBase64ToDataURL(
+    base64String: string,
+    mimeType: string = 'image/png'
+): string {
+    const buffer = Buffer.from(base64String, 'base64');
+    return `data:${mimeType};base64,${buffer.toString('base64')}`;
+}

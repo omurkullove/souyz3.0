@@ -9,6 +9,10 @@ body,
     --blue-dark: #0048ff;
     --blue-light: #007bff;
     --black: #1c1c1c;
+    --danger: #dc3545;
+
+    --green: #097969;
+    --gray: #666;
 
     --hover-blue: rgb(2, 93, 190);
 
@@ -18,6 +22,8 @@ body,
         Geneva, Verdana, sans-serif;
 
     --transition-bg: background-color 1s ease;
+    --transition-border: border 1s ease;
+    --transition-color: color 1s ease;
 
     // mode depended variables
     --mode-text: #1c1c1c;
@@ -25,6 +31,11 @@ body,
     --mode-bg2: #f5f5f5;
     --mode-bg3: white;
     --mode-bg4: #f0f0f0;
+
+    --pc-text-color: #333;
+    --pc-subtitle-color: #555;
+    --pc-keys-title-color: #444;
+    --pc-list-text-color: #666;
 }
 
 [data-theme='dark'] {
@@ -33,6 +44,11 @@ body,
     --mode-bg2: #303133;
     --mode-bg3: #1c1c1c;
     --mode-bg4: #333333;
+
+    --pc-text-color: #e0e0e0;
+    --pc-subtitle-color: #cccccc;
+    --pc-keys-title-color: #bbbbbb;
+    --pc-list-text-color: #dddddd;
 }
 
 * {
@@ -53,4 +69,25 @@ body {
 
 a {
     text-decoration: none;
+}
+
+// file upload  promo-label
+.filepond--credits {
+    display: none;
+}
+
+.filepond--wrapper {
+    background-color: var(--mode-bg1) !important;
+    transition: var(--transition-bg);
+}
+
+.filepond--drop-label {
+    background-color: var(--mode-bg4) !important;
+    color: var(--mode-text) !important;
+    transition: var(--transition-bg);
+}
+
+.filepond--panel-root {
+    background-color: var(--mode-bg4) !important;
+    transition: var(--transition-bg);
 }

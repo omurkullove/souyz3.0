@@ -43,43 +43,53 @@ wss.on('connection', (ws, req) => {
         session_expires: _decrypt(getCookie('souyz_session', cookies))?.session_expires,
     };
 
-    const isValidSession =
+    let isValidSession =
         !!initialCookies.access_token &&
         initialCookies.refresh_token &&
         initialCookies.session_expires;
 
     if (!isValidSession) return;
 
+    let isRefreshing = false;
     let refreshTimer;
 
-    let isRefreshing = false;
+    const startRefreshTimer = () => {
+        const refreshInterval = Math.max(
+            new Date(initialCookies.session_expires) - new Date() - 10000,
+            10000
+        );
 
-    console.log(
-        `Websocket initial stage: initialCookies: ${JSON.stringify(
-            initialCookies
-        )} is refreshing => ${isRefreshing}`
-    );
+        clearInterval(refreshTimer);
+        refreshTimer = setInterval(handleRefresh, refreshInterval);
+    };
 
-    const handleRefresh = () => {
-        if (isRefreshing) return;
+    const handleRefresh = async () => {
+        if (isRefreshing || !isValidSession) return;
 
         isRefreshing = true;
 
-        refreshTimer = setTimeout(async () => {
+        clearInterval(refreshTimer);
+
+        try {
             console.log('Starting refresh...');
 
             const cookie = `access_token=${initialCookies.access_token}; refresh_token=${initialCookies.refresh_token}`;
 
             const res = await fetch(`${origin}/api/refresh-token`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(cookie),
-                credentials: 'include',
             });
 
+            if (!res.ok) return;
+
             const { code, new_cookies } = await res.json();
+            console.log('handleRefresh', code, new_cookies);
 
             if (code === 200 && new_cookies) {
-                ws.send(
+                await ws.send(
                     JSON.stringify({
                         action: 'update-token',
                         data: new_cookies,
@@ -90,9 +100,11 @@ wss.on('connection', (ws, req) => {
                 initialCookies.refresh_token = new_cookies.refresh_token;
                 initialCookies.session_expires = new_cookies.session_expires;
 
-                console.log(`Refreshed, new => ${JSON.stringify(initialCookies)}`);
+                console.log(`Updated, new =>  ${JSON.stringify(initialCookies)}`);
 
-                isRefreshing = false;
+                isValidSession = true;
+
+                startRefreshTimer();
             } else {
                 ws.send(
                     JSON.stringify({
@@ -100,19 +112,30 @@ wss.on('connection', (ws, req) => {
                         data: null,
                     })
                 );
-                initialCookies.access_token = null;
-                initialCookies.refresh_token = null;
-                initialCookies.session_expires = null;
 
-                isRefreshing = false;
+                isValidSession = false;
+                clearInterval(refreshTimer);
             }
-        }, Math.max(new Date(initialCookies.session_expires) - new Date() - 60000, 0));
+        } catch (error) {
+            ws.send(
+                JSON.stringify({
+                    action: 'missing-tokens',
+                    data: null,
+                })
+            );
+
+            isValidSession = false;
+            clearInterval(refreshTimer);
+            console.error('Error refreshing tokens:', error);
+        } finally {
+            isRefreshing = false;
+        }
     };
 
-    handleRefresh();
+    startRefreshTimer();
 
     ws.on('close', () => {
+        clearInterval(refreshTimer);
         isRefreshing = false;
-        clearTimeout(refreshTimer);
     });
 });

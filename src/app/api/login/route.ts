@@ -1,6 +1,6 @@
 import { ILoginRequest, ILoginResponse } from '@my_types/auth-types';
 import authService from '@service/auth/auth-service';
-import { encrypt } from '@src/utils';
+import { encrypt } from '@src/utils/helpers';
 
 export async function POST(request: Request) {
     const body: ILoginRequest = await request.json();
@@ -18,6 +18,8 @@ export async function POST(request: Request) {
         ...data.user,
         session_expires: data.access_token_expire_time,
     };
+
+    console.log('LOGIN => ', session.session_expires);
 
     const encrypted_session = encrypt(session);
 

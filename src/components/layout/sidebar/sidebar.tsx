@@ -1,15 +1,14 @@
 'use client';
 
-import styles from './sidebar.module.scss';
 import { Link, usePathname, useRouter } from '@/navigation';
-import Cookies from 'js-cookie';
-import { FaLongArrowAltRight } from 'react-icons/fa';
-import { motion, Variants } from 'framer-motion';
-import { FaSun, FaMoon } from 'react-icons/fa';
 import WithAnimate from '@components/animation/with-animate';
 import { withTranslate } from '@i18n/withTranslate';
-import Image from 'next/image';
 import { useUser } from '@providers/user-provider';
+import { motion, Variants } from 'framer-motion';
+import Cookies from 'js-cookie';
+import Image from 'next/image';
+import { FaLongArrowAltRight, FaMoon, FaSun } from 'react-icons/fa';
+import styles from './sidebar.module.scss';
 
 interface ISidebarProps {
     mode: ModeType;
@@ -76,7 +75,8 @@ const Sidebar = ({ mode, translated }: ISidebarProps) => {
                     <div className={styles.line} />
                     <div className={styles.link_container}>
                         {translated.links.map((item, index) => {
-                            const isActive = item.path === path;
+                            const isActive =
+                                item.path === path || (path.includes('/auth') && index == 0);
                             const isLast = index === translated.links.length - 1;
 
                             return (

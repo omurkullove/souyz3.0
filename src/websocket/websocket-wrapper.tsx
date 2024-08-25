@@ -1,10 +1,10 @@
 'use client';
 
+import { useRouter } from '@/navigation';
+import { useUser } from '@providers/user-provider';
+import { encrypt } from '@src/utils/helpers';
 import useWebSocket from '@src/websocket/useWebsocket';
 import { ReactNode, useEffect } from 'react';
-import { useRouter } from '@/navigation';
-import { IUpdateCookie } from '@my_types/auth-types';
-import { useUser } from '@providers/user-provider';
 
 interface IWebsocketWrapperProps {
     children: ReactNode;
@@ -14,11 +14,11 @@ interface IWebsocketWrapperProps {
 const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
     const { updateUser, user } = useUser();
 
-    const { ws } = useWebSocket(`wss://${hostname}`);
+    const { ws } = useWebSocket(`ws://${hostname}:8080`);
 
     const router = useRouter();
 
-    const handleUpdateCookie = async (newCookie: IUpdateCookie) => {
+    const handleUpdateCookie = async (newCookie: string) => {
         await fetch('/api/set-cookie', {
             method: 'POST',
             body: JSON.stringify(newCookie),
@@ -27,8 +27,11 @@ const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
     };
 
     const clearData = async () => {
-        await fetch('/api/clear-cookie', { method: 'POST' });
-        updateUser(null);
+        await fetch('/api/clear-cookie', { method: 'POST' }).then((res) => {
+            if (res.ok) {
+                router.refresh();
+            }
+        });
     };
 
     useEffect(() => {
@@ -36,27 +39,26 @@ const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
             ws.onmessage = async (event) => {
                 const { action, data } = JSON.parse(event.data);
 
-                console.log(data, 'DATA');
-
                 if (action === 'update-token') {
-                    await handleUpdateCookie({ user, ...data });
+                    const encrypted_data = encrypt({ user, ...data });
+
+                    await handleUpdateCookie(encrypted_data);
+
                     updateUser({ ...user!, session_expires: data.session_expires });
+
                     router.refresh();
+
+                    console.log('updated!', user, data);
                 }
 
                 if (action === 'missing-tokens') {
                     console.log(`client missing tokens ${action} ${data}`);
-
                     await clearData();
                 }
             };
 
             ws.onclose = async () => {
                 console.log('Websocket closed');
-                await clearData().then(() => {
-                    updateUser(null);
-                    router.refresh();
-                });
             };
 
             ws.onerror = async () => {

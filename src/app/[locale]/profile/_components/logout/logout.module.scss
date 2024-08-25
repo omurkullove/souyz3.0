@@ -1,0 +1,13 @@
+.logout_icon {
+    position: absolute;
+    color: var(--danger);
+    font-size: 30px;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}

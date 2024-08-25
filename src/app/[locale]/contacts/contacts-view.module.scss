@@ -29,18 +29,19 @@
                 display: flex;
                 gap: 10px;
 
+                .link {
+                    color: var(--mode-text);
+                }
+
                 .sn_icon {
                     width: 30px;
                     height: 30px;
                     cursor: pointer;
+                    transition: var(--transition-color);
                 }
             }
             border: 1px solid var(--mode-bg4);
-            transition: border-color 1s ease;
-            -webkit-transition: border-color 1s ease;
-            -moz-transition: border-color 1s ease;
-            -ms-transition: border-color 1s ease;
-            -o-transition: border-color 1s ease;
+            transition: var(--transition-border);
         }
 
         .sn_title {

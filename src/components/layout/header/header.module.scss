@@ -5,6 +5,7 @@
     top: 0;
     width: max-content;
     display: flex;
+    z-index: 9999;
 
     .wrapper {
         width: max-content;
@@ -20,6 +21,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        z-index: 9999;
 
         .title {
             color: white;
@@ -52,6 +54,17 @@
         &:hover {
             background-color: var(--black);
             color: white;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        background-color: var(--blue-light);
+        width: 100%;
+
+        .block {
+            &:nth-child(2) {
+                border-radius: none !important;
+            }
         }
     }
 }

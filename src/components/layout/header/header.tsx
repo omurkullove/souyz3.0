@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import styles from './header.module.scss';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { FaEarthAsia } from 'react-icons/fa6';
-import { withTranslate } from '@i18n/withTranslate';
 import { usePathname, useRouter } from '@/navigation';
+import { withTranslate } from '@i18n/withTranslate';
 import { useLocale } from '@providers/locale-provider';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { useCallback, useState } from 'react';
+import { FaEarthAsia } from 'react-icons/fa6';
+import styles from './header.module.scss';
 
 type TranslateType = IntlMessages['Header'];
 
@@ -99,7 +99,10 @@ const Header = ({ translated }: { translated: TranslateType }) => {
                 </AnimatePresence>
             </div>
 
-            <div className={styles.block}>
+            <div
+                className={styles.block}
+                onClick={() => router.push('/public-reception')}
+            >
                 <p className={styles.title}>{translated.public_reception}</p>
             </div>
         </motion.nav>

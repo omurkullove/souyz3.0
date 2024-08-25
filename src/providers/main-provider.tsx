@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
+import { Layout } from '@components/layout';
+import { decrypt } from '@src/utils/helpers';
+import WebsocketWrapper from '@src/websocket/websocket-wrapper';
 import { cookies, headers } from 'next/headers';
 import { LocaleProvider } from './locale-provider';
-import { Layout } from '@components/layout';
 import { UserProvider } from './user-provider';
-import { decrypt } from '@src/utils';
-import WebsocketWrapper from '@src/websocket/websocket-wrapper';
 
 interface IMainProviderProps {
     children: ReactNode;

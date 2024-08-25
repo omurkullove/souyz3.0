@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import React, { ReactNode } from 'react';
 import { cookies } from 'next/headers';
+import React, { ReactNode } from 'react';
 
-import Head from 'next/head';
 import MainProvider from '@providers/main-provider';
+import Head from 'next/head';
 
 import '@src/globals.scss';
 
@@ -21,6 +21,8 @@ export const metadata: Metadata = {
 type Props = {
     children: ReactNode;
 };
+
+export const revalidate = 10;
 
 const RootLayout: React.FC<Props> = ({ children }) => {
     const cookiesStore = cookies();

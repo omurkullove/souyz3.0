@@ -1,8 +1,8 @@
 'use client';
 
+import WithAnimate from '@components/animation/with-animate';
 import Image from 'next/image';
 import styles from './hero-pages.module.scss';
-import WithAnimate from '@components/animation/with-animate';
 
 type ImageKeyType =
     | 'news-portal'
@@ -15,7 +15,8 @@ type ImageKeyType =
     | 'reviews'
     | 'public-reception'
     | 'about-us'
-    | 'profile';
+    | 'profile'
+    | 'tariff-plans';
 
 interface IHeroPagesProps {
     img_key: ImageKeyType;

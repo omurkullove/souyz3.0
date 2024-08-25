@@ -1,15 +1,20 @@
 'use client';
 
 import { Link } from '@/navigation';
-import styles from './login-view.module.scss';
-import { FormEvent } from 'react';
 import WithAnimate from '@components/animation/with-animate';
-import { ILoginRequest, ISession } from '@my_types/auth-types';
-import { formDataFormatter, pushAndRefresh, toastPusher, universalFetcher } from '@src/utils';
-import { useUser } from '@providers/user-provider';
-import { useLocale } from '@providers/locale-provider';
-import { withTranslate } from '@i18n/withTranslate';
 import { PasswordInput } from '@components/elements';
+import { withTranslate } from '@i18n/withTranslate';
+import { ILoginRequest, ISession } from '@my_types/auth-types';
+import { useLocale } from '@providers/locale-provider';
+import { useUser } from '@providers/user-provider';
+import {
+    formDataFormatter,
+    pushAndRefresh,
+    toastPusher,
+    universalFetcher,
+} from '@src/utils/helpers';
+import { FormEvent } from 'react';
+import styles from './login-view.module.scss';
 
 interface ILoginViewProps {
     translated: IntlMessages['Login'];
@@ -22,6 +27,8 @@ const LoginView = ({ translated }: ILoginViewProps) => {
     const onSuccess = ({ user }: { user: ISession }) => {
         localStorage.removeItem('timer');
         updateUser(user);
+        localStorage.removeItem('prerestore-timer');
+        localStorage.removeItem('preregister-timer');
         pushAndRefresh(`/${locale}/profile`);
     };
 
@@ -83,7 +90,7 @@ const LoginView = ({ translated }: ILoginViewProps) => {
 
                     <Link
                         className={styles.forgot_password}
-                        href={'/'}
+                        href={'/auth/prerestore'}
                     >
                         {translated.forgot_password}
                     </Link>

@@ -3,17 +3,9 @@
 import { Link } from '@/navigation';
 import styles from './footer.module.scss';
 
-import {
-    FaFacebookSquare,
-    FaTwitterSquare,
-    FaLinkedin,
-    FaInstagramSquare,
-    FaCcVisa,
-    FaCcMastercard,
-    FaCcPaypal,
-} from 'react-icons/fa';
 import WithAnimate from '@components/animation/with-animate';
 import { withTranslate } from '@i18n/withTranslate';
+import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaInstagramSquare } from 'react-icons/fa';
 
 interface IFooterProps {
     translated: IntlMessages['Footer'];
@@ -28,19 +20,19 @@ const Footer = ({ translated }: IFooterProps) => {
                         <p className={styles.title}>{translated.about_us}</p>
                         <Link
                             className={styles.link}
-                            href={'/'}
+                            href={'/about-us'}
                         >
                             {translated.company}
                         </Link>
                         <Link
                             className={styles.link}
-                            href={'/'}
+                            href={'/contacts'}
                         >
                             {translated.contacts}
                         </Link>
                         <Link
                             className={styles.link}
-                            href={'/'}
+                            href={'/reviews'}
                         >
                             {translated.review}
                         </Link>
@@ -49,22 +41,25 @@ const Footer = ({ translated }: IFooterProps) => {
                     <div className={styles.child_right}>
                         <p className={styles.title}>{translated.sn}</p>
                         <div className={styles.sn_block}>
-                            <FaFacebookSquare size={30} />
-                            <FaInstagramSquare size={30} />
-                            <FaTwitterSquare size={30} />
-                            <FaLinkedin size={30} />
+                            <Link
+                                href={'https://www.instagram.com/soyuz.kg?igsh=Ymg0MHQ4Mjd6dDU0'}
+                                target='_blank'
+                            >
+                                <FaInstagramSquare size={30} />
+                            </Link>
                         </div>
                         <Link
-                            href={'/'}
+                            href={'tel:+996551888850'}
                             className={styles.link_right}
                         >
-                            +996 555 888 111
+                            +996 551 888 850
                         </Link>
                         <Link
-                            href={'/'}
+                            href={'mailto:info@soyuz.kg'}
+                            target='_blank'
                             className={styles.link_right}
                         >
-                            souyz@gmail.com
+                            info@soyuz.kg
                         </Link>
                     </div>
                 </section>

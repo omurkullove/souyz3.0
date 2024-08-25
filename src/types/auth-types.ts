@@ -1,3 +1,4 @@
+import { ICardData } from './card-types';
 import { IResponse, IToken, ITokens } from './main-types';
 
 export interface ILoginRequest {
@@ -27,7 +28,7 @@ export interface IUser {
     is_superuser: boolean;
     is_multi_login: boolean;
     roles: any[];
-    card: any;
+    card: ICardData;
     establishment: any;
 }
 
@@ -57,4 +58,32 @@ export interface IRegisterData {
 export interface IRegisterRequest {
     params: { code: string };
     user: IRegisterData;
+}
+
+export interface IUpdateProfileData {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+}
+
+export interface IUpdateProfileRequest {
+    path: {
+        email: string;
+    };
+
+    data: IUpdateProfileData;
+}
+
+export interface IResetPasswordRequest {
+    old_password: string;
+    new_password: string;
+    confirm_password: string;
+}
+
+export interface IRestorePasswordRequest {
+    email: string;
+    code: string;
+    new_password: string;
+    confirm_password: string;
 }

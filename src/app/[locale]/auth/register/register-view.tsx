@@ -1,20 +1,20 @@
 'use client';
 
-import { FormEvent } from 'react';
-import styles from './register-view.module.scss';
-import WithAnimate from '@components/animation/with-animate';
 import { Link, useRouter } from '@/navigation';
+import WithAnimate from '@components/animation/with-animate';
+import { PasswordInput } from '@components/elements';
+import { withTranslate } from '@i18n/withTranslate';
+import { IRegisterData, IRegisterRequest } from '@my_types/auth-types';
+import authService from '@service/auth/auth-service';
+import { patterns } from '@src/utils/constants';
 import {
     formattedNumber,
     formDataFormatter,
-    patterns,
     toastPusher,
     universalFetcher,
-} from '@src/utils';
-import { IRegisterData, IRegisterRequest } from '@my_types/auth-types';
-import authService from '@service/auth/auth-service';
-import { PasswordInput } from '@components/elements';
-import { withTranslate } from '@i18n/withTranslate';
+} from '@src/utils/helpers';
+import { FormEvent } from 'react';
+import styles from './register-view.module.scss';
 
 interface IRegisterViewProps {
     translated: IntlMessages['Register'];
@@ -106,7 +106,7 @@ const RegisterView = ({ translated }: IRegisterViewProps) => {
                         autoComplete='current-password'
                         required
                         pattern={patterns.password}
-                        title={translated.password_tile}
+                        title={translated.password_title}
                     />
 
                     <input
@@ -114,6 +114,7 @@ const RegisterView = ({ translated }: IRegisterViewProps) => {
                         placeholder={translated.phone}
                         name='phone'
                         minLength={7}
+                        defaultValue={'+'}
                         className={styles.input}
                         autoComplete='tel'
                         required

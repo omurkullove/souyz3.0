@@ -1,12 +1,12 @@
 'use client';
 
-import WithAnimate from '@components/animation/with-animate';
-import styles from './preregister-view.module.scss';
 import { Link, useRouter } from '@/navigation';
-import { FormEvent, useEffect, useState } from 'react';
-import authService from '@service/auth/auth-service';
+import WithAnimate from '@components/animation/with-animate';
 import { withTranslate } from '@i18n/withTranslate';
-import { formDataFormatter, toastPusher, universalFetcher } from '@src/utils';
+import authService from '@service/auth/auth-service';
+import { formDataFormatter, toastPusher, universalFetcher } from '@src/utils/helpers';
+import { FormEvent, useEffect, useState } from 'react';
+import styles from './preregister-view.module.scss';
 
 interface IPreregisterViewProps {
     translated: IntlMessages['Preregister'];
@@ -27,7 +27,7 @@ const PreregisterView = ({ translated }: IPreregisterViewProps) => {
     const refreshTimer = () => {
         setTimer(60);
         setIsButtonDisabled(true);
-        localStorage.setItem('timer', JSON.stringify(60));
+        localStorage.setItem('preregister-timer', JSON.stringify(60));
     };
 
     const preregisterFetcher = async (data: { email: string }) => {
@@ -59,7 +59,7 @@ const PreregisterView = ({ translated }: IPreregisterViewProps) => {
     };
 
     useEffect(() => {
-        const storedTimer = localStorage.getItem('timer');
+        const storedTimer = localStorage.getItem('preregister-timer');
         if (storedTimer) {
             setTimer(JSON.parse(storedTimer));
         }
@@ -74,11 +74,11 @@ const PreregisterView = ({ translated }: IPreregisterViewProps) => {
                 setTimer((prevTimer) => {
                     const newTimer = prevTimer - 1;
                     if (newTimer <= 0) {
-                        localStorage.setItem('timer', JSON.stringify(0));
+                        localStorage.setItem('preregister-timer', JSON.stringify(0));
                         setIsButtonDisabled(false);
                         return 0;
                     }
-                    localStorage.setItem('timer', JSON.stringify(newTimer));
+                    localStorage.setItem('preregister-timer', JSON.stringify(newTimer));
                     return newTimer;
                 });
             }, 1000);

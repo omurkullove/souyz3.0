@@ -1,5 +1,5 @@
 import { ISession, IUpdateCookie } from '@my_types/auth-types';
-import { encrypt } from '@src/utils';
+import { encrypt } from '@src/utils/helpers';
 
 export async function POST(request: Request) {
     const body = await request.json();

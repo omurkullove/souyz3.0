@@ -8,6 +8,8 @@
 
     .content {
         background-color: var(--mode-bg4);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
         margin-inline: 20px;
         padding: 30px;
         border-radius: 10px;
@@ -21,6 +23,8 @@
         display: flex;
         gap: 50px;
 
+        position: relative;
+
         .qr_block {
             position: relative;
 
@@ -29,6 +33,11 @@
             gap: 10px;
 
             .image {
+                border-radius: 5px;
+                position: relative;
+                width: 300px;
+                height: 300px;
+                overflow: hidden;
             }
 
             .download_btn {
@@ -36,6 +45,7 @@
                 border: none;
                 background-color: var(--blue-light);
                 cursor: pointer;
+                border-radius: 5px;
 
                 color: white;
                 font-weight: bold;
@@ -73,33 +83,101 @@
                     font-family: var(--font-profile);
 
                     .value {
+                        color: var(--mode-text);
                         font-weight: bold;
                     }
                 }
             }
 
-            .logout {
-                padding: 10px;
-                border: none;
-                background-color: var(--blue-light);
-                cursor: pointer;
-                justify-self: flex-end;
-                align-self: flex-end;
-
-                color: white;
-                font-weight: bold;
-                font-size: 15px;
-
-                &:hover {
-                    background-color: var(--hover-blue);
-                }
+            .footer {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 10px;
             }
         }
 
         transition: var(--transition-bg);
-        -webkit-transition: var(--transition-bg);
-        -moz-transition: var(--transition-bg);
-        -ms-transition: var(--transition-bg);
-        -o-transition: var(--transition-bg);
+    }
+
+    .my_cards_title {
+        margin-top: 30px;
+        color: var(--mode-text);
+        font-size: 25px;
+        margin-inline: 20px;
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--mode-bg4);
+        transition: var(--transition-border), var(--transition-color);
+    }
+
+    .card_info {
+        background-color: var(--mode-bg1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--mode-bg4);
+        transition: var(--transition-border), var(--transition-bg);
+        margin-inline: 20px;
+        padding: 30px;
+        border-radius: 10px;
+        min-height: 200px;
+        height: auto;
+        display: flex;
+
+        flex-direction: column;
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+            .title {
+                color: var(--mode-text);
+                font-family: monospace;
+                font-size: 25px;
+            }
+        }
+
+        .body {
+            margin-bottom: 30px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .feature {
+                font-family: monospace;
+                font-size: 15px;
+                color: var(--gray);
+            }
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .label {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                font-family: monospace;
+                color: var(--gray);
+
+                .value {
+                    font-family: monospace;
+                    color: var(--blue-light);
+                    font-weight: bold;
+
+                    &[data-status='active'] {
+                        color: var(--blue-light);
+                    }
+
+                    &[data-status='inactive'] {
+                        color: var(--danger);
+                    }
+                }
+            }
+        }
     }
 }

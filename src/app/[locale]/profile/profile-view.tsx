@@ -1,13 +1,14 @@
 'use client';
 
-import Image from 'next/image';
-import styles from './profile-view.module.scss';
-import HeroPages from '@components/hero-pages/hero-pages';
-import { useUser } from '@providers/user-provider';
 import WithAnimate from '@components/animation/with-animate';
-import { pushAndRefresh, toastPusher, universalFetcher } from '@src/utils';
-import authService from '@service/auth/auth-service';
+import HeroPages from '@components/hero-pages/hero-pages';
+import { withTranslate } from '@i18n/withTranslate';
 import { useLocale } from '@providers/locale-provider';
+import { useUser } from '@providers/user-provider';
+import { decodeBase64ToDataURL } from '@src/utils/helpers';
+import Image from 'next/image';
+import { Logout, UpdatePassword, UpdateProfile } from './_components';
+import styles from './profile-view.module.scss';
 
 const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -19,50 +20,22 @@ const formatDate = (dateStr: string) => {
     return `${day}.${month}.${year}`;
 };
 
-const ProfileView = () => {
-    const { user, updateUser } = useUser();
+interface IProfileViewProps {
+    qrcode_data: string;
+    translated: IntlMessages['Profile'];
+}
+
+const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
     const { locale } = useLocale();
+    const { user } = useUser();
 
-    const onSuccess = async () => {
-        await fetch('/api/clear-cookie', {
-            method: 'POST',
-            credentials: 'include',
-        });
-        pushAndRefresh(`/${locale}`);
-        updateUser(null);
-    };
-
-    const logoutFetcher = async () => {
-        return universalFetcher({
-            requestFn: async () => await authService.logout(),
-            successAction: onSuccess,
-        });
-    };
-
-    const handleLogout = () => {
-        toastPusher(logoutFetcher(), {
-            error: {
-                default: 'Ошибка при выходе из аккаунта',
-            },
-            loading: 'Выход из аккаунта...',
-            success: 'Вы успешно вышли из аккаунта',
-        });
-    };
-
-    const handleDownload = () => {
-        const link = document.createElement('a');
-        link.href = '/images/qr-code-test.png';
-        link.download = 'user-qr-code.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+    const qrCodeDataUrl = decodeBase64ToDataURL(qrcode_data ?? '');
 
     return (
         <div className={styles.container}>
             <HeroPages
                 img_key='profile'
-                title='Профиль'
+                title={translated.title}
             />
 
             <WithAnimate
@@ -71,20 +44,14 @@ const ProfileView = () => {
                 to='up'
             >
                 <div className={styles.qr_block}>
-                    <Image
-                        src={'/images/qr-code-test.png'}
-                        width={300}
-                        height={300}
-                        className={styles.image}
-                        alt='qr-code'
-                    />
-
-                    <button
-                        className={styles.download_btn}
-                        onClick={handleDownload}
-                    >
-                        Загрузить QR-код
-                    </button>
+                    <div className={styles.image}>
+                        <Image
+                            src={qrCodeDataUrl}
+                            fill
+                            sizes='600'
+                            alt='qr-code'
+                        />
+                    </div>
                 </div>
                 <div className={styles.info_container}>
                     <div className={styles.info_block}>
@@ -93,37 +60,85 @@ const ProfileView = () => {
                         </h3>
 
                         <p className={styles.label}>
-                            Почта: <span className={styles.value}>{user?.email}</span>
+                            {translated.email} <span className={styles.value}>{user?.email}</span>
                         </p>
 
                         <p className={styles.label}>
-                            Номер телефона:{' '}
+                            {translated.phone}{' '}
                             <span className={styles.value}>{user?.phone.replace('tel:', '')}</span>
                         </p>
 
                         <p className={styles.label}>
-                            Дата создания аккаунта:{' '}
+                            {translated.created_account_date}{' '}
                             <span className={styles.value}>
                                 {formatDate(user?.created_time || '')}
                             </span>
                         </p>
-
-                        <p className={styles.label}>
-                            Дата истечения токена:{' '}
-                            <span className={styles.value}>{user?.session_expires}</span>
-                        </p>
+                        <p>{user?.session_expires}</p>
                     </div>
 
-                    <button
-                        className={styles.logout}
-                        onClick={handleLogout}
-                    >
-                        Выйти из аккаунта
-                    </button>
+                    <div className={styles.footer}>
+                        <UpdateProfile translated={translated.update_profile} />
+                        <UpdatePassword translated={translated.update_password} />
+                    </div>
                 </div>
+
+                <Logout translated={translated.logout} />
             </WithAnimate>
+
+            {user?.card && (
+                <>
+                    <WithAnimate
+                        type='both'
+                        to='right'
+                    >
+                        <p className={styles.my_cards_title}>Мой карты:</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                        className={styles.card_info}
+                    >
+                        <div className={styles.header}>
+                            <h2 className={styles.title}>
+                                {user.card.tariff.translates[locale]?.name}
+                            </h2>
+                        </div>
+                        <div className={styles.body}>
+                            {user.card.tariff.translates[locale]?.description.map((feature) => (
+                                <p
+                                    key={feature}
+                                    className={styles.feature}
+                                >
+                                    – {feature}
+                                </p>
+                            ))}
+                        </div>
+
+                        <div className={styles.footer}>
+                            <p className={styles.label}>
+                                Статус:{' '}
+                                <span
+                                    className={styles.value}
+                                    data-status={user.card.status ? 'active' : 'inactive'}
+                                >
+                                    {user.card.status ? 'Активный' : 'Не активный'}
+                                </span>
+                            </p>
+
+                            <p className={styles.label}>
+                                Доступно до:{' '}
+                                <span className={styles.value}>
+                                    {formatDate(user.card.expire_date)}
+                                </span>
+                            </p>
+                        </div>
+                    </WithAnimate>
+                </>
+            )}
         </div>
     );
 };
 
-export default ProfileView;
+export default withTranslate(ProfileView, ['Profile']);
