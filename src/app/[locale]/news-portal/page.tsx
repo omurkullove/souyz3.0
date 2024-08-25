@@ -8,8 +8,6 @@ import NewsPortalView from './news-portal-view';
 const fetchNews = async (page: number) => {
     const news = await newsService.getNews(page);
 
-    console.log('NEWS');
-
     return news;
 };
 
@@ -21,7 +19,7 @@ const fetchCachedNews = (page: number, cookie: string) => {
 
 const NewsPortal = async () => {
     const page = Number(decrypt(cookies().get('page')?.value || '')) || 1;
-    const cookie = cookies().get('access_token')?.value || 'static-key';
+    const cookie = cookies().get('access_token')?.value || 'static';
 
     const { data } = await fetchCachedNews(page, cookie);
 

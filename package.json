@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "node src/websocket/lib.js & next dev",
         "build": "next build",
+        "start": "node src/websocket/lib.js & next start",
         "lint": "next lint"
     },
     "dependencies": {
