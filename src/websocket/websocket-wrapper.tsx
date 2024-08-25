@@ -14,7 +14,7 @@ interface IWebsocketWrapperProps {
 const WebsocketWrapper = ({ children, hostname }: IWebsocketWrapperProps) => {
     const { updateUser, user } = useUser();
 
-    const { ws } = useWebSocket(`wss://${hostname}`);
+    const { ws } = useWebSocket(`wss://souyz3-0.vercel.app:8080`);
 
     const router = useRouter();
 
