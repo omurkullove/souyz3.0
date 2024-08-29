@@ -16,6 +16,9 @@ import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
 import NewsItem from './news-item/news-item';
 import styles from './news-portal-view.module.scss';
 
+import toast from 'react-hot-toast';
+import { IoRefreshOutline } from 'react-icons/io5';
+
 interface INewsPortalViewProps {
     news: IPaginatedData<INews>;
     initialPage: number;
@@ -44,9 +47,17 @@ const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps)
         if (initialPage > 1) {
             const encrypted_value = encrypt(initialPage - 1);
             Cookies.set('page', encrypted_value, { expires: NEWS_PAGE_COOKIE_EXPIRE });
-
             router.refresh();
         }
+    };
+
+    const handleRefresh = () => {
+        toast.loading('Обновляем новости...', { duration: 1500 });
+
+        setTimeout(() => {
+            toast.success('Загружены актуальные новости');
+            router.refresh();
+        }, 1500);
     };
 
     return (
@@ -56,12 +67,19 @@ const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps)
                 img_key='news-portal'
             />
             <div className={styles.content}>
-                <h1
-                    className={styles.title}
-                    ref={ref}
-                >
-                    {translated.subtitle}
-                </h1>
+                <div className={styles.header}>
+                    <h1
+                        className={styles.title}
+                        ref={ref}
+                    >
+                        {translated.subtitle}
+                    </h1>
+
+                    <IoRefreshOutline
+                        className={styles.icon}
+                        onClick={handleRefresh}
+                    />
+                </div>
 
                 <div className={styles.body}>
                     {isNews ? (

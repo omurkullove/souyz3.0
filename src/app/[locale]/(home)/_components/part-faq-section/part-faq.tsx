@@ -1,20 +1,19 @@
 'use client';
 
+import { motion, Variants } from 'framer-motion';
 import { useState } from 'react';
 import styles from './part-faq.module.scss';
-import { motion, Variants } from 'framer-motion';
 
+import { Link } from '@/navigation';
+import WithAnimate from '@components/animation/with-animate';
 import {
     FaAddressCard,
     FaBriefcase,
     FaFile,
+    FaHandHoldingDollar,
     FaMagnifyingGlass,
     FaRegistered,
-    FaHandHoldingDollar,
 } from 'react-icons/fa6';
-import WithAnimate from '@components/animation/with-animate';
-import { useInView } from 'react-intersection-observer';
-import { Link } from '@/navigation';
 
 const ICONS = [
     <FaAddressCard />,

@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
 
 import { Layout } from '@components/layout';
+import { ISession } from '@my_types/auth-types';
+import { InitialCookies } from '@my_types/main-types';
 import { decrypt } from '@src/utils/helpers';
-import WebsocketWrapper from '@src/websocket/websocket-wrapper';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { LocaleProvider } from './locale-provider';
+import RefreshTokenProvider from './refresh-token-provider';
 import { UserProvider } from './user-provider';
 
 interface IMainProviderProps {
@@ -16,17 +18,24 @@ const MainProvider = async ({ children, mode }: IMainProviderProps) => {
     const cookieStore = cookies();
 
     const locale = (cookieStore.get('NEXT_LOCALE')?.value || 'ru') as Locale;
-    const user = decrypt(cookieStore.get('souyz_session')?.value || '');
+    const user = decrypt(cookieStore.get('souyz_session')?.value || '') as ISession;
 
-    const hostname = headers().get('Host')?.replace(':3000', '');
+    const access_token = cookieStore.get('access_token')?.value || null;
+    const refresh_token = cookieStore.get('refresh_token')?.value || null;
+
+    const initialCookies = {
+        session_expires: user?.session_expires,
+        access_token,
+        refresh_token,
+    } as InitialCookies;
 
     return (
         <UserProvider user={user}>
-            <LocaleProvider locale={locale}>
-                <WebsocketWrapper hostname={hostname ?? ''}>
+            <RefreshTokenProvider initialCookies={initialCookies}>
+                <LocaleProvider locale={locale}>
                     <Layout mode={mode}>{children}</Layout>
-                </WebsocketWrapper>
-            </LocaleProvider>
+                </LocaleProvider>
+            </RefreshTokenProvider>
         </UserProvider>
     );
 };

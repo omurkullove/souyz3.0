@@ -1,8 +1,8 @@
 'use client';
 
-import styles from './home-view.module.scss';
 import { withTranslate } from '@i18n/withTranslate';
-import { Hero, Service, PartFAQ, PromoCard, Stats } from './_components';
+import { Hero, PartFAQ, PromoCard, Service, Stats } from './_components';
+import styles from './home-view.module.scss';
 
 type TranslateType = IntlMessages['Home'];
 

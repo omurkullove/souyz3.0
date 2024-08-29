@@ -11,17 +11,18 @@ const fetchNews = async (page: number) => {
     return news;
 };
 
-const fetchCachedNews = (page: number, cookie: string) => {
-    return unstable_cache(() => fetchNews(page), [`news-data-page-${page}`, cookie], {
+const fetchCachedNews = (page: number, hashed_page: string) => {
+    return unstable_cache(() => fetchNews(page), [`news-data-page-${hashed_page}`], {
         revalidate: 600,
     })();
 };
 
 const NewsPortal = async () => {
-    const page = Number(decrypt(cookies().get('page')?.value || '')) || 1;
-    const cookie = cookies().get('access_token')?.value || 'static';
+    const hashed_page = cookies().get('page')?.value ?? 'static';
 
-    const { data } = await fetchCachedNews(page, cookie);
+    const page = Number(decrypt(hashed_page)) || 1;
+
+    const { data } = await fetchCachedNews(page, hashed_page);
 
     return (
         <NewsPortalView

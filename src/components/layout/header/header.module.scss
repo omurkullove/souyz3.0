@@ -56,15 +56,4 @@
             color: white;
         }
     }
-
-    @media (max-width: 1024px) {
-        background-color: var(--blue-light);
-        width: 100%;
-
-        .block {
-            &:nth-child(2) {
-                border-radius: none !important;
-            }
-        }
-    }
 }

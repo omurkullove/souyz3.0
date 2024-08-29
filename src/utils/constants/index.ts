@@ -8,5 +8,3 @@ export const patterns = {
 };
 
 export const NEWS_PAGE_COOKIE_EXPIRE = new Date(Date.now() + 10 * 60 * 1000);
-
-export const TELEGRAM_URL = 'https://t.me/SOYUZKG';

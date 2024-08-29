@@ -74,7 +74,6 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                                 {formatDate(user?.created_time || '')}
                             </span>
                         </p>
-                        <p>{user?.session_expires}</p>
                     </div>
 
                     <div className={styles.footer}>
@@ -92,7 +91,7 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                         type='both'
                         to='right'
                     >
-                        <p className={styles.my_cards_title}>Мой карты:</p>
+                        <p className={styles.my_cards_title}>Моя карта:</p>
                     </WithAnimate>
 
                     <WithAnimate

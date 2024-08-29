@@ -22,8 +22,6 @@ type Props = {
     children: ReactNode;
 };
 
-export const revalidate = 10;
-
 const RootLayout: React.FC<Props> = ({ children }) => {
     const cookiesStore = cookies();
 

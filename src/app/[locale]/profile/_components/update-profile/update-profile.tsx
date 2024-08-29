@@ -4,7 +4,7 @@ import { ISession, IUpdateProfileData, IUpdateProfileRequest } from '@my_types/a
 import { useUser } from '@providers/user-provider';
 import { patterns } from '@src/utils/constants';
 import {
-    formattedNumber,
+    formattedPhoneNumber,
     formDataFormatter,
     toastPusher,
     universalFetcher,
@@ -131,7 +131,7 @@ const UpdateProfile = ({ translated }: IUpdateProfileProps) => {
                         className={styles.input}
                         autoComplete='tel'
                         required
-                        onInput={formattedNumber}
+                        onInput={formattedPhoneNumber}
                     />
 
                     <div className={styles.footer}>

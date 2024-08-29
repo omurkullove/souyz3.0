@@ -18,9 +18,9 @@
 
     .children {
         flex: 3.5;
-        max-height: 100%;
         overflow-y: auto;
         position: relative;
+
         background-color: var(--mode-bg1);
 
         transition: var(--transition-bg);
@@ -63,11 +63,16 @@
 
             box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.154);
         }
-    }
-    @media (max-width: 1024px) {
-        .aside {
-            background-color: red;
+        &::-webkit-scrollbar {
             display: none;
+        }
+
+        & {
+            scrollbar-width: none;
+        }
+
+        & {
+            -ms-overflow-style: none;
         }
     }
 }

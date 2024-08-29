@@ -34,3 +34,9 @@ export interface ITokens {
     refresh_token_type: string;
     refresh_token_expire_time: string;
 }
+
+export interface InitialCookies {
+    session_expires: string | null;
+    access_token: string | null;
+    refresh_token: string | null;
+}

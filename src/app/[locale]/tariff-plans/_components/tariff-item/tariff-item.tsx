@@ -4,46 +4,49 @@ import { useRouter } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
 import { ITariff } from '@my_types/card-types';
 import { useLocale } from '@providers/locale-provider';
-import { FaRegCheckCircle } from 'react-icons/fa';
+import { formatNumber } from '@src/utils/helpers';
+import { IoCheckmarkCircle } from 'react-icons/io5';
 import styles from './tariff-item.module.scss';
 
 interface ITariffItemProps {
     tariff: ITariff;
+    onClick: (tariff: ITariff) => void;
 }
 
-const TariffItem = ({ tariff }: ITariffItemProps) => {
+const TariffItem = ({ tariff, onClick }: ITariffItemProps) => {
     const { locale } = useLocale();
     const router = useRouter();
 
-    const navigate = () => {
-        router.push(`/tariff-plans/${tariff.uuid}`);
-    };
+    const { description, name } = tariff?.translates[locale] ?? { description: [], name: '' };
 
     return (
         <WithAnimate
             key={tariff.uuid}
             type='both'
-            to='up'
-            onClick={navigate}
+            to={'up'}
         >
             <div className={styles.container}>
-                <p className={styles.name}>{tariff.translates[locale]?.name}</p>
-
-                <div className={styles.features_block}>
-                    {tariff.translates[locale]?.description.map((feature) => (
+                <div className={styles.header}>
+                    <p className={styles.name}>{name}</p>
+                    <p className={styles.price}>{formatNumber(tariff.price)} сом</p>
+                    <button
+                        className={styles.buy_btn}
+                        onClick={() => onClick(tariff)}
+                    >
+                        Оформить покупку
+                    </button>
+                </div>
+                <div className={styles.body}>
+                    {description.map((item) => (
                         <div
-                            key={feature}
-                            className={styles.feature}
+                            className={styles.item}
+                            key={item}
                         >
-                            <FaRegCheckCircle className={styles.icon} />
-                            <p className={styles.label}>{feature}</p>
+                            <IoCheckmarkCircle className={styles.icon} />
+                            <p className={styles.label}>{item}</p>
                         </div>
                     ))}
                 </div>
-
-                <p className={styles.cost_label}>
-                    Цена: <span className={styles.cost_value}>{tariff.price} KGS</span>
-                </p>
             </div>
         </WithAnimate>
     );

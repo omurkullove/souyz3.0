@@ -4,7 +4,7 @@ import HeroPages from '@components/hero-pages/hero-pages';
 import { withTranslate } from '@i18n/withTranslate';
 import { patterns } from '@src/utils/constants';
 import {
-    formattedNumber,
+    formattedPhoneNumber,
     formDataFormatter,
     toastPusher,
     universalFetcher,
@@ -120,7 +120,7 @@ const PublicReceptionView = ({ translated }: IPublicReceptionViewProps) => {
                                 className={styles.input}
                                 autoComplete='tel'
                                 required
-                                onInput={formattedNumber}
+                                onInput={formattedPhoneNumber}
                             />
                         </div>
                         <div className={styles.form_item}>

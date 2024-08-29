@@ -122,7 +122,7 @@ export const formDataFormatter = (event: FormEvent<HTMLFormElement>) => {
     return data;
 };
 
-export const formattedNumber = (event: ChangeEvent<HTMLInputElement>) => {
+export const formattedPhoneNumber = (event: ChangeEvent<HTMLInputElement>) => {
     let input = event.target.value.replace(/\D/g, '');
     let formattedInput = '';
 
@@ -164,3 +164,7 @@ export function decodeBase64ToDataURL(
     const buffer = Buffer.from(base64String, 'base64');
     return `data:${mimeType};base64,${buffer.toString('base64')}`;
 }
+
+export const formatNumber = (number: number): string => {
+    return number.toLocaleString('ru-RU');
+};

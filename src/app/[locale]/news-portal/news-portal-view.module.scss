@@ -9,11 +9,29 @@
         flex-direction: column;
         gap: 30px;
 
-        .title {
-            text-transform: uppercase;
-            color: var(--mode-text);
-            font-size: 30px;
-            font-weight: bold;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 10px;
+
+            .title {
+                text-transform: uppercase;
+                color: var(--mode-text);
+                font-size: 30px;
+                font-weight: bold;
+            }
+
+            .icon {
+                cursor: pointer;
+                color: var(--mode-text);
+                font-size: 30px;
+                transition: transform 0.5s ease-in-out;
+
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
         }
 
         .body {

@@ -1,5 +1,5 @@
 import { ICardData } from './card-types';
-import { IResponse, IToken, ITokens } from './main-types';
+import { IResponse, ITokens } from './main-types';
 
 export interface ILoginRequest {
     email: string;
@@ -34,17 +34,6 @@ export interface IUser {
 
 export interface ISession extends IUser {
     session_expires: string;
-}
-
-export interface ITokenWithExpire extends IToken {
-    session_expires: string;
-}
-
-export interface IUpdateCookie {
-    session_expires: string;
-    access_token: string;
-    refresh_token: string;
-    user: IUser;
 }
 
 export interface IRegisterData {

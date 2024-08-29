@@ -12,8 +12,6 @@ const generateCacheKey = (cookie: string, souyz_session: string) => [
 const fetchQrcode = async (cookie: string) => {
     const qrcode_data = await cardService.getQrCode(cookie);
 
-    console.log('PROFILE');
-
     return qrcode_data;
 };
 

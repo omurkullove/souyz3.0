@@ -7,7 +7,6 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useCallback, useState } from 'react';
 import { FaEarthAsia } from 'react-icons/fa6';
 import styles from './header.module.scss';
-
 type TranslateType = IntlMessages['Header'];
 
 const variants = {

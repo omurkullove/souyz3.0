@@ -46,7 +46,7 @@ const Sidebar = ({ mode, translated }: ISidebarProps) => {
         <div className={styles.container}>
             <WithAnimate
                 type='both'
-                to='right'
+                to={'right'}
             >
                 <div className={styles.content}>
                     <div className={styles.header}>

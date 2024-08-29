@@ -5,7 +5,7 @@ import {
     useAnimation,
     VariantLabels,
 } from 'framer-motion';
-import React, { useEffect, useRef } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
 
 interface BaseProps {
     children: React.ReactNode;
@@ -19,6 +19,7 @@ interface BaseProps {
     className?: string;
     onClick?: () => void;
     stopPropagation?: boolean;
+    styles?: CSSProperties;
 }
 
 interface FadeProps extends BaseProps {
@@ -27,8 +28,8 @@ interface FadeProps extends BaseProps {
 }
 
 interface SlideOrBothProps extends BaseProps {
-    type: 'slide' | 'both';
-    to: 'up' | 'right' | 'down' | 'left';
+    type: 'slide' | 'both' | 'fade';
+    to: 'up' | 'right' | 'down' | 'left' | undefined;
 }
 
 type GeneralAnimatedWrapperProps = FadeProps | SlideOrBothProps;
@@ -43,6 +44,7 @@ const WithAnimate: React.FC<GeneralAnimatedWrapperProps> = ({
     whileHover,
     className,
     onClick,
+    styles,
     stopPropagation,
 }) => {
     const controls = useAnimation();
@@ -125,6 +127,7 @@ const WithAnimate: React.FC<GeneralAnimatedWrapperProps> = ({
                 initial='hidden'
                 animate={controls}
                 exit='hidden'
+                style={styles}
                 variants={variants}
                 transition={{ duration }}
             >

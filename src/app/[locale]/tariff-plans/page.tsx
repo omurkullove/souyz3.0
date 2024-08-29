@@ -9,12 +9,10 @@ const fetchAllTariffs = async (cookie: string) => {
     return tariff_data;
 };
 
-const generateCacheKey = (cookie: string) => ['tariff-data', cookie];
-
 const fetchCachedAllTariffs = (cookie: string) => {
-    const cacheKey = generateCacheKey(cookie);
-
-    return unstable_cache(() => fetchAllTariffs(cookie), cacheKey)();
+    return unstable_cache(() => fetchAllTariffs(cookie), ['tariff-data'], {
+        revalidate: 60 * 60 * 24,
+    })();
 };
 
 const TariffPlans = async () => {

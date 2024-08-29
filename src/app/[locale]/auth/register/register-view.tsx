@@ -8,7 +8,7 @@ import { IRegisterData, IRegisterRequest } from '@my_types/auth-types';
 import authService from '@service/auth/auth-service';
 import { patterns } from '@src/utils/constants';
 import {
-    formattedNumber,
+    formattedPhoneNumber,
     formDataFormatter,
     toastPusher,
     universalFetcher,
@@ -118,7 +118,7 @@ const RegisterView = ({ translated }: IRegisterViewProps) => {
                         className={styles.input}
                         autoComplete='tel'
                         required
-                        onInput={formattedNumber}
+                        onInput={formattedPhoneNumber}
                     />
                     <input
                         type='text'

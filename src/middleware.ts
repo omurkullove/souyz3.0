@@ -39,6 +39,8 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
         path: '/',
     });
 
+    // Cache control
+
     // News route, initial cookie for pagination
     const isNewsRoute = basePath === '/news-portal';
     const page = Number(decrypt(cookies().get('page')?.value || ''));

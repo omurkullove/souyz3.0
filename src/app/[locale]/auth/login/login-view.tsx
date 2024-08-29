@@ -25,8 +25,8 @@ const LoginView = ({ translated }: ILoginViewProps) => {
     const { locale } = useLocale();
 
     const onSuccess = ({ user }: { user: ISession }) => {
-        localStorage.removeItem('timer');
         updateUser(user);
+        localStorage.removeItem('timer');
         localStorage.removeItem('prerestore-timer');
         localStorage.removeItem('preregister-timer');
         pushAndRefresh(`/${locale}/profile`);
