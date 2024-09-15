@@ -31,17 +31,17 @@ const RestoreView = ({ translated }: IRestoreViewProps) => {
         const data = formDataFormatter(event) as IRestorePasswordRequest;
 
         if (data.new_password !== data.confirm_password) {
-            toast.error('Пароли не совпадают')!;
+            toast.error(translated.messages.error.password_match);
             return;
         }
 
         toastPusher(restorePasswordFetcher(data), {
-            success: 'Сброс пароля выполнен успешно',
+            success: translated.messages.success,
             error: {
-                '400': 'Неверный код сброса',
-                default: 'Ошибка при сбросе пароля',
+                '400': translated.messages.error[400],
+                default: translated.messages.error.default,
             },
-            loading: 'Сброс пароля...',
+            loading: translated.messages.loading,
         });
     };
 

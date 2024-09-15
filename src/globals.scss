@@ -1,9 +1,3 @@
-html,
-body,
-:root {
-    height: 100%;
-}
-
 :root {
     // static variables
     --blue-dark: #0048ff;
@@ -15,11 +9,6 @@ body,
     --gray: #666;
 
     --hover-blue: rgb(2, 93, 190);
-
-    --font-main: 'LT Superior', 'Helvetica Neue', sans-serif;
-
-    --font-profile: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
-        Geneva, Verdana, sans-serif;
 
     --transition-bg: background-color 1s ease;
     --transition-border: border 1s ease;
@@ -36,6 +25,8 @@ body,
     --pc-subtitle-color: #555;
     --pc-keys-title-color: #444;
     --pc-list-text-color: #666;
+
+    --footer: #f8f8ff;
 }
 
 [data-theme='dark'] {
@@ -49,13 +40,14 @@ body,
     --pc-subtitle-color: #cccccc;
     --pc-keys-title-color: #bbbbbb;
     --pc-list-text-color: #dddddd;
+
+    --footer: #23282b;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--font-main);
 }
 
 body {
@@ -96,4 +88,22 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+html {
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    & {
+        scrollbar-width: none;
+    }
+
+    & {
+        -ms-overflow-style: none;
+    }
 }

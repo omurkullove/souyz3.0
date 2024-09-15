@@ -19,8 +19,6 @@ export async function POST(request: Request) {
         session_expires: data.access_token_expire_time,
     };
 
-    console.log('LOGIN => ', session.session_expires);
-
     const encrypted_session = encrypt(session);
 
     headers.append(

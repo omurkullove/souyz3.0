@@ -34,4 +34,46 @@
     -moz-transition: var(--transition-bg);
     -ms-transition: var(--transition-bg);
     -o-transition: var(--transition-bg);
+
+    @media (max-width: 1024px) {
+        margin: 20px 0px;
+        padding: 20px 0px;
+
+        .key_stat {
+            .title {
+                font-size: 10px;
+            }
+
+            .value {
+                font-size: 35px;
+            }
+        }
+    }
+
+    @media (max-width: 450px) {
+        flex-direction: column;
+        gap: 50px;
+        background-color: var(--mode-bg1);
+
+        .key_stat {
+            border-right: none;
+            border-bottom: 0.5px solid var(--mode-text);
+            padding-bottom: 20px;
+            width: 100%;
+            text-align: center;
+
+            .title {
+                text-transform: uppercase;
+                font-size: 28px;
+            }
+
+            .value {
+                font-size: 80px;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
 }

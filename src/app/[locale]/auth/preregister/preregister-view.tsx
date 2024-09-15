@@ -44,11 +44,11 @@ const PreregisterView = ({ translated }: IPreregisterViewProps) => {
 
         toastPusher(preregisterFetcher(data), {
             error: {
-                409: 'Пользователь с такой почтой уже существует',
-                default: 'Ошибка отправки кода, повторите позже',
+                409: translated.messages.error_409,
+                default: translated.messages.error_default,
             },
-            loading: `Отправляем код на почту: ${data.email}`,
-            success: `Код успешно отправлен на почту: ${data.email}`,
+            loading: translated.messages.loading.replace('{email}', data.email),
+            success: translated.messages.success.replace('{email}', data.email),
         });
     };
 

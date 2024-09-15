@@ -10,9 +10,10 @@ import styles from './purchase-drawer.module.scss';
 interface IPurchaseDrawerProps {
     tariff: ITariff | null;
     setIsPurchaseDrawer: (isPurchaseTariff: boolean) => void;
+    translated: IntlMessages['TariffPlans']['purchase_drawer'];
 }
 
-const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer }: IPurchaseDrawerProps) => {
+const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer, translated }: IPurchaseDrawerProps) => {
     const { locale } = useLocale();
 
     const cardFormatted = (event: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +50,7 @@ const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer }: IPurchaseDrawerProps) =
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <p className={styles.title}>Покупка и активация тарифа</p>
+                <p className={styles.title}>{translated.title}</p>
                 <IoMdClose
                     className={styles.close_icon}
                     onClick={() => setIsPurchaseDrawer(false)}
@@ -68,19 +69,19 @@ const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer }: IPurchaseDrawerProps) =
                     </ul>
 
                     <div className={styles.section_1_footer}>
-                        <p className={styles.price_label}>Стоимость:</p>
-                        <p className={styles.price_value}>{formatNumber(tariff.price)} сом</p>
+                        <p className={styles.price_label}>{translated.price_label}</p>
+                        <p className={styles.price_value}>{formatNumber(tariff.price)} KGS</p>
                     </div>
                 </div>
 
                 <div className={styles.section_2}>
                     <div className={styles.section_2_header}>
-                        <p className={styles.name}>Введите платежные реквизиты</p>
+                        <p className={styles.name}>{translated.purchase_title}</p>
                     </div>
                     <form className={styles.form}>
                         <div className={styles.form_item}>
                             <label className={styles.label}>
-                                Срок действия тарифа (кол-во месяцев)
+                                {translated.inputs.duration_label}
                             </label>
                             <input
                                 className={styles.input}
@@ -93,7 +94,9 @@ const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer }: IPurchaseDrawerProps) =
                         </div>
 
                         <div className={styles.form_item}>
-                            <label className={styles.label}>Номер карты</label>
+                            <label className={styles.label}>
+                                {translated.inputs.card_number_label}
+                            </label>
                             <input
                                 className={styles.input}
                                 type='text'
@@ -114,7 +117,7 @@ const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer }: IPurchaseDrawerProps) =
                         </div>
 
                         <div className={styles.form_item}>
-                            <label className={styles.label}>Дата истечения</label>
+                            <label className={styles.label}>{translated.inputs.expire_label}</label>
                             <input
                                 className={styles.input}
                                 type='text'
@@ -123,7 +126,7 @@ const PurchaseDrawer = ({ tariff, setIsPurchaseDrawer }: IPurchaseDrawerProps) =
                             />
                         </div>
 
-                        <button className={styles.btn}>Сделать покупку</button>
+                        <button className={styles.btn}>{translated.btn}</button>
                     </form>
                 </div>
             </div>

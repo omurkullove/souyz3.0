@@ -32,7 +32,6 @@
 
             .arrow_icon_container {
                 background-color: var(--mode-bg1);
-                transition: var(--transition-bg);
 
                 border-radius: 50%;
 
@@ -76,6 +75,19 @@
                 color: var(--mode-text);
                 line-height: 25px;
                 border-radius: 10px;
+            }
+        }
+    }
+
+    @media (max-width: 450px) {
+        .collapse_item {
+            .header {
+                gap: 10px;
+
+                .question {
+                    font-size: 15px;
+                    flex: 5;
+                }
             }
         }
     }

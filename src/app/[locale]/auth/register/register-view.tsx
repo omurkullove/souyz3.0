@@ -45,13 +45,13 @@ const RegisterView = ({ translated }: IRegisterViewProps) => {
         } as IRegisterRequest;
 
         toastPusher(registerFetcher(register_request_data), {
-            success: 'Аккаунт успешно создан!',
+            success: translated.messages.success,
             error: {
-                '409': 'Пользователь с такой почтой уже существует',
-                '400': 'Неправильный  код верификации',
-                default: 'Ошибка при регистрации',
+                '409': translated.messages.error[409],
+                '400': translated.messages.error[400],
+                default: translated.messages.error.default,
             },
-            loading: 'Создаем аккаунт...',
+            loading: translated.messages.loading,
         });
     };
 

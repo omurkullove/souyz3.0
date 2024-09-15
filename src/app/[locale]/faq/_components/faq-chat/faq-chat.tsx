@@ -1,7 +1,10 @@
 'use client';
 
 import WithAnimate from '@components/animation/with-animate';
-import { ReactNode, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import debounce from 'lodash.debounce';
+import { ChangeEvent, ReactNode, useCallback, useState } from 'react';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import styles from './faq-chat.module.scss';
 
 interface IMessage {
@@ -11,48 +14,98 @@ interface IMessage {
     component?: ReactNode;
 }
 
-interface IFaqChat {
-    translated: IntlMessages['FAQ']['chat'];
+interface IQuestion {
+    title: string;
+    answer: string;
 }
 
-const FaqChat = ({ translated }: IFaqChat) => {
+interface IFaqChat {
+    translated: IntlMessages['FAQ']['chat'];
+    questions: IQuestion[];
+}
+
+const FaqChat = ({ translated, questions }: IFaqChat) => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [userMessage, setUserMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [filteredQuestions, setFilteredQuestions] = useState<IQuestion[]>([]);
 
-    const handleSendMessage = () => {
-        if (userMessage.trim()) {
-            setMessages([
-                ...messages,
-                { text: userMessage, id: messages.length + 1, sender: 'user' },
+    const debouncedSearch = useCallback(
+        debounce((text: string) => {
+            const searchText = text.trim().toLowerCase();
+            if (searchText) {
+                const matches = questions.filter((q) => q.title.toLowerCase().includes(searchText));
+                setFilteredQuestions(matches);
+            } else {
+                setFilteredQuestions([]);
+            }
+        }, 300),
+        [questions]
+    );
+
+    const handleSendMessage = useCallback(
+        (title?: string) => {
+            if (!userMessage.trim()) return;
+
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { text: title ?? userMessage, id: prevMessages.length + 1, sender: 'user' },
             ]);
             setUserMessage('');
             setIsLoading(true);
+            setFilteredQuestions([]);
+
+            const messageToSend = title ? title.trim() : userMessage.trim();
+            const foundQuestion = questions.find(
+                (q) => q.title.toLowerCase() === messageToSend.toLowerCase()
+            );
 
             setTimeout(() => {
                 setMessages((prevMessages) => [
                     ...prevMessages,
                     {
-                        text: 'Пошел нахуй',
+                        text: foundQuestion ? foundQuestion.answer : translated.no_answer,
                         id: prevMessages.length + 1,
                         sender: 'bot',
                     },
                 ]);
                 setIsLoading(false);
             }, 2000);
-        }
+        },
+        [userMessage, questions, translated]
+    );
+
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setUserMessage(value);
+        debouncedSearch(value);
+    };
+
+    const handleClearChat = () => {
+        setMessages([]);
+        setUserMessage('');
+        setFilteredQuestions([]);
+    };
+
+    const handleVariantClick = (title: string) => {
+        setUserMessage('');
+        handleSendMessage(title);
     };
 
     return (
         <div className={styles.container}>
-            <div className={styles.chat}>
+            <div
+                className={styles.chat}
+                role='log'
+                aria-live='polite'
+            >
                 <WithAnimate
                     className={styles.message}
                     type='fade'
                 >
                     {translated.initial_bot_message}
                 </WithAnimate>
-                {messages?.map((message) => (
+                {messages.map((message) => (
                     <WithAnimate
                         key={message.id}
                         className={message.sender === 'bot' ? styles.message : styles.my_message}
@@ -72,16 +125,46 @@ const FaqChat = ({ translated }: IFaqChat) => {
                     </WithAnimate>
                 )}
             </div>
+
             <div className={styles.footer}>
+                <div className={styles.variants}>
+                    <AnimatePresence>
+                        {filteredQuestions.map((question) => (
+                            <motion.p
+                                onClick={() => handleVariantClick(question.title)}
+                                key={question.title}
+                                initial={{ opacity: 0, translateY: 10 }}
+                                animate={{ opacity: 1, translateY: 0 }}
+                                exit={{ opacity: 0, translateY: 10 }}
+                                className={styles.variant}
+                            >
+                                {question.title}
+                            </motion.p>
+                        ))}
+                    </AnimatePresence>
+                </div>
+
                 <input
+                    disabled={isLoading}
                     type='text'
                     placeholder={translated.placeholder}
                     value={userMessage}
-                    onChange={(e) => setUserMessage(e.target.value)}
+                    onChange={handleInputChange}
                     onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 />
-                <button onClick={handleSendMessage}>{translated.submit_btn}</button>
+                <button
+                    onClick={() => handleSendMessage()}
+                    disabled={isLoading}
+                >
+                    {translated.submit_btn}
+                </button>
             </div>
+            <button
+                className={styles.clear_btn}
+                onClick={handleClearChat}
+            >
+                {translated.clear_btn} <FaRegTrashAlt />
+            </button>
         </div>
     );
 };

@@ -65,9 +65,11 @@ const Footer = ({ translated }: IFooterProps) => {
                 </section>
 
                 <section className={styles.section_2}>
-                    <FaCcVisa className={styles.logo} />
-                    <FaCcMastercard className={styles.logo} />
-                    <FaCcPaypal className={styles.logo} />
+                    <div className={styles.icons}>
+                        <FaCcVisa className={styles.logo} />
+                        <FaCcMastercard className={styles.logo} />
+                        <FaCcPaypal className={styles.logo} />
+                    </div>
                     <Link
                         href={'/'}
                         className={styles.link}

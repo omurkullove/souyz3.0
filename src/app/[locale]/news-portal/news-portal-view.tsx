@@ -10,8 +10,7 @@ import 'moment/locale/ky';
 import 'moment/locale/ru';
 
 import { withTranslate } from '@i18n/withTranslate';
-import { NEWS_PAGE_COOKIE_EXPIRE } from '@src/utils/constants';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
 import NewsItem from './news-item/news-item';
 import styles from './news-portal-view.module.scss';
@@ -26,6 +25,8 @@ interface INewsPortalViewProps {
 }
 
 const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps) => {
+    const [isRefreshed, setIsRefreshed] = useState(false);
+
     const isNews = news && news.items && news.items.length;
 
     const router = useRouter();
@@ -38,25 +39,34 @@ const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps)
 
     const handleNextPage = () => {
         const encrypted_value = encrypt(initialPage + 1);
-        Cookies.set('page', encrypted_value, { expires: NEWS_PAGE_COOKIE_EXPIRE });
+        Cookies.set('page', encrypted_value);
         scrollToStart();
-        router.refresh();
+        setTimeout(() => {
+            router.refresh();
+        }, 1000);
     };
 
     const handlePreviousPage = () => {
         if (initialPage > 1) {
             const encrypted_value = encrypt(initialPage - 1);
-            Cookies.set('page', encrypted_value, { expires: NEWS_PAGE_COOKIE_EXPIRE });
+            Cookies.set('page', encrypted_value);
             router.refresh();
         }
     };
 
     const handleRefresh = () => {
-        toast.loading('Обновляем новости...', { duration: 1500 });
+        if (isRefreshed) {
+            toast.success(translated.messages.success);
+
+            return;
+        }
+
+        toast.loading(translated.messages.loading, { duration: 1500 });
 
         setTimeout(() => {
-            toast.success('Загружены актуальные новости');
+            toast.success(translated.messages.success);
             router.refresh();
+            setIsRefreshed(true);
         }, 1500);
     };
 
@@ -107,7 +117,7 @@ const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps)
                         <p className={styles.page}>{initialPage}</p>
                         <button
                             className={styles.navigation_btn}
-                            onClick={handleNextPage}
+                            onClick={() => handleNextPage()}
                             disabled={initialPage === news.total_pages}
                         >
                             {translated.btn_forward}

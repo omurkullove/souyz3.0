@@ -11,9 +11,10 @@ import styles from './tariff-item.module.scss';
 interface ITariffItemProps {
     tariff: ITariff;
     onClick: (tariff: ITariff) => void;
+    btn_label: string;
 }
 
-const TariffItem = ({ tariff, onClick }: ITariffItemProps) => {
+const TariffItem = ({ tariff, onClick, btn_label }: ITariffItemProps) => {
     const { locale } = useLocale();
     const router = useRouter();
 
@@ -28,12 +29,12 @@ const TariffItem = ({ tariff, onClick }: ITariffItemProps) => {
             <div className={styles.container}>
                 <div className={styles.header}>
                     <p className={styles.name}>{name}</p>
-                    <p className={styles.price}>{formatNumber(tariff.price)} сом</p>
+                    <p className={styles.price}>{formatNumber(tariff.price)} KGS</p>
                     <button
                         className={styles.buy_btn}
                         onClick={() => onClick(tariff)}
                     >
-                        Оформить покупку
+                        {btn_label}
                     </button>
                 </div>
                 <div className={styles.body}>

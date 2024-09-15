@@ -2,8 +2,9 @@
     display: flex;
     max-width: 1800px;
     margin: 0 auto;
-
     height: 100%;
+
+    min-width: 1440px;
 
     .aside {
         flex: 1;
@@ -14,11 +15,12 @@
         -ms-transition: var(--transition-bg);
         -o-transition: var(--transition-bg);
         padding-right: 10px;
+        min-height: 100%;
+        position: relative;
     }
 
     .children {
         flex: 3.5;
-        overflow-y: auto;
         position: relative;
 
         background-color: var(--mode-bg1);
@@ -28,51 +30,34 @@
         -moz-transition: var(--transition-bg);
         -ms-transition: var(--transition-bg);
         -o-transition: var(--transition-bg);
+        overflow-x: hidden;
 
         .header {
-            position: sticky;
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 2;
             z-index: 9999;
         }
+    }
 
-        .scroll_up {
-            position: fixed;
-            top: 15px;
-            right: 10px;
+    @media (max-width: 1024px) {
+        min-width: 1024px;
 
-            z-index: 99;
-            background-color: var(--mode-bg1);
-            border-radius: 100%;
-            -webkit-border-radius: 100%;
-            -moz-border-radius: 100%;
-            -ms-border-radius: 100%;
-            -o-border-radius: 100%;
-            cursor: pointer;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .icon {
-                width: 40px;
-                height: 40px;
-                color: var(--mode-text);
-            }
-
-            box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.154);
-        }
-        &::-webkit-scrollbar {
+        .aside {
             display: none;
         }
+    }
 
-        & {
-            scrollbar-width: none;
-        }
+    @media (max-width: 768px) {
+        min-width: 768px;
+    }
 
-        & {
-            -ms-overflow-style: none;
-        }
+    @media (max-width: 450px) {
+        min-width: auto;
+    }
+
+    @media (max-width: 400px) {
+        min-width: 400px;
     }
 }

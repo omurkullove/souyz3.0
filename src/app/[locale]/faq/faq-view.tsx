@@ -22,7 +22,10 @@ const FaqView = ({ translated }: IFaqViewProps) => {
                 <FaqCollapse translated={translated.questions} />
 
                 <h5 className={styles.section_title}>{translated.title_chat}</h5>
-                <FaqChat translated={translated.chat} />
+                <FaqChat
+                    translated={translated.chat}
+                    questions={translated.questions}
+                />
             </div>
         </div>
     );

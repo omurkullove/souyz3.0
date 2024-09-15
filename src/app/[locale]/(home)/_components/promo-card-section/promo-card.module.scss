@@ -33,7 +33,6 @@
             font-weight: bold;
             font-size: 80px;
             text-transform: uppercase;
-            max-width: 100%;
             line-height: 1;
         }
 
@@ -55,6 +54,49 @@
 
             &:hover {
                 background-color: var(--hover-blue);
+            }
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .img_wrapper {
+            width: 100%;
+            height: 600px;
+        }
+
+        .content_wrapper {
+            top: auto;
+            bottom: 5px;
+            padding: 10px;
+            gap: 25px;
+            width: 100%;
+
+            .title {
+                font-size: 45px;
+            }
+        }
+    }
+
+    @media (max-width: 450px) {
+        .img_wrapper {
+            width: 100%;
+            height: 500px;
+        }
+
+        .content_wrapper {
+            top: auto;
+            bottom: 5px;
+            padding: 10px;
+            gap: 25px;
+            width: 100%;
+
+            .title {
+                font-size: 35px;
+            }
+
+            .link {
+                width: 300px;
+                font-size: 14px;
             }
         }
     }

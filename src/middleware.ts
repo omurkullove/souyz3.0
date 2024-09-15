@@ -2,7 +2,6 @@ import { ISession } from '@my_types/auth-types';
 import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { NEWS_PAGE_COOKIE_EXPIRE } from './utils/constants';
 import { decrypt, encrypt } from './utils/helpers';
 
 const nextIntlMiddleware = createMiddleware({
@@ -13,7 +12,7 @@ const nextIntlMiddleware = createMiddleware({
 
 const PUBLIC_FILE = /\.(.*)$/;
 
-const protectedRoutes = ['/profile', '/tariff-plans'];
+const protectedRoutes = ['/profile'];
 
 export default async function middleware(req: NextRequest): Promise<NextResponse> {
     if (
@@ -39,8 +38,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
         path: '/',
     });
 
-    // Cache control
-
     // News route, initial cookie for pagination
     const isNewsRoute = basePath === '/news-portal';
     const page = Number(decrypt(cookies().get('page')?.value || ''));
@@ -53,7 +50,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
                 name: 'page',
                 value: encrypted_value,
                 path: '/',
-                expires: NEWS_PAGE_COOKIE_EXPIRE,
             });
         }
     }

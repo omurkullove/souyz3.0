@@ -40,12 +40,12 @@ const LegalCenterView = ({ translated }: ILegalCenterViewProps) => {
         });
 
         toastPusher(submitFetcher(formData), {
-            success: 'Запрос в «Правовой центр» успешно отправлен',
+            success: translated.messages.success,
             error: {
-                '422': 'Введите корректный номер телефона',
-                default: 'Ошибка при отправке вопроса',
+                '422': translated.messages.error_422,
+                default: translated.messages.error_default,
             },
-            loading: 'Отправляем данные...',
+            loading: translated.messages.loading,
         });
     };
 

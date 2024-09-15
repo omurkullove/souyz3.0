@@ -5,29 +5,28 @@ import { unstable_cache } from 'next/cache';
 import { cookies } from 'next/headers';
 import NewsPortalView from './news-portal-view';
 
-const fetchNews = async (page: number) => {
-    const news = await newsService.getNews(page);
+const fetchNews = async (decrypted_page: number) => {
+    const news = await newsService.getNews(decrypted_page);
 
     return news;
 };
 
-const fetchCachedNews = (page: number, hashed_page: string) => {
-    return unstable_cache(() => fetchNews(page), [`news-data-page-${hashed_page}`], {
+const fetchCachedNews = (decrypted_page: number, page: string) => {
+    return unstable_cache(() => fetchNews(decrypted_page), [page], {
         revalidate: 600,
     })();
 };
 
 const NewsPortal = async () => {
-    const hashed_page = cookies().get('page')?.value ?? 'static';
+    const page = cookies().get('page')?.value || '';
+    const decrypted_page = Number(decrypt(page)) || 1;
 
-    const page = Number(decrypt(hashed_page)) || 1;
-
-    const { data } = await fetchCachedNews(page, hashed_page);
+    const { data } = await fetchCachedNews(decrypted_page, page);
 
     return (
         <NewsPortalView
             news={data}
-            initialPage={page}
+            initialPage={decrypted_page}
         />
     );
 };

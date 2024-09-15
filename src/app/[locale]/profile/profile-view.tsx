@@ -85,13 +85,13 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                 <Logout translated={translated.logout} />
             </WithAnimate>
 
-            {user?.card && (
+            {/* {user?.card && (
                 <>
                     <WithAnimate
                         type='both'
                         to='right'
                     >
-                        <p className={styles.my_cards_title}>Моя карта:</p>
+                        <p className={styles.my_cards_title}>{translated.my_card}</p>
                     </WithAnimate>
 
                     <WithAnimate
@@ -117,17 +117,19 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
 
                         <div className={styles.footer}>
                             <p className={styles.label}>
-                                Статус:{' '}
+                                {translated.status_label}
                                 <span
                                     className={styles.value}
                                     data-status={user.card.status ? 'active' : 'inactive'}
                                 >
-                                    {user.card.status ? 'Активный' : 'Не активный'}
+                                    {user.card.status
+                                        ? translated.status_active
+                                        : translated.status_nonactive}
                                 </span>
                             </p>
 
                             <p className={styles.label}>
-                                Доступно до:{' '}
+                                {translated.expire_label}
                                 <span className={styles.value}>
                                     {formatDate(user.card.expire_date)}
                                 </span>
@@ -135,7 +137,7 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                         </div>
                     </WithAnimate>
                 </>
-            )}
+            )} */}
         </div>
     );
 };

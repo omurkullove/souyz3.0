@@ -9,8 +9,6 @@ export async function POST(request: Request) {
 
     const res = await authService.refreshToken(decrypt(body));
 
-    console.log('HANDLER. START NEW => ', res.code, res.data);
-
     if (res.code != 200) {
         return new Response(JSON.stringify(encrypt({ code: 401 })), { status: 200 });
     }

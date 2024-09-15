@@ -39,6 +39,7 @@ const HeroPages = ({ img_key, title }: IHeroPagesProps) => {
             <WithAnimate
                 type='both'
                 to='up'
+                className={styles.title_block}
             >
                 <h1 className={styles.title}>{title}</h1>
             </WithAnimate>

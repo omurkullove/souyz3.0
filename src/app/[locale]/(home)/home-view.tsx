@@ -13,13 +13,13 @@ const HomeView = ({ translated }: { translated: TranslateType }) => {
             <Service translated={translated.Service} />
             <Stats translated={translated.Stats} />
             <PromoCard
-                link='/'
+                link='/public-reception'
                 translated={translated.QuickConsultation}
                 wallpaper='/images/home/woman.jpg'
             />
             <PartFAQ translated={translated.PartFAQ} />
             <PromoCard
-                link='/'
+                link='/about-us'
                 translated={translated.Support}
                 wallpaper='/images/home/safe.jpg'
             />

@@ -1,11 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import styles from './hero.module.scss';
-import { useInView } from 'react-intersection-observer';
-import { AnimatePresence } from 'framer-motion';
-import { motion } from 'framer-motion';
 import WithAnimate from '@components/animation/with-animate';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import styles from './hero.module.scss';
 
 const slideshowPaths = [
     '/images/home/slide-show/1.webp',
@@ -17,18 +16,16 @@ interface IHeroProps {
     translated: IntlMessages['Home']['Hero'];
 }
 
-const Hero = ({ translated }: IHeroProps) => {
-    const [activePathIndex, setActivePathIndex] = useState(0);
-    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-    const [isFirstRender, setIsFirstRender] = useState(true);
+const getRandomIndex = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
-    const { ref, inView } = useInView({
-        threshold: 0,
-    });
+const Hero = ({ translated }: IHeroProps) => {
+    const [activePathIndex, setActivePathIndex] = useState<number>(0);
+    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+    const { ref, inView } = useInView({ threshold: 0 });
 
     const handleInView = useCallback(() => {
-        if (isFirstRender) setIsFirstRender(false);
-
         if (inView) {
             if (!intervalId) {
                 const id = setInterval(() => {
@@ -45,13 +42,15 @@ const Hero = ({ translated }: IHeroProps) => {
     }, [inView, intervalId]);
 
     useEffect(() => {
+        setActivePathIndex(getRandomIndex(0, slideshowPaths.length - 1));
+
         handleInView();
         return () => {
             if (intervalId) {
                 clearInterval(intervalId);
             }
         };
-    }, [inView]);
+    }, [handleInView, intervalId]);
 
     return (
         <div
@@ -59,24 +58,16 @@ const Hero = ({ translated }: IHeroProps) => {
             ref={ref}
         >
             <AnimatePresence>
-                {slideshowPaths.map(
-                    (image, index) =>
-                        index === activePathIndex && (
-                            <motion.div
-                                className={styles.slideshow_item}
-                                key={activePathIndex}
-                                initial={!isFirstRender && { opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0.5 }}
-                                transition={{ duration: 1.5 }}
-                                style={{
-                                    backgroundImage: `url(${image})`,
-                                }}
-                            />
-                        )
-                )}
+                <motion.div
+                    className={styles.slideshow_item}
+                    key={activePathIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.5 }}
+                    style={{ backgroundImage: `url(${slideshowPaths[activePathIndex]})` }}
+                />
             </AnimatePresence>
-
             <WithAnimate
                 to='up'
                 type='both'

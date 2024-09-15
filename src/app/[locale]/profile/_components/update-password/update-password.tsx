@@ -27,15 +27,15 @@ const UpdatePassword = ({ translated }: IUpdatePasswordProps) => {
         const data = formDataFormatter(event) as IResetPasswordRequest;
 
         if (data.new_password !== data.confirm_password) {
-            toast.error('Внимание! Пароли не совпадают');
+            toast.error(translated.messages.error_password);
             return;
         }
 
         toastPusher(updatePasswordFetcher(data), {
-            success: 'Пароль успешно обновлен!',
-            loading: 'Обновление пароля...',
+            success: translated.messages.success,
+            loading: translated.messages.loading,
             error: {
-                default: 'Ошибка при обновлении пароля',
+                default: translated.messages.error_default,
             },
         });
     };
@@ -81,7 +81,7 @@ const UpdatePassword = ({ translated }: IUpdatePasswordProps) => {
                         name='new_password'
                         className={styles.input}
                         required
-                        autoComplete=''
+                        autoComplete='new-password'
                         pattern={patterns.password}
                         title={translated.password_title}
                     />
@@ -90,7 +90,7 @@ const UpdatePassword = ({ translated }: IUpdatePasswordProps) => {
                         type='password'
                         placeholder={translated.conf_new_pass}
                         name='confirm_password'
-                        autoComplete=''
+                        autoComplete='new-password'
                         className={styles.input}
                         required
                         pattern={patterns.password}

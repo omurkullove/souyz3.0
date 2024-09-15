@@ -31,7 +31,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
     };
 
     const onError = async () => {
-        await fetch('http://localhost:3000/api/clear-cookie', {
+        await fetch(`/api/clear-cookie`, {
             method: 'POST',
             credentials: 'include',
         }).then(() => {
@@ -52,8 +52,6 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
 
             clearRefreshTimer();
             refreshTimer.current = setTimeout(handleRefresh, refreshInterval);
-        } else {
-            console.error('session_expires is null or undefined.');
         }
     };
 
@@ -65,11 +63,9 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
         isRefreshing.current = true;
 
         try {
-            console.log('Starting refresh...');
-
             const cookie = `access_token=${accessToken}; refresh_token=${refreshToken}`;
 
-            const res = await fetch(`http://localhost:3000/api/refresh-token`, {
+            const res = await fetch(`/api/refresh-token`, {
                 method: 'POST',
                 body: JSON.stringify(encrypt(cookie)),
                 credentials: 'include',
@@ -88,7 +84,6 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
                 setRefreshToken(newRefreshToken);
                 setSessionExpires(newSessionExpires);
                 router.refresh();
-                console.log('Updated!');
             } else if (code === 401 && isRefreshing) {
                 await onError();
             }
@@ -117,8 +112,6 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
                 clearRefreshTimer();
                 document.removeEventListener('visibilitychange', handleVisibilityChange);
             };
-        } else {
-            console.log('Session not valid');
         }
     }, [accessToken, refreshToken, sessionExpires, isValidSession]);
 

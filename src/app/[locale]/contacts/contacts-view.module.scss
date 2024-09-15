@@ -68,5 +68,22 @@
                 height: 500px;
             }
         }
+
+        @media (max-width: 450px) {
+            .contact {
+                .title,
+                .value {
+                    font-size: 15px;
+                }
+            }
+
+            .map_container .title {
+                font-size: 25px;
+            }
+
+            .map_container .map {
+                height: 350px;
+            }
+        }
     }
 }

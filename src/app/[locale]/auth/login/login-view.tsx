@@ -47,12 +47,12 @@ const LoginView = ({ translated }: ILoginViewProps) => {
         const loginData = formDataFormatter(event) as ILoginRequest;
 
         toastPusher(loginFetcher(loginData), {
-            loading: 'Выполняется вход...',
-            success: 'Вход выполнен успешно!',
+            loading: translated.messages.loading,
+            success: translated.messages.success,
             error: {
-                '401': 'Неправильная почта или пароль',
-                '404': 'Пользователь не найден',
-                default: 'Ошибка входа, попробуйте позже',
+                '401': translated.messages.error_401,
+                '404': translated.messages.error_404,
+                default: translated.messages.error_default,
             },
         });
     };

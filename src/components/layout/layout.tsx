@@ -23,7 +23,7 @@ const Layout = ({ children, mode }: ILayoutProps) => {
             </aside>
             <div className={styles.children}>
                 <header className={styles.header}>
-                    <Header />
+                    <Header mode={mode} />
                 </header>
                 <main>{children}</main>
                 <footer className={styles.footer}>

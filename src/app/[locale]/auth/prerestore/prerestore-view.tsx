@@ -45,10 +45,10 @@ const PrerestoreView = ({ translated }: IPrerestoreViewProps) => {
 
         toastPusher(prerestoreFetcher(data), {
             error: {
-                default: 'Ошибка отправки кода, повторите позже',
+                default: translated.messages.error.default,
             },
-            loading: `Отправляем код на почту: ${data.email}`,
-            success: `Код успешно отправлен на почту: ${data.email}`,
+            loading: translated.messages.loading.replace('{email}', data.email),
+            success: translated.messages.success.replace('{email}', data.email),
         });
     };
 

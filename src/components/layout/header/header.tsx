@@ -1,110 +1,23 @@
 'use client';
 
-import { usePathname, useRouter } from '@/navigation';
 import { withTranslate } from '@i18n/withTranslate';
-import { useLocale } from '@providers/locale-provider';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { useCallback, useState } from 'react';
-import { FaEarthAsia } from 'react-icons/fa6';
+import HeaderDesktop from './header-desktop/header-desktop';
+import HeaderMobile from './header-mobile/header-mobile';
 import styles from './header.module.scss';
+
 type TranslateType = IntlMessages['Header'];
 
-const variants = {
-    blocks: {
-        hidden: {
-            opacity: 0,
-            translateY: -40,
-            transition: { duration: 1, ease: 'backOut' },
-        },
-        visible: {
-            opacity: 1,
-            translateY: 0,
-            transition: { duration: 0.5 },
-        },
-    } as Variants,
-
-    nav: {
-        hidden: {
-            opacity: 0,
-            translateY: -80,
-        },
-        visible: {
-            opacity: 1,
-            translateY: 0,
-            transition: { duration: 0.5 },
-        },
-    } as Variants,
-};
-
-const Header = ({ translated }: { translated: TranslateType }) => {
-    const [isBlockShown, setIsBlockShown] = useState(false);
-
-    const { locale } = useLocale();
-    const pathname = usePathname();
-    const router = useRouter();
-
-    const handleMouseEnter = useCallback(() => setIsBlockShown(true), []);
-    const handleMouseLeave = useCallback(() => setIsBlockShown(false), []);
-
-    const switchLocale = useCallback(
-        async (newLocale: Locale) => {
-            if (newLocale !== locale) {
-                await fetch('/api/switch-locale', {
-                    method: 'POST',
-                    body: JSON.stringify({ locale: newLocale }),
-                    credentials: 'include',
-                });
-                router.refresh();
-            }
-        },
-
-        [locale, pathname, router]
-    );
-
-    const currentLocaleText = locale === 'ru' ? translated.locale.ru : translated.locale.kg;
-    const otherLocaleText = locale === 'ru' ? translated.locale.kg : translated.locale.ru;
-
+const Header = ({ translated, mode }: { translated: TranslateType; mode: ModeType }) => {
     return (
-        <motion.nav
-            variants={variants.nav}
-            initial={'hidden'}
-            animate='visible'
-            className={styles.container}
-        >
-            <div
-                className={styles.wrapper}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
-                <div className={styles.block}>
-                    <p className={styles.title}>{currentLocaleText}</p>
-                    <FaEarthAsia className={styles.icon} />
-                </div>
-
-                <AnimatePresence mode='wait'>
-                    {isBlockShown && (
-                        <motion.div
-                            key={locale}
-                            onClick={() => switchLocale(locale === 'ru' ? 'kg' : 'ru')}
-                            variants={variants.blocks}
-                            initial='hidden'
-                            animate='visible'
-                            exit='hidden'
-                            className={styles.block}
-                        >
-                            <p className={styles.title}>{otherLocaleText}</p>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+        <>
+            <div className={styles.header_desktop}>
+                <HeaderDesktop translated={translated} />
             </div>
 
-            <div
-                className={styles.block}
-                onClick={() => router.push('/public-reception')}
-            >
-                <p className={styles.title}>{translated.public_reception}</p>
+            <div className={styles.header_mobile}>
+                <HeaderMobile mode={mode} />
             </div>
-        </motion.nav>
+        </>
     );
 };
 
