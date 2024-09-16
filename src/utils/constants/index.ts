@@ -1,6 +1,6 @@
 export const domain = 'souyz.kg';
 
-export const API_URL = `https://${domain}/api/v1`;
+export const API_URL = `https://${domain}/skgapi/v1`;
 
 export const CRYPTO_KEY = process.env.NEXT_PUBLIC_CRYPTO_KEY;
 
