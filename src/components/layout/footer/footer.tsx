@@ -78,7 +78,7 @@ const Footer = ({ translated }: IFooterProps) => {
                     </Link>
 
                     <p className={styles.rights}>
-                        2023-2024 souyz.kg
+                        2023-2024 soyuz.kg
                         <br />© {translated.rights}
                     </p>
                 </section>

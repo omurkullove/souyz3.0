@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     headers.append(
         'Set-Cookie',
-        `souyz_session=${encrypted_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
+        `soyuz_session=${encrypted_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
     );
 
     const response = new Response(JSON.stringify({ code: 200, data: data.user }), { headers });

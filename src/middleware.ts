@@ -55,7 +55,7 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     }
 
     // Session & Route protection
-    const session: ISession = decrypt(cookies().get('souyz_session')?.value || '');
+    const session: ISession = decrypt(cookies().get('soyuz_session')?.value || '');
 
     const isProtectedRoute = protectedRoutes.includes(basePath);
     const isAuthRoute = basePath.startsWith('/auth');

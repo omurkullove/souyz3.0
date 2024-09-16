@@ -19,7 +19,7 @@ const SidebarMobile = ({ toggleSidebar, translated }: IProps) => {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <p className={styles.logo}>Souyz.KG</p>
+                <p className={styles.logo}>Soyuz.KG</p>
 
                 <IoClose
                     className={styles.close}
@@ -57,8 +57,8 @@ const SidebarMobile = ({ toggleSidebar, translated }: IProps) => {
 
             <div className={styles.footer}>
                 <Image
-                    src={'/images/footer/souyz-logo.png'}
-                    alt='souyz-logo.png'
+                    src={'/images/footer/soyuz-logo.png'}
+                    alt='soyuz-logo.png'
                     width={100}
                     height={50}
                 />

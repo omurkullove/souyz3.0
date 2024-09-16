@@ -21,11 +21,11 @@ const NewsPortal = async () => {
     const page = cookies().get('page')?.value || '';
     const decrypted_page = Number(decrypt(page)) || 1;
 
-    const { data } = await fetchCachedNews(decrypted_page, page);
+    const res = await fetchCachedNews(decrypted_page, page);
 
     return (
         <NewsPortalView
-            news={data}
+            news={res?.data}
             initialPage={decrypted_page}
         />
     );

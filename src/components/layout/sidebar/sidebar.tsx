@@ -54,7 +54,7 @@ const Sidebar = ({ mode, translated }: ISidebarProps) => {
                             href={'/'}
                             className={styles.title}
                         >
-                            Souyz.KG
+                            Soyuz.KG
                         </Link>
 
                         <p className={styles.subtitle}>{translated.title}</p>
@@ -119,8 +119,8 @@ const Sidebar = ({ mode, translated }: ISidebarProps) => {
 
                     <div className={styles.footer}>
                         <Image
-                            src={'/images/footer/souyz-logo.png'}
-                            alt='souyz-logo.png'
+                            src={'/images/footer/soyuz-logo.png'}
+                            alt='soyuz-logo.png'
                             width={100}
                             height={50}
                         />

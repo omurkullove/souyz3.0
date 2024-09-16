@@ -17,26 +17,26 @@ export async function POST(request: Request) {
         return new Response(JSON.stringify({ code: res.code }), { status: 200 });
     }
 
-    const old_souyz_session = decrypt(cookies().get('souyz_session')?.value || '') as ISession;
+    const old_soyuz_session = decrypt(cookies().get('soyuz_session')?.value || '') as ISession;
 
     const headers = new Headers();
 
-    const new_souyz_session = {
-        ...old_souyz_session,
+    const new_soyuz_session = {
+        ...old_soyuz_session,
         first_name: body.data.first_name,
         last_name: body.data.last_name,
         phone: body.data.phone,
         email: body.data.email,
     } as ISession;
 
-    const encrypted_souyz_session = encrypt(new_souyz_session);
+    const encrypted_soyuz_session = encrypt(new_soyuz_session);
 
     headers.append(
         'Set-Cookie',
-        `souyz_session=${encrypted_souyz_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
+        `soyuz_session=${encrypted_soyuz_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
     );
 
-    const response = new Response(JSON.stringify({ code: 200, data: new_souyz_session }), {
+    const response = new Response(JSON.stringify({ code: 200, data: new_soyuz_session }), {
         headers,
     });
 

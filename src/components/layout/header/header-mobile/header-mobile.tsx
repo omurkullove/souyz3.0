@@ -71,7 +71,7 @@ const HeaderMobile: FC<IProps> = ({ mode }) => {
                     className={styles.title}
                     onClick={() => router.push('/')}
                 >
-                    Souyz.KG
+                    Soyuz.KG
                 </p>
 
                 <div className={styles.menu_block}>

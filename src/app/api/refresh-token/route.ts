@@ -17,10 +17,10 @@ export async function POST(request: Request) {
 
     const data = res?.data as ITokens;
 
-    const souyz_session = decrypt(cookies().get('souyz_session')?.value || '') as ISession;
+    const soyuz_session = decrypt(cookies().get('soyuz_session')?.value || '') as ISession;
 
-    const new_souyz_session = encrypt({
-        ...souyz_session,
+    const new_soyuz_session = encrypt({
+        ...soyuz_session,
         session_expires: data.access_token_expire_time,
     });
 
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     headers.append(
         'Set-Cookie',
-        `souyz_session=${new_souyz_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
+        `soyuz_session=${new_soyuz_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
     );
 
     const new_response = {
@@ -44,8 +44,8 @@ export async function POST(request: Request) {
         newAccessToken: data.access_token,
         newRefreshToken: data.refresh_token,
         newSessionExpires: data.access_token_expire_time,
-        souyz_session: {
-            ...souyz_session,
+        soyuz_session: {
+            ...soyuz_session,
             session_expires: data.access_token_expire_time,
         },
     };

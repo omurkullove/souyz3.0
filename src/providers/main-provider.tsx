@@ -18,7 +18,7 @@ const MainProvider = async ({ children, mode }: IMainProviderProps) => {
     const cookieStore = cookies();
 
     const locale = (cookieStore.get('NEXT_LOCALE')?.value || 'ru') as Locale;
-    const user = decrypt(cookieStore.get('souyz_session')?.value || '') as ISession;
+    const user = decrypt(cookieStore.get('soyuz_session')?.value || '') as ISession;
 
     const access_token = cookieStore.get('access_token')?.value || null;
     const refresh_token = cookieStore.get('refresh_token')?.value || null;

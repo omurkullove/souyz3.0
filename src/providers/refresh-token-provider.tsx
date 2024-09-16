@@ -2,6 +2,7 @@
 
 import { useRouter } from '@/navigation';
 import { InitialCookies } from '@my_types/main-types';
+import { domain } from '@src/utils/constants';
 import { decrypt, encrypt } from '@src/utils/helpers';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useUser } from './user-provider';
@@ -31,7 +32,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
     };
 
     const onError = async () => {
-        await fetch(`/api/clear-cookie`, {
+        await fetch(`https://${domain}/api/clear-cookie`, {
             method: 'POST',
             credentials: 'include',
         }).then(() => {
@@ -65,7 +66,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
         try {
             const cookie = `access_token=${accessToken}; refresh_token=${refreshToken}`;
 
-            const res = await fetch(`/api/refresh-token`, {
+            const res = await fetch(`https://${domain}/api/refresh-token`, {
                 method: 'POST',
                 body: JSON.stringify(encrypt(cookie)),
                 credentials: 'include',
@@ -76,8 +77,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
             const data = await res.json();
             const decrypt_data = decrypt(data);
 
-            const { code, newAccessToken, newRefreshToken, newSessionExpires, souyz_session } =
-                decrypt_data;
+            const { code, newAccessToken, newRefreshToken, newSessionExpires } = decrypt_data;
 
             if (code === 200) {
                 setAccessToken(newAccessToken);

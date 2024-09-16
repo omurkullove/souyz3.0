@@ -1,4 +1,4 @@
-export const domain = 'souyz.kg';
+export const domain = 'soyuz.kg';
 
 export const API_URL = `https://${domain}/skgapi/v1`;
 

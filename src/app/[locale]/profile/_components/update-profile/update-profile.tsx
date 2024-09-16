@@ -2,7 +2,7 @@ import { useRouter } from '@/navigation';
 import { GenericModal } from '@components/modal';
 import { ISession, IUpdateProfileData, IUpdateProfileRequest } from '@my_types/auth-types';
 import { useUser } from '@providers/user-provider';
-import { patterns } from '@src/utils/constants';
+import { domain, patterns } from '@src/utils/constants';
 import {
     formattedPhoneNumber,
     formDataFormatter,
@@ -34,7 +34,7 @@ const UpdateProfile = ({ translated }: IUpdateProfileProps) => {
         return universalFetcher({
             method: 'POST',
             body: JSON.stringify(update_data_request),
-            url: '/api/update-profile',
+            url: `https://${domain}/api/update-profile`,
 
             successAction: (data: ISession) => onSuccessUpdate(data),
         });

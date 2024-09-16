@@ -1,6 +1,7 @@
 import { ConfirmModal } from '@components/modal';
 import { useLocale } from '@providers/locale-provider';
 import authService from '@service/auth/auth-service';
+import { domain } from '@src/utils/constants';
 import { pushAndRefresh, toastPusher, universalFetcher } from '@src/utils/helpers';
 import { useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
@@ -16,7 +17,7 @@ const Logout = ({ translated }: ILogoutProps) => {
     const { locale } = useLocale();
 
     const onSuccess = async () => {
-        await fetch('/api/clear-cookie', {
+        await fetch(`https://${domain}/api/clear-cookie`, {
             method: 'POST',
             credentials: 'include',
         });
