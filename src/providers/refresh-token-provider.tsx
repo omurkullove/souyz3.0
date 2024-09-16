@@ -2,7 +2,7 @@
 
 import { useRouter } from '@/navigation';
 import { InitialCookies } from '@my_types/main-types';
-import { domain } from '@src/utils/constants';
+import { FETCH_API_RL } from '@src/utils/constants';
 import { decrypt, encrypt } from '@src/utils/helpers';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useUser } from './user-provider';
@@ -32,7 +32,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
     };
 
     const onError = async () => {
-        await fetch(`https://${domain}/api/clear-cookie`, {
+        await fetch(`${FETCH_API_RL}/api/clear-cookie`, {
             method: 'POST',
             credentials: 'include',
         }).then(() => {
@@ -66,7 +66,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
         try {
             const cookie = `access_token=${accessToken}; refresh_token=${refreshToken}`;
 
-            const res = await fetch(`https://${domain}/api/refresh-token`, {
+            const res = await fetch(`${FETCH_API_RL}/api/refresh-token`, {
                 method: 'POST',
                 body: JSON.stringify(encrypt(cookie)),
                 credentials: 'include',

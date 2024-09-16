@@ -7,7 +7,7 @@ const nextConfig = {
         return [
             {
                 source: '/skgapi/v1/:path*',
-                destination: `${process.env.DESTINATION}*`,
+                destination: `${process.env.DESTINATION}/skgapi/v1/:path*`,
             },
         ];
     },

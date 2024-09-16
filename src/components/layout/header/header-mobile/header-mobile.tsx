@@ -3,7 +3,7 @@
 import { useRouter } from '@/navigation';
 import { SidebarMobile } from '@components/layout/sidebar';
 import { useLocale } from '@providers/locale-provider';
-import { domain } from '@src/utils/constants';
+import { FETCH_API_RL } from '@src/utils/constants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { FC, useCallback, useState } from 'react';
@@ -43,7 +43,7 @@ const HeaderMobile: FC<IProps> = ({ mode }) => {
     const switchLocale = useCallback(
         async (newLocale: Locale) => {
             if (newLocale !== locale) {
-                await fetch(`https://${domain}/api/switch-locale`, {
+                await fetch(`${FETCH_API_RL}/api/switch-locale`, {
                     method: 'POST',
                     body: JSON.stringify({ locale: newLocale }),
                     credentials: 'include',

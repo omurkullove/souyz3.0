@@ -18,6 +18,7 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     if (
         req.nextUrl.pathname.startsWith('/_next') ||
         req.nextUrl.pathname.includes('/api/') ||
+        req.nextUrl.pathname.includes('/skgapi/') ||
         PUBLIC_FILE.test(req.nextUrl.pathname)
     ) {
         return NextResponse.next();

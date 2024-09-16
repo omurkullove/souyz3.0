@@ -1,6 +1,6 @@
 import { useRouter } from '@/navigation';
 import { useLocale } from '@providers/locale-provider';
-import { domain } from '@src/utils/constants';
+import { FETCH_API_RL } from '@src/utils/constants';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { FC, useCallback, useState } from 'react';
 import { FaEarthAsia } from 'react-icons/fa6';
@@ -49,7 +49,7 @@ const HeaderDesktop: FC<IProps> = ({ translated }) => {
     const switchLocale = useCallback(
         async (newLocale: Locale) => {
             if (newLocale !== locale) {
-                await fetch(`https://${domain}/api/switch-locale`, {
+                await fetch(`${FETCH_API_RL}/api/switch-locale`, {
                     method: 'POST',
                     body: JSON.stringify({ locale: newLocale }),
                     credentials: 'include',

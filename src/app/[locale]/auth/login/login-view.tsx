@@ -7,7 +7,7 @@ import { withTranslate } from '@i18n/withTranslate';
 import { ILoginRequest, ISession } from '@my_types/auth-types';
 import { useLocale } from '@providers/locale-provider';
 import { useUser } from '@providers/user-provider';
-import { domain } from '@src/utils/constants';
+import { FETCH_API_RL } from '@src/utils/constants';
 import {
     formDataFormatter,
     pushAndRefresh,
@@ -35,7 +35,7 @@ const LoginView = ({ translated }: ILoginViewProps) => {
 
     const loginFetcher = async (loginData: ILoginRequest) => {
         return universalFetcher({
-            url: `https://${domain}/api/login`,
+            url: `${FETCH_API_RL}/api/login`,
             body: loginData,
             method: 'POST',
             successAction: onSuccess,

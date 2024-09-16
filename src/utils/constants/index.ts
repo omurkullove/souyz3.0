@@ -1,6 +1,8 @@
 export const domain = 'soyuz.kg';
+export const protocol = 'https';
 
-export const API_URL = `https://${domain}/skgapi/v1`;
+export const API_URL = `${protocol}://${domain}/skgapi/v1`;
+export const FETCH_API_RL = `${protocol}://${domain}`;
 
 export const CRYPTO_KEY = process.env.NEXT_PUBLIC_CRYPTO_KEY;
 
