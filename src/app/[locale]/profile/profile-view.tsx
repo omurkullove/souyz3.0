@@ -3,9 +3,7 @@
 import WithAnimate from '@components/animation/with-animate';
 import HeroPages from '@components/hero-pages/hero-pages';
 import { withTranslate } from '@i18n/withTranslate';
-import { useLocale } from '@providers/locale-provider';
 import { useUser } from '@providers/user-provider';
-import { decodeBase64ToDataURL } from '@src/utils/helpers';
 import { Logout, UpdatePassword, UpdateProfile } from './_components';
 import styles from './profile-view.module.scss';
 
@@ -25,10 +23,7 @@ interface IProfileViewProps {
 }
 
 const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
-    const { locale } = useLocale();
     const { user } = useUser();
-
-    const qrCodeDataUrl = decodeBase64ToDataURL(qrcode_data ?? '');
 
     return (
         <div className={styles.container}>
@@ -42,16 +37,6 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                 type='both'
                 to='up'
             >
-                {/* <div className={styles.qr_block}>
-                    <div className={styles.image}>
-                        <Image
-                            src={qrCodeDataUrl}
-                            fill
-                            sizes='600'
-                            alt='qr-code'
-                        />
-                    </div>
-                </div> */}
                 <div className={styles.info_container}>
                     <div className={styles.info_block}>
                         <h3 className={styles.fullName}>
