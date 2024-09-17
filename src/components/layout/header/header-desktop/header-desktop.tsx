@@ -1,4 +1,4 @@
-import { useRouter } from '@/navigation';
+import { usePathname, useRouter } from '@/navigation';
 import { useLocale } from '@providers/locale-provider';
 import { FETCH_API_RL } from '@src/utils/constants';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
@@ -42,6 +42,7 @@ const HeaderDesktop: FC<IProps> = ({ translated }) => {
 
     const { locale } = useLocale();
     const router = useRouter();
+    const path = usePathname();
 
     const handleMouseEnter = useCallback(() => setIsBlockShown(true), []);
     const handleMouseLeave = useCallback(() => setIsBlockShown(false), []);
@@ -54,11 +55,13 @@ const HeaderDesktop: FC<IProps> = ({ translated }) => {
                     body: JSON.stringify({ locale: newLocale }),
                     credentials: 'include',
                 });
+
+                // router.replace(path, { locale: newLocale, scroll: false });
                 router.refresh();
             }
         },
 
-        [locale]
+        [locale, path]
     );
 
     const currentLocaleText = locale === 'ru' ? translated.locale.ru : translated.locale.kg;

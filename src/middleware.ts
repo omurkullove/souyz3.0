@@ -70,5 +70,12 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
         return NextResponse.redirect(new URL(`/${locale}/profile`, req.url));
     }
 
+    const cookie_locale_match = cookieHeader.match(/NEXT_LOCALE=(ru|kg)/);
+    const cookie_locale = cookie_locale_match ? cookie_locale_match[1] : 'ru';
+
     return response;
 }
+
+export const config = {
+    matcher: ['/', '/(ru|kg)/:path*'],
+};

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
 import { Raleway } from 'next/font/google';
 import { cookies } from 'next/headers';
 import React, { ReactNode } from 'react';
@@ -57,7 +58,7 @@ const RootLayout: React.FC<Props> = ({ children }) => {
 
     return (
         <html
-            lang={locale?.value}
+            lang={locale?.value ?? 'ru'}
             data-theme={mode?.value}
         >
             <GoogleAnalytics />
@@ -66,7 +67,11 @@ const RootLayout: React.FC<Props> = ({ children }) => {
                     color='#007bff'
                     height={3}
                 />
-                <MainProvider mode={(mode?.value as ModeType) || 'light'}>{children}</MainProvider>
+                <NextIntlClientProvider>
+                    <MainProvider mode={(mode?.value as ModeType) || 'light'}>
+                        {children}
+                    </MainProvider>
+                </NextIntlClientProvider>
             </body>
         </html>
     );
