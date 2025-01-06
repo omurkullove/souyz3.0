@@ -3,6 +3,7 @@
 import { Link } from '@/navigation';
 import HeroPages from '@components/hero-pages/hero-pages';
 import { withTranslate } from '@i18n/withTranslate';
+import { socialMedias } from '@src/utils/constants';
 import {
     FaClock,
     FaEnvelope,
@@ -50,14 +51,14 @@ const ContactsView = ({ translated }: IContactsViewProps) => {
                     <p className={styles.title}>{translated.connection_title}</p>
                     <p className={styles.value}>
                         <Link
-                            href={'https://t.me/SOYUZKG'}
+                            href={socialMedias.telegram.path}
                             target='_blank'
                             className={styles.link}
                         >
                             <FaTelegram className={styles.sn_icon} />
                         </Link>
                         <Link
-                            href={'https://wa.me/996551888850'}
+                            href={socialMedias.whatsApp.path}
                             target='_blank'
                             className={styles.link}
                         >

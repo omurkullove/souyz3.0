@@ -1,10 +1,12 @@
 'use client';
 
+import WithAnimate from '@components/animation/with-animate';
 import HeroPages from '@components/hero-pages/hero-pages';
-import NonReadyBanner from '@components/non-ready-banner/non-ready-banner';
 import { withTranslate } from '@i18n/withTranslate';
 import { ITariff } from '@my_types/card-types';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import { PurchaseDrawer, TariffItem } from './_components';
 import styles from './tariff-plans-view.module.scss';
 
 interface ITariffPlansViewProps {
@@ -15,6 +17,9 @@ interface ITariffPlansViewProps {
 const TariffPlansView = ({ tariffs, translated }: ITariffPlansViewProps) => {
     const [activeTariff, setActiveTariff] = useState<ITariff | null>(null);
     const [isPurchaseDrawer, setIsPurchaseDrawer] = useState(false);
+
+    const { online_card_for_compatriots, online_tourist_map, turnkey_events } =
+        translated.info_content;
 
     const handleClickTariff = (tariff: ITariff) => {
         setActiveTariff(tariff);
@@ -28,41 +33,186 @@ const TariffPlansView = ({ tariffs, translated }: ITariffPlansViewProps) => {
                 title={translated.title}
             />
 
-            <NonReadyBanner />
+            <div className={styles.content}>
+                <div className={styles.info_content}>
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <h2 className={styles.info_title}>{online_tourist_map.title}</h2>
+                    </WithAnimate>
 
-            {/* <div className={styles.content}>
-                <WithAnimate
-                    type='both'
-                    to='right'
-                >
-                    <h5 className={styles.title}>{translated.subtitle}</h5>
-                </WithAnimate> */}
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{online_tourist_map.description}</p>
+                    </WithAnimate>
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <h3 className={styles.info_title}>
+                            {online_tourist_map.what_it_gives_title}
+                        </h3>
+                    </WithAnimate>
 
-            {/* <div className={styles.tariffs_container}>
-                    {tariffs && tariffs.length ? (
-                        tariffs?.map((tariff) => (
-                            <TariffItem
-                                key={tariff.uuid}
-                                onClick={handleClickTariff}
-                                tariff={tariff}
-                                btn_label={translated.item.btn}
-                            />
-                        ))
-                    ) : (
-                        <WithAnimate
-                            type='fade'
-                            styles={{ margin: '0 auto' }}
-                        >
-                            <p className={styles.no_tariff}>
-                                <MdSearchOff size={30} />
-                                {translated.no_tariffs}
-                            </p>
-                        </WithAnimate>
-                    )}
-                </div> */}
-            {/* </div> */}
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>
+                            {online_tourist_map.what_it_gives_description}
+                        </p>
+                    </WithAnimate>
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <ul className={`${styles.list} ${styles.text}`}>
+                            {online_tourist_map.features.map((feature, index) => (
+                                <li key={index}>{feature}</li>
+                            ))}
+                        </ul>
+                    </WithAnimate>
 
-            {/* <AnimatePresence>
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <h2 className={styles.info_title}>{online_card_for_compatriots.title}</h2>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{online_card_for_compatriots.description}</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <ul className={`${styles.list} ${styles.text}`}>
+                            {online_card_for_compatriots.features.map((feature, index) => (
+                                <li key={index}>{feature}</li>
+                            ))}
+                        </ul>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <h2 className={styles.info_title}>{turnkey_events.title}</h2>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{turnkey_events.description}</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{turnkey_events.description_2}</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <h3 className={styles.info_title}>
+                            {turnkey_events.festival_s_fest_2025.title}
+                        </h3>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>
+                            {turnkey_events.festival_s_fest_2025.description}
+                        </p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{turnkey_events.festival_s_fest_2025.program}</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{turnkey_events.festival_s_fest_2025.bonus}</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <h3 className={styles.info_title}>
+                            {turnkey_events.autumn_spring_period.title}
+                        </h3>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>
+                            {turnkey_events.autumn_spring_period.description}
+                        </p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <ul className={`${styles.list} ${styles.text}`}>
+                            {turnkey_events.autumn_spring_period.features.map((feature, index) => (
+                                <li key={index}>{feature}</li>
+                            ))}
+                        </ul>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{turnkey_events.closing}</p>
+                    </WithAnimate>
+
+                    <WithAnimate
+                        type='both'
+                        to='up'
+                    >
+                        <p className={styles.text}>{turnkey_events.bonus}</p>
+                    </WithAnimate>
+                </div>
+
+                <div className={styles.tariffs_container}>
+                    {tariffs && tariffs.length
+                        ? tariffs?.map((tariff) => (
+                              <TariffItem
+                                  key={tariff.uuid}
+                                  onClick={handleClickTariff}
+                                  tariff={tariff}
+                                  btn_label={translated.item.btn}
+                              />
+                          ))
+                        : null}
+                </div>
+            </div>
+
+            <AnimatePresence>
                 {isPurchaseDrawer && (
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -101,7 +251,7 @@ const TariffPlansView = ({ tariffs, translated }: ITariffPlansViewProps) => {
                         </motion.div>
                     </motion.div>
                 )}
-            </AnimatePresence> */}
+            </AnimatePresence>
         </div>
     );
 };

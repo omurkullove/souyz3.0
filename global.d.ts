@@ -17,3 +17,5 @@ declare type IntlNamespaces = CapitalizedKeys<RuMessages> | CapitalizedKeys<KgMe
 
 declare type Locale = 'ru' | 'kg';
 declare type ModeType = 'light' | 'dark';
+
+// open weather

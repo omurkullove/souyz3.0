@@ -19,6 +19,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
 
     const isRefreshing = useRef(false);
     const refreshTimer = useRef<NodeJS.Timeout | null>(null);
+    const isErrorHandled = useRef(false);
     const { updateUser } = useUser();
 
     const isValidSession = !!accessToken && !!refreshToken && !!sessionExpires;
@@ -32,6 +33,9 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
     };
 
     const onError = async () => {
+        if (isErrorHandled.current) return;
+
+        isErrorHandled.current = true;
         await fetch(`${FETCH_API_RL}/api/clear-cookie`, {
             method: 'POST',
             credentials: 'include',
@@ -43,7 +47,7 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
     };
 
     const startRefreshTimer = () => {
-        if (sessionExpires && isValidSession && !isRefreshing.current) {
+        if (sessionExpires && isValidSession && !isRefreshing.current && !isErrorHandled.current) {
             const sessionExpireDate = new Date(sessionExpires);
             const now = new Date();
             const refreshInterval = Math.max(
@@ -57,15 +61,13 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
     };
 
     const handleRefresh = async () => {
-        if (isRefreshing.current || !isValidSession) return;
+        if (isRefreshing.current || !isValidSession || isErrorHandled.current) return;
 
         clearRefreshTimer();
-
         isRefreshing.current = true;
 
         try {
             const cookie = `access_token=${accessToken}; refresh_token=${refreshToken}`;
-
             const res = await fetch(`${FETCH_API_RL}/api/refresh-token`, {
                 method: 'POST',
                 body: JSON.stringify(encrypt(cookie)),
@@ -75,22 +77,25 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
             if (!res.ok) throw new Error('Failed to refresh token');
 
             const data = await res.json();
-            const decrypt_data = decrypt(data);
+            const decryptedData = decrypt(data);
 
-            const { code, newAccessToken, newRefreshToken, newSessionExpires } = decrypt_data;
+            const { code, newAccessToken, newRefreshToken, newSessionExpires } = decryptedData;
 
             if (code === 200) {
+                console.log('Updated!');
                 setAccessToken(newAccessToken);
                 setRefreshToken(newRefreshToken);
                 setSessionExpires(newSessionExpires);
+                isErrorHandled.current = false;
                 router.refresh();
-            } else if (code === 401 && isRefreshing) {
+            } else if (code === 401) {
                 await onError();
             }
         } catch (error) {
             await onError();
         } finally {
             isRefreshing.current = false;
+            if (!isErrorHandled.current) startRefreshTimer();
         }
     };
 

@@ -31,7 +31,7 @@
 
         .title {
             font-weight: bold;
-            font-size: 80px;
+            font-size: 40px;
             text-transform: uppercase;
             line-height: 1;
         }
@@ -80,7 +80,7 @@
     @media (max-width: 450px) {
         .img_wrapper {
             width: 100%;
-            height: 500px;
+            height: 450px;
         }
 
         .content_wrapper {
@@ -91,7 +91,7 @@
             width: 100%;
 
             .title {
-                font-size: 35px;
+                font-size: 20px;
             }
 
             .link {

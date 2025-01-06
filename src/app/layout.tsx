@@ -9,9 +9,10 @@ import NextTopLoader from 'nextjs-toploader';
 
 import GoogleAnalytics from '@components/google-analytics/google-analytics';
 import '@src/globals.scss';
+import { domain, protocol } from '@src/utils/constants';
 
 const font = Raleway({
-    subsets: ['latin'],
+    subsets: ['latin', 'cyrillic'],
 });
 
 type Props = {
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
         description:
             'Soyuz.kg — это организация, предоставляющая широкий спектр услуг для российских соотечественников и всех, кто заинтересован в жизни и работе в Кыргызстане. Мы оказываем помощь в юридических вопросах, поддерживаем малый и средний бизнес, а также помогаем людям, находящимся в поиск образовательных программ или решения миграционных вопросов.',
         images: ['/images/page-icon.ico'],
-        url: 'https://soyuz.kg',
+        url: `${protocol}://${domain}`,
         type: 'website',
     },
     twitter: {
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
             'Soyuz.kg — это организация, предоставляющая широкий спектр услуг для российских соотечественников и всех, кто заинтересован в жизни и работе в Кыргызстане. Мы оказываем помощь в юридических вопросах, поддерживаем малый и средний бизнес, а также помогаем людям, находящимся в поиск образовательных программ или решения миграционных вопросов.',
         images: ['/images/og_photo.png'],
     },
-    metadataBase: new URL('https://soyuz.kg'),
+    metadataBase: new URL(`${protocol}://${domain}`),
 };
 
 export const viewport: Viewport = {

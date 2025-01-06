@@ -4,6 +4,7 @@ import { Link, usePathname } from '@/navigation';
 import { withTranslate } from '@i18n/withTranslate';
 import { useUser } from '@providers/user-provider';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { IoClose } from 'react-icons/io5';
 import styles from './sidebar-mobile.module.scss';
 
@@ -15,6 +16,12 @@ interface IProps {
 const SidebarMobile = ({ toggleSidebar, translated }: IProps) => {
     const path = usePathname();
     const { user } = useUser();
+    const router = useRouter();
+
+    const getConsultation = () => {
+        router.push('/public-reception');
+        toggleSidebar();
+    };
 
     return (
         <div className={styles.container}>
@@ -29,6 +36,15 @@ const SidebarMobile = ({ toggleSidebar, translated }: IProps) => {
 
             <div className={styles.line} />
             <p className={styles.subtitle}>{translated.title}</p>
+            <div className={styles.line} />
+
+            <div className={styles.line} />
+            <p
+                onClick={getConsultation}
+                className={styles.consultationBtn}
+            >
+                Получить консультацию
+            </p>
             <div className={styles.line} />
 
             <div className={styles.link_container}>

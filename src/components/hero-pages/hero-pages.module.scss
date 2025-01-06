@@ -15,6 +15,18 @@
         object-fit: cover;
     }
 
+    .blur {
+        filter: blur(5px) brightness(30%);
+        -webkit-filter: blur(5px) brightness(30%);
+        transition: filter 0.3s ease-in;
+    }
+
+    .remove_blur {
+        filter: brightness(30%);
+        -webkit-filter: brightness(30%);
+        transition: filter 0.3s ease-in;
+    }
+
     .title_block {
         width: 100%;
         text-wrap: wrap;
@@ -22,7 +34,7 @@
         word-break: break-word;
 
         .title {
-            font-size: 100px;
+            font-size: 80px;
             margin-bottom: 20px;
             line-height: 1.2;
             color: white;
@@ -47,6 +59,14 @@
 
         .title_block .title {
             font-size: 50px;
+        }
+    }
+
+    @media (max-width: 450px) {
+        height: 400px;
+
+        .title_block .title {
+            font-size: 40px;
         }
     }
 }

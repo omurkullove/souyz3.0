@@ -2,13 +2,16 @@
 
 import WithAnimate from '@components/animation/with-animate';
 import HeroPages from '@components/hero-pages/hero-pages';
+import { withTranslate } from '@i18n/withTranslate';
 import styles from './about-us-view.module.scss';
 
-const AboutUsView = () => {
+type TranslateType = IntlMessages['AboutUS'];
+
+const AboutUsView = ({ translated }: { translated: TranslateType }) => {
     return (
         <div className={styles.container}>
             <HeroPages
-                title='О компании Soyuz.kg'
+                title={translated.title}
                 img_key='about-us'
             />
 
@@ -18,58 +21,28 @@ const AboutUsView = () => {
                 triggerInView={false}
             >
                 <div className={styles.content}>
-                    <h2>О нас</h2>
+                    <h2>{translated.aboutUs_title}</h2>
+                    <p>{translated.aboutUs_text}</p>
+                    <h3>{translated.mission_title}</h3>
                     <p>
-                        Soyuz.kg — это организация, предоставляющая широкий спектр услуг для
-                        российских соотечественников и всех, кто заинтересован в жизни и работе в
-                        Кыргызстане. Мы оказываем помощь в юридических вопросах, поддерживаем малый
-                        и средний бизнес, а также помогаем людям, находящимся в поиске
-                        образовательных программ или решения миграционных вопросов.
+                        {translated.mission_text_1}
+                        <br />
+                        {translated.mission_text_2}
                     </p>
-                    <h3>Миссия компании</h3>
-                    <p>
-                        Наша миссия — это поддержка и объединение российских соотечественников за
-                        рубежом, предоставление актуальной информации и практической помощи в
-                        вопросах права, миграции, образования и культуры. Мы стремимся укрепить
-                        культурные и социальные связи между Россией и Кыргызстаном.
-                    </p>
-                    <h3>Наши услуги</h3>
+                    <h3>{translated.service_title}</h3>
                     <ul>
-                        <li>
-                            Правовая помощь: консультации по вопросам миграционного
-                            законодательства, регистрации бизнеса, оформлению документов и другим
-                            юридическим аспектам.
-                        </li>
-                        <li>
-                            Поддержка бизнеса: помощь предпринимателям в создании и ведении бизнеса
-                            в Кыргызстане, консультации по инвестиционным возможностям и развитию
-                            предприятий.
-                        </li>
-                        <li>
-                            Образовательные программы: доступ к разнообразным курсам и программам
-                            для обучения и повышения квалификации.
-                        </li>
-                        <li>
-                            Социальные программы: поддержка пенсионеров, ветеранов, детей и других
-                            категорий населения, нуждающихся в особом внимании.
-                        </li>
+                        <li>{translated.service_text_1}</li>
+                        <li>{translated.service_text_2}</li>
+                        <li>{translated.service_text_3}</li>
+                        <li>{translated.service_text_4}</li>
                     </ul>
-                    <h3>Почему мы?</h3>
-                    <p>
-                        Мы предлагаем профессиональный подход, высокое качество сервиса и поддержку
-                        на всех этапах взаимодействия с нашими клиентами. Soyuz.kg — это ваш
-                        надежный партнер в Кыргызстане, который поможет решить любые вопросы,
-                        связанные с миграцией, бизнесом, правом и социальными программами.
-                    </p>
-                    <p>
-                        Будь то помощь в создании бизнеса, правовая консультация или образовательная
-                        поддержка — мы всегда готовы помочь вам в любых вопросах. Обратитесь к нам,
-                        чтобы получить профессиональные консультации и решения.
-                    </p>
+                    <h3>{translated.whyWe_title}</h3>
+                    <p>{translated.whyWe_text_1}</p>
+                    <p>{translated.whyWe_text_2}</p>
                 </div>
             </WithAnimate>
         </div>
     );
 };
 
-export default AboutUsView;
+export default withTranslate(AboutUsView, ['AboutUS']);

@@ -74,5 +74,5 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
 }
 
 export const config = {
-    matcher: ['/', '/(ru|kg)/:path*'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

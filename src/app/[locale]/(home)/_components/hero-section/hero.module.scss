@@ -40,6 +40,24 @@
         transform-origin: center bottom;
     }
 
+    .controls {
+        position: absolute;
+        display: flex;
+        gap: 1rem;
+        z-index: 10;
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .control {
+        cursor: pointer;
+        font-size: 40px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.07);
+        backdrop-filter: blur(20px);
+        padding: 3px;
+    }
+
     @media (max-width: 1024px) {
         max-height: 900px;
         min-height: 800px;
@@ -63,6 +81,17 @@
         .title {
             font-size: 50px;
             line-height: normal;
+        }
+
+        .controls {
+            right: 50%;
+            bottom: 1rem;
+            transform: translateX(50%);
+
+            .control {
+                font-size: 30px;
+                padding: 0.4rem;
+            }
         }
     }
 }

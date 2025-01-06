@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
     .content {
         border-radius: 10px;
@@ -96,6 +95,86 @@
                     background-color: var(--hover-blue);
                     opacity: 0.7;
                     pointer-events: none;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        .content {
+            .title {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .keys_title {
+                font-size: 16px;
+            }
+
+            .keys_list {
+                font-size: 14px;
+            }
+
+            .footer_text {
+                font-size: 14px;
+            }
+
+            .form {
+                .form_item {
+                    .input {
+                        font-size: 15px;
+                        padding: 15px;
+                    }
+                }
+
+                .submit {
+                    padding: 12px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    .container {
+        .content {
+            .title {
+                font-size: 18px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .keys_title {
+                font-size: 14px;
+            }
+
+            .keys_list {
+                font-size: 10px;
+            }
+
+            .footer_text {
+                font-size: 10px;
+            }
+
+            .form {
+                .form_item {
+                    .input {
+                        font-size: 13px;
+                        padding: 13px;
+                    }
+                }
+
+                .submit {
+                    padding: 10px;
+                    font-size: 12px;
                 }
             }
         }

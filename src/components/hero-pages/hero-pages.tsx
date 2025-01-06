@@ -2,6 +2,7 @@
 
 import WithAnimate from '@components/animation/with-animate';
 import Image from 'next/image';
+import { useState } from 'react';
 import styles from './hero-pages.module.scss';
 
 type ImageKeyType =
@@ -26,6 +27,8 @@ interface IHeroPagesProps {
 const path = '/images/hero-pages/';
 
 const HeroPages = ({ img_key, title }: IHeroPagesProps) => {
+    const [isImageLoading, setImageLoading] = useState(true);
+
     return (
         <div className={styles.container}>
             <Image
@@ -33,8 +36,9 @@ const HeroPages = ({ img_key, title }: IHeroPagesProps) => {
                 alt={title}
                 fill
                 sizes='1000'
-                className={styles.img}
+                className={`${styles.img} ${isImageLoading ? styles.blur : styles.remove_blur}`}
                 priority
+                onLoad={() => setImageLoading(false)}
             />
             <WithAnimate
                 type='both'

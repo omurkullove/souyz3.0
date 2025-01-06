@@ -5,7 +5,15 @@ import styles from './footer.module.scss';
 
 import WithAnimate from '@components/animation/with-animate';
 import { withTranslate } from '@i18n/withTranslate';
-import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaInstagramSquare } from 'react-icons/fa';
+import { socialMedias } from '@src/utils/constants';
+import {
+    FaCcMastercard,
+    FaCcPaypal,
+    FaCcVisa,
+    FaInstagramSquare,
+    FaTelegram,
+    FaVk,
+} from 'react-icons/fa';
 
 interface IFooterProps {
     translated: IntlMessages['Footer'];
@@ -42,10 +50,24 @@ const Footer = ({ translated }: IFooterProps) => {
                         <p className={styles.title}>{translated.sn}</p>
                         <div className={styles.sn_block}>
                             <Link
-                                href={'https://www.instagram.com/soyuz.kg?igsh=Ymg0MHQ4Mjd6dDU0'}
+                                href={socialMedias.instagram.path}
                                 target='_blank'
                             >
                                 <FaInstagramSquare size={30} />
+                            </Link>
+
+                            <Link
+                                href={socialMedias.telegram.path}
+                                target='_blank'
+                            >
+                                <FaTelegram size={30} />
+                            </Link>
+
+                            <Link
+                                href={socialMedias.vk.path}
+                                target='_blank'
+                            >
+                                <FaVk size={30} />
                             </Link>
                         </div>
                         <Link

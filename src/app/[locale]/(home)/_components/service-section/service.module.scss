@@ -1,7 +1,8 @@
 .container {
     display: flex;
     padding: 40px 20px;
-    gap: 20px;
+    flex-direction: column;
+    gap: 30px;
 
     .section_left,
     .section_right {
@@ -40,20 +41,59 @@
             }
         }
 
-        .big_title {
+        .social_media {
             display: flex;
+            justify-content: space-between;
             flex-direction: column;
-            gap: 15px;
-            width: max-content;
-            margin-left: 25%;
-            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
 
-            span {
-                line-height: 1;
-                font-size: 96px;
+            .subtitle {
                 text-transform: uppercase;
-                letter-spacing: 10px;
+                font-size: 14px;
+                word-spacing: 0.2em;
+                line-height: 1.6;
+                font-weight: 500;
+                margin-bottom: 20px;
+            }
+
+            .big_title {
+                line-height: 1;
+                font-size: 44px;
+                text-transform: uppercase;
                 font-weight: 700;
+            }
+
+            .line {
+                width: 100%;
+                height: 1px;
+                background-color: var(--mode-text);
+            }
+
+            .list {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                justify-content: space-evenly;
+
+                svg {
+                    cursor: pointer;
+                    border-radius: 10px;
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -ms-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    color: var(--mode-text);
+                    transition: color 0.3s ease;
+                    -webkit-transition: color 0.3s ease;
+                    -moz-transition: color 0.3s ease;
+                    -ms-transition: color 0.3s ease;
+                    -o-transition: color 0.3s ease;
+
+                    &:hover {
+                        color: var(--blue-dark);
+                    }
+                }
             }
         }
     }
@@ -72,7 +112,6 @@
                 font-size: 16px;
                 text-transform: uppercase;
                 flex: 1;
-                margin-left: 15px;
             }
 
             .text {
@@ -89,7 +128,7 @@
 
         .line {
             width: 100%;
-            height: 2px;
+            height: 1px;
             background-color: var(--mode-text);
         }
     }
@@ -111,9 +150,15 @@
                 }
             }
 
-            .big_title {
-                margin-left: 0;
-                display: none;
+            .social_media {
+                .subtitle {
+                    font-size: 12px;
+                }
+
+                .big_title {
+                    margin-left: 0;
+                    font-size: 36px;
+                }
             }
         }
 

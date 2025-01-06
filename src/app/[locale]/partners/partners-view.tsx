@@ -1,10 +1,9 @@
 'use client';
 
-import HeroPages from '@components/hero-pages/hero-pages';
-import styles from './partners-view.module.scss';
-import { Link } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
+import HeroPages from '@components/hero-pages/hero-pages';
 import { withTranslate } from '@i18n/withTranslate';
+import styles from './partners-view.module.scss';
 
 interface IPartnersViewProps {
     translated: IntlMessages['Partners'];
@@ -23,89 +22,82 @@ const PartnersView = ({ translated }: IPartnersViewProps) => {
                     type='both'
                     to='right'
                 >
-                    <h3 className={styles.title}>{translated.subtitle_1}</h3>
+                    <h3 className={styles.title}>{translated.welcome_title}</h3>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>
-                        {translated.welcome_text_1}
-                        <Link
-                            href={'/legal-center'}
-                            className={styles.link}
-                        >
-                            {translated.legal_center}
-                        </Link>
-                        {translated.and}
-                        <Link
-                            href={'/public-reception'}
-                            className={styles.link}
-                        >
-                            {translated.public_reception}
-                        </Link>
-                        {translated.welcome_text_2}
-                    </p>
+                    <p className={styles.text}>{translated.intro_text}</p>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>{translated.corporate_service_description}</p>
+                    <p className={styles.title}>{translated.why_partner_title}</p>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>{translated.staff_proficiency}</p>
+                    <ol className={styles.list}>
+                        {translated.why_partner_list.map((item, index) => (
+                            <li
+                                key={index}
+                                className={styles.text}
+                            >
+                                <b>{item.title} </b>
+                                {item.text}
+                            </li>
+                        ))}
+                    </ol>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>{translated.client_satisfaction}</p>
+                    <p className={styles.title}>{translated.collaboration_title}</p>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>
-                        {translated.service_offer_1}
-                        <br />
-                        <br />
-                        {translated.service_offer_2}
-                    </p>
+                    <ol className={styles.list}>
+                        {translated.collaboration_list.map((step, index) => (
+                            <li
+                                key={index}
+                                className={styles.text}
+                            >
+                                {step}
+                            </li>
+                        ))}
+                    </ol>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>{translated.director_contact}</p>
-                </WithAnimate>
-
-                <WithAnimate
-                    type='both'
-                    to='right'
-                >
-                    <h3 className={styles.title}>{translated.subtitle_2}</h3>
+                    <p className={styles.text}>{translated.closing_text}</p>
                 </WithAnimate>
 
                 <WithAnimate
                     type='both'
                     to='up'
                 >
-                    <p className={styles.text}>
-                        {translated.partnership_info_1}
-                        <br />
-                        <br />
-                        {translated.partnership_info_2}
-                    </p>
+                    <p className={styles.text}>{translated.contact_text}</p>
+                </WithAnimate>
+
+                <WithAnimate
+                    type='both'
+                    to='up'
+                >
+                    <p className={styles.text}>{translated.future_text}</p>
                 </WithAnimate>
             </div>
         </div>

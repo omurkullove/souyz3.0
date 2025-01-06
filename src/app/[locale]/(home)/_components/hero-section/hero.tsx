@@ -3,6 +3,7 @@
 import WithAnimate from '@components/animation/with-animate';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useInView } from 'react-intersection-observer';
 import styles from './hero.module.scss';
 
@@ -22,35 +23,44 @@ const getRandomIndex = (min: number, max: number): number => {
 
 const Hero = ({ translated }: IHeroProps) => {
     const [activePathIndex, setActivePathIndex] = useState<number>(0);
-    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+    const [isManual, setIsManual] = useState<boolean>(false);
     const { ref, inView } = useInView({ threshold: 0 });
 
-    const handleInView = useCallback(() => {
-        if (inView) {
-            if (!intervalId) {
-                const id = setInterval(() => {
-                    setActivePathIndex((prev) => (prev + 1) % slideshowPaths.length);
-                }, 10000);
-                setIntervalId(id);
-            }
-        } else {
-            if (intervalId) {
-                clearInterval(intervalId);
-                setIntervalId(null);
-            }
-        }
-    }, [inView, intervalId]);
+    const changeSlide = useCallback((nextIndex: number) => {
+        setActivePathIndex((nextIndex + slideshowPaths.length) % slideshowPaths.length);
+    }, []);
+
+    const stopSlideshow = useCallback(() => {
+        setIsManual(true);
+    }, []);
+
+    const handleNext = () => {
+        stopSlideshow();
+        changeSlide(activePathIndex + 1);
+    };
+
+    const handlePrev = () => {
+        stopSlideshow();
+        changeSlide(activePathIndex - 1);
+    };
 
     useEffect(() => {
         setActivePathIndex(getRandomIndex(0, slideshowPaths.length - 1));
+    }, []);
 
-        handleInView();
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout | null = null;
+
+        if (inView && !isManual) {
+            intervalId = setInterval(() => {
+                changeSlide(activePathIndex + 1);
+            }, 10000);
+        }
+
         return () => {
-            if (intervalId) {
-                clearInterval(intervalId);
-            }
+            if (intervalId) clearInterval(intervalId);
         };
-    }, [handleInView, intervalId]);
+    }, [inView, isManual, activePathIndex, changeSlide]);
 
     return (
         <div
@@ -74,6 +84,16 @@ const Hero = ({ translated }: IHeroProps) => {
             >
                 <h1 className={styles.title}>{translated.title}</h1>
             </WithAnimate>
+            <div className={styles.controls}>
+                <IoIosArrowBack
+                    onClick={handlePrev}
+                    className={styles.control}
+                />
+                <IoIosArrowForward
+                    onClick={handleNext}
+                    className={styles.control}
+                />
+            </div>
         </div>
     );
 };

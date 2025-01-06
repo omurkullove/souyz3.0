@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
     .content {
         display: flex;
@@ -15,20 +14,16 @@
             margin-inline: 20px;
             padding-bottom: 10px;
             margin-top: 30px;
-            border-bottom: 1px solid var(--mode-text);
+        }
+
+        .list {
+            margin-left: 25px;
         }
 
         .text {
             margin-inline: 10px;
             padding: 10px;
             color: var(--mode-text);
-            border-radius: 10px;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            -ms-border-radius: 10px;
-            -o-border-radius: 10px;
-            letter-spacing: 1px;
-
             text-align: justify;
 
             .link {

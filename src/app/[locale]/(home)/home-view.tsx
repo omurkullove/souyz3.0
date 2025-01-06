@@ -1,5 +1,7 @@
 'use client';
 
+import { EmbeddedBillboard } from '@components/billboard';
+import { Weather } from '@components/weather-widget';
 import { withTranslate } from '@i18n/withTranslate';
 import { Hero, PartFAQ, PromoCard, Service, Stats } from './_components';
 import styles from './home-view.module.scss';
@@ -17,12 +19,15 @@ const HomeView = ({ translated }: { translated: TranslateType }) => {
                 translated={translated.QuickConsultation}
                 wallpaper='/images/home/woman.jpg'
             />
+            <EmbeddedBillboard />
             <PartFAQ translated={translated.PartFAQ} />
             <PromoCard
                 link='/about-us'
                 translated={translated.Support}
                 wallpaper='/images/home/safe.jpg'
             />
+
+            <Weather />
         </div>
     );
 };
