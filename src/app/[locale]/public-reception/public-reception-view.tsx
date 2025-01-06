@@ -13,6 +13,7 @@ import styles from './public-reception-view.module.scss';
 
 import WithAnimate from '@components/animation/with-animate';
 import { FileInput } from '@components/elements';
+import { Sos } from '@components/sos';
 import { IPublicReceptionRequest } from '@my_types/counseling-types';
 import counselingService from '@service/counseling/counseling-service';
 import { FormEvent, useState } from 'react';
@@ -62,6 +63,7 @@ const PublicReceptionView = ({ translated }: IPublicReceptionViewProps) => {
 
     return (
         <div className={styles.container}>
+            <Sos translated={translated.sos} />
             <HeroPages
                 img_key='public-reception'
                 title={translated.hero_title}
@@ -82,6 +84,7 @@ const PublicReceptionView = ({ translated }: IPublicReceptionViewProps) => {
                         ))}
                     </ul>
                     <p className={styles.footer_text}>{translated.footer_text}</p>
+
                     <form
                         className={styles.form}
                         onSubmit={handleSubmit}
