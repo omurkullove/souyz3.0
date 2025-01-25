@@ -1,6 +1,7 @@
 'use client';
 
 import { EmbeddedBillboard } from '@components/billboard';
+import { PopUpChat } from '@components/pop-up-chat';
 import { Weather } from '@components/weather-widget';
 import { withTranslate } from '@i18n/withTranslate';
 import { Hero, PartFAQ, PromoCard, Service, Stats } from './_components';
@@ -28,6 +29,7 @@ const HomeView = ({ translated }: { translated: TranslateType }) => {
             />
 
             <Weather />
+            <PopUpChat />
         </div>
     );
 };

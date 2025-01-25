@@ -52,7 +52,7 @@ const Sos: FC<IProps> = ({ translated }) => {
                 className={styles.sos_btn}
                 onClick={openModal}
             >
-                SOS
+                {translated.btn_label}
             </button>
 
             <AnimatePresence>

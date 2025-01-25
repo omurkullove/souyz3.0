@@ -1,0 +1,40 @@
+.container {
+    position: fixed;
+    background-color: var(--blue-light);
+    width: 300px;
+    bottom: 0;
+    right: 10px;
+    z-index: 999;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    padding-inline: 15px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: var(--blue-dark);
+    }
+
+    .header_box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        .title {
+            color: white;
+        }
+
+        .icon {
+            color: white;
+        }
+    }
+
+    &[data-status='true'] {
+        background-color: var(--blue-light) !important;
+    }
+}
