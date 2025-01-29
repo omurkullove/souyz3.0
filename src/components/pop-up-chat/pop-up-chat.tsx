@@ -1,11 +1,14 @@
+import { withTranslate } from '@i18n/withTranslate';
 import { motion } from 'framer-motion';
-import { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import styles from './pop-up-chat.module.scss';
 
-interface IProps {}
+interface IProps {
+    translated: IntlMessages['PopUpChat'];
+}
 
-const PopUpChat: FC<IProps> = ({}) => {
+const PopUpChat = ({ translated }: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const openChat = () => setIsOpen(true);
     const closeChat = () => setIsOpen(false);
@@ -36,7 +39,7 @@ const PopUpChat: FC<IProps> = ({}) => {
             transition={{ duration: 0.1, ease: isOpen ? 'backInOut' : 'backIn' }}
         >
             <div className={styles.header_box}>
-                <p className={styles.title}>Есть вопросы? Напишите!</p>
+                <p className={styles.title}>{translated.title}</p>
                 <motion.div
                     initial={{ transform: 'rotate(0deg)' }}
                     animate={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -61,4 +64,4 @@ const PopUpChat: FC<IProps> = ({}) => {
     );
 };
 
-export default PopUpChat;
+export default withTranslate(PopUpChat, ['PopUpChat']);

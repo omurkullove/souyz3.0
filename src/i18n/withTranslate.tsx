@@ -1,5 +1,5 @@
-import ru from '@/messages/ru.json';
 import kg from '@/messages/kg.json';
+import ru from '@/messages/ru.json';
 
 import { useLocale } from '@providers/locale-provider';
 import { ComponentType, FC, useMemo } from 'react';
