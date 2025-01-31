@@ -2,6 +2,7 @@ import { withTranslate } from '@i18n/withTranslate';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
+import Chat from './_components/chat';
 import styles from './pop-up-chat.module.scss';
 
 interface IProps {
@@ -35,7 +36,7 @@ const PopUpChat = ({ translated }: IProps) => {
             onClick={openChat}
             className={styles.container}
             initial={{ height: 40 }}
-            animate={{ height: isOpen ? 400 : 40 }}
+            animate={{ height: isOpen ? 500 : 40 }}
             transition={{ duration: 0.1, ease: isOpen ? 'backInOut' : 'backIn' }}
         >
             <div className={styles.header_box}>
@@ -58,8 +59,10 @@ const PopUpChat = ({ translated }: IProps) => {
                     />
                 </motion.div>
             </div>
-
-            {/* <Chat /> */}
+            <Chat
+                questions={translated.questions}
+                translated={translated}
+            />
         </motion.div>
     );
 };

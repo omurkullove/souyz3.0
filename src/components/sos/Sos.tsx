@@ -16,7 +16,6 @@ const Sos: FC<IProps> = ({ translated }) => {
     const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = formDataFormatter(event);
-        console.log(formData);
         closeModal();
     };
 

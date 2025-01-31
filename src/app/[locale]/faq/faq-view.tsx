@@ -2,7 +2,7 @@
 
 import HeroPages from '@components/hero-pages/hero-pages';
 import { withTranslate } from '@i18n/withTranslate';
-import { FaqChat, FaqCollapse } from './_components';
+import { FaqCollapse } from './_components';
 import styles from './faq-view.module.scss';
 
 interface IFaqViewProps {
@@ -20,12 +20,6 @@ const FaqView = ({ translated }: IFaqViewProps) => {
             <div className={styles.content}>
                 <h5 className={styles.section_title}>{translated.title_questions}</h5>
                 <FaqCollapse translated={translated.questions} />
-
-                <h5 className={styles.section_title}>{translated.title_chat}</h5>
-                <FaqChat
-                    translated={translated.chat}
-                    questions={translated.questions}
-                />
             </div>
         </div>
     );

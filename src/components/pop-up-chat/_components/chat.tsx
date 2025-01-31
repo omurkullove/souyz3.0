@@ -1,7 +1,7 @@
 import WithAnimate from '@components/animation/with-animate';
-
+import { AnimatePresence, motion } from 'framer-motion';
 import debounce from 'lodash.debounce';
-import { ChangeEvent, FC, ReactNode, useCallback, useState } from 'react';
+import { ChangeEvent, FC, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './chat.module.scss';
 
 interface IMessage {
@@ -17,12 +17,12 @@ interface IQuestion {
 }
 
 interface IFaqChat {
-    translated: IntlMessages['FAQ']['chat'];
+    translated: IntlMessages['PopUpChat'];
     questions: IQuestion[];
 }
 
 interface IProps {
-    translated: IntlMessages['FAQ']['chat'];
+    translated: IntlMessages['PopUpChat'];
     questions: IQuestion[];
 }
 
@@ -94,19 +94,22 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
         handleSendMessage(title);
     };
 
+    const chatRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    }, [messages.length, isLoading]);
+
     return (
         <div className={styles.container}>
             <div
-                className={styles.chat}
-                role='log'
-                aria-live='polite'
+                className={styles.list}
+                ref={chatRef}
             >
-                <WithAnimate
-                    className={styles.message}
-                    type='fade'
-                >
-                    {translated.initial_bot_message}
-                </WithAnimate>
+                <div className={styles.message}>{translated.initial_bot_message}</div>
+
                 {messages.map((message) => (
                     <WithAnimate
                         key={message.id}
@@ -116,6 +119,7 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
                         {message.text}
                     </WithAnimate>
                 ))}
+
                 {isLoading && (
                     <WithAnimate
                         type='fade'
@@ -126,6 +130,40 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
                         <div className={styles.circle} />
                     </WithAnimate>
                 )}
+            </div>
+
+            <div className={styles.footer}>
+                <div className={styles.variants}>
+                    <AnimatePresence>
+                        {filteredQuestions.map((question) => (
+                            <motion.p
+                                onClick={() => handleVariantClick(question.title)}
+                                key={question.title}
+                                initial={{ opacity: 0, translateY: 10 }}
+                                animate={{ opacity: 1, translateY: 0 }}
+                                exit={{ opacity: 0, translateY: 10 }}
+                                className={styles.variant}
+                            >
+                                {question.title}
+                            </motion.p>
+                        ))}
+                    </AnimatePresence>
+                </div>
+
+                <input
+                    disabled={isLoading}
+                    type='text'
+                    placeholder={translated.placeholder}
+                    value={userMessage}
+                    onChange={handleInputChange}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                />
+                <button
+                    onClick={() => handleSendMessage()}
+                    disabled={isLoading}
+                >
+                    {translated.submit_btn}
+                </button>
             </div>
         </div>
     );

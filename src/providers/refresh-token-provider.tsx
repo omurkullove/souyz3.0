@@ -82,7 +82,6 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
             const { code, newAccessToken, newRefreshToken, newSessionExpires } = decryptedData;
 
             if (code === 200) {
-                console.log('Updated!');
                 setAccessToken(newAccessToken);
                 setRefreshToken(newRefreshToken);
                 setSessionExpires(newSessionExpires);
@@ -95,7 +94,6 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
             await onError();
         } finally {
             isRefreshing.current = false;
-            if (!isErrorHandled.current) startRefreshTimer();
         }
     };
 
