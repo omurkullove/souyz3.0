@@ -1,5 +1,5 @@
-export const domain = 'localhost:3000';
-export const protocol = 'http';
+export const domain = 'souyz3-0-uje4.vercel.app';
+export const protocol = 'https';
 
 export const API_URL = `${protocol}://${domain}/skgapi/v1`;
 export const FETCH_API_RL = `${protocol}://${domain}`;
