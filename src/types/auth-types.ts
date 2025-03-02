@@ -1,18 +1,8 @@
-import { ICardData } from './card-types';
-import { IResponse, ITokens } from './main-types';
+import { ITokens } from './main-types';
 
 export interface ILoginRequest {
     email: string;
     password: string;
-}
-
-export interface ILoginResponse extends IResponse {
-    data: ITokens & { user: IUser };
-}
-
-export interface ILoginFetchResponse {
-    code: number;
-    user: IUser;
 }
 
 export interface IUser {
@@ -22,19 +12,17 @@ export interface IUser {
     phone: string;
     uuid: string;
     status: number;
+    is_superuser: boolean;
+    is_staff: boolean;
+    is_multi_login: boolean;
     created_time: string;
     last_login_time: string;
-    is_staff: boolean;
-    is_superuser: boolean;
-    is_multi_login: boolean;
-    roles: any[];
-    card: ICardData;
-    establishment: any;
+    roles: [];
+    card: null;
+    establishment: null;
 }
 
-export interface ISession extends IUser {
-    session_expires: string;
-}
+export type ISession = { user: IUser } & ITokens;
 
 export interface IRegisterData {
     first_name: string;

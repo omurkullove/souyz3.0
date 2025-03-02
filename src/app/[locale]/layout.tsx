@@ -9,7 +9,7 @@ import NextTopLoader from 'nextjs-toploader';
 
 import GoogleAnalytics from '@components/google-analytics/google-analytics';
 import '@src/globals.scss';
-import { domain, protocol } from '@src/utils/constants';
+import { COOKIES, domain, protocol } from '@src/utils/constants';
 
 const font = Raleway({
     subsets: ['latin', 'cyrillic'],
@@ -51,16 +51,23 @@ export const viewport: Viewport = {
     maximumScale: 1.0,
 };
 
-const RootLayout: React.FC<Props> = ({ children }) => {
+export default async function RootLayout({
+    children,
+    params,
+}: Readonly<{
+    children: React.ReactNode;
+    params: { locale: string };
+}>) {
     const cookiesStore = cookies();
 
-    const mode = cookiesStore.get('mode');
-    const locale = cookiesStore.get('NEXT_LOCALE');
+    const theme = cookiesStore.get(COOKIES.THEME);
+    const { locale } = await params;
 
     return (
         <html
-            lang={locale?.value ?? 'ru'}
-            data-theme={mode?.value}
+            lang={locale}
+            data-theme={theme?.value}
+            suppressHydrationWarning
         >
             <GoogleAnalytics />
             <body className={font.className}>
@@ -69,13 +76,14 @@ const RootLayout: React.FC<Props> = ({ children }) => {
                     height={3}
                 />
                 <NextIntlClientProvider>
-                    <MainProvider mode={(mode?.value as ModeType) || 'light'}>
+                    <MainProvider
+                        theme={(theme?.value as Theme) || 'light'}
+                        locale={locale as Locale}
+                    >
                         {children}
                     </MainProvider>
                 </NextIntlClientProvider>
             </body>
         </html>
     );
-};
-
-export default RootLayout;
+}

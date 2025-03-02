@@ -1,13 +1,13 @@
 'use client';
 
-import { Link } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
 import { PasswordInput } from '@components/elements';
+import { Link, useRouter } from '@i18n/routing';
 import { withTranslate } from '@i18n/withTranslate';
-import { ILoginRequest, ISession } from '@my_types/auth-types';
+import { ILoginRequest, IUser } from '@my_types/auth-types';
 import { useLocale } from '@providers/locale-provider';
 import { useUser } from '@providers/user-provider';
-import { FETCH_API_RL } from '@src/utils/constants';
+import { LOCAL_API_URL } from '@src/utils/constants';
 import {
     formDataFormatter,
     pushAndRefresh,
@@ -23,9 +23,10 @@ interface ILoginViewProps {
 
 const LoginView = ({ translated }: ILoginViewProps) => {
     const { updateUser } = useUser();
+    const router = useRouter();
     const { locale } = useLocale();
 
-    const onSuccess = ({ user }: { user: ISession }) => {
+    const onSuccess = ({ user }: { user: IUser }) => {
         updateUser(user);
         localStorage.removeItem('timer');
         localStorage.removeItem('prerestore-timer');
@@ -35,7 +36,7 @@ const LoginView = ({ translated }: ILoginViewProps) => {
 
     const loginFetcher = async (loginData: ILoginRequest) => {
         return universalFetcher({
-            url: `${FETCH_API_RL}/api/login`,
+            url: `${LOCAL_API_URL}/login`,
             body: loginData,
             method: 'POST',
             successAction: onSuccess,

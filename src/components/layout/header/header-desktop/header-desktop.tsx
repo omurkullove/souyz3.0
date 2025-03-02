@@ -1,8 +1,8 @@
-import { usePathname, useRouter } from '@/navigation';
+import { usePathname, useRouter } from '@i18n/routing';
 import { useLocale } from '@providers/locale-provider';
-import { FETCH_API_RL } from '@src/utils/constants';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { FC, useCallback, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { FC, startTransition, useCallback, useState } from 'react';
 import { FaEarthAsia } from 'react-icons/fa6';
 import styles from './header-desktop.module.scss';
 
@@ -42,27 +42,23 @@ const HeaderDesktop: FC<IProps> = ({ translated }) => {
 
     const { locale } = useLocale();
     const router = useRouter();
-    const path = usePathname();
+    const pathname = usePathname();
+    const params = useParams();
 
     const handleMouseEnter = useCallback(() => setIsBlockShown(true), []);
     const handleMouseLeave = useCallback(() => setIsBlockShown(false), []);
 
-    const switchLocale = useCallback(
-        async (newLocale: Locale) => {
-            if (newLocale !== locale) {
-                await fetch(`${FETCH_API_RL}/api/switch-locale`, {
-                    method: 'POST',
-                    body: JSON.stringify({ locale: newLocale }),
-                    credentials: 'include',
-                });
-
-                // router.replace(path, { locale: newLocale, scroll: false });
-                router.refresh();
-            }
-        },
-
-        [locale, path]
-    );
+    function switchLocale(newLocale: Locale) {
+        startTransition(() => {
+            router.replace(
+                // @ts-expect-error -- TypeScript will validate that only known `params`
+                // are used in combination with a given `pathname`. Since the two will
+                // always match for the current route, we can skip runtime checks.
+                { pathname, params },
+                { locale: newLocale }
+            );
+        });
+    }
 
     const currentLocaleText = locale === 'ru' ? translated.locale.ru : translated.locale.kg;
     const otherLocaleText = locale === 'ru' ? translated.locale.kg : translated.locale.ru;

@@ -8,6 +8,7 @@ export async function requestHandler<T>(
         const res = await requestFn();
         return res.data;
     } catch (error) {
+        console.log(error);
         if (error instanceof AxiosError) {
             return error?.response?.data;
         }

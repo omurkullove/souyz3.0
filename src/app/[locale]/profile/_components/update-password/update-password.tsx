@@ -1,11 +1,11 @@
 import { PasswordInput } from '@components/elements';
 import { GenericModal } from '@components/modal';
 import { IResetPasswordRequest } from '@my_types/auth-types';
-import authService from '@service/auth/auth-service';
 import { patterns } from '@src/utils/constants';
 import { formDataFormatter, toastPusher, universalFetcher } from '@src/utils/helpers';
 import { FormEvent, useState } from 'react';
 import toast from 'react-hot-toast';
+import { updatePasswordAction } from '../../actions';
 import styles from './update-password.module.scss';
 
 interface IUpdatePasswordProps {
@@ -17,7 +17,7 @@ const UpdatePassword = ({ translated }: IUpdatePasswordProps) => {
 
     const updatePasswordFetcher = async (data: IResetPasswordRequest) => {
         return universalFetcher({
-            requestFn: async () => await authService.resetPassword(data),
+            requestFn: async () => updatePasswordAction(data),
             successAction: () => setIsPasswordUpdate(false),
         });
     };

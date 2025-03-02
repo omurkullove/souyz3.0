@@ -1,3 +1,4 @@
+import { ISession } from '@my_types/auth-types';
 import { IResponse } from '@my_types/main-types';
 import CryptoJS from 'crypto-js';
 import { ChangeEvent, FormEvent } from 'react';
@@ -23,8 +24,8 @@ export const decrypt = (encryptedData: string) => {
     }
 };
 
-export const pushAndRefresh = (path: string) => {
-    window.location.href = path;
+export const parseISOStringToDate = (date: string) => {
+    return new Date(Date.parse(date));
 };
 
 export function toastPusher<T>(
@@ -167,4 +168,27 @@ export function decodeBase64ToDataURL(
 
 export const formatNumber = (number: number): string => {
     return number.toLocaleString('ru-RU');
+};
+
+export function getTokensFromSession(session?: string): string {
+    if (!session) return '';
+
+    try {
+        const decrypted = decrypt(session);
+
+        const { access_token, refresh_token } = decrypted as ISession;
+
+        if (!access_token || !refresh_token) {
+            throw new Error('Некорректные данные в сессии');
+        }
+
+        return `access_token=${access_token}; refresh_token=${refresh_token};`;
+    } catch (error) {
+        console.error('Ошибка обработки сессии:', error);
+        return '';
+    }
+}
+
+export const pushAndRefresh = (path: string) => {
+    window.location.href = path;
 };

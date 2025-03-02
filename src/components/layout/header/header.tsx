@@ -7,7 +7,7 @@ import styles from './header.module.scss';
 
 type TranslateType = IntlMessages['Header'];
 
-const Header = ({ translated, mode }: { translated: TranslateType; mode: ModeType }) => {
+const Header = ({ translated, theme }: { translated: TranslateType; theme: Theme }) => {
     return (
         <>
             <div className={styles.header_desktop}>
@@ -15,7 +15,7 @@ const Header = ({ translated, mode }: { translated: TranslateType; mode: ModeTyp
             </div>
 
             <div className={styles.header_mobile}>
-                <HeaderMobile mode={mode} />
+                <HeaderMobile theme={theme} />
             </div>
         </>
     );

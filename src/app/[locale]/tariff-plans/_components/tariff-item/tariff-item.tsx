@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
+import { useRouter } from '@i18n/routing';
 import { ITariff } from '@my_types/card-types';
 import { useLocale } from '@providers/locale-provider';
 import { formatNumber } from '@src/utils/helpers';

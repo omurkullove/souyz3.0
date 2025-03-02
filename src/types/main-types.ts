@@ -21,11 +21,6 @@ export interface IPaginatedData<T = any> {
 
 export interface IPaginatedResponse<T = any> extends IResponse<IPaginatedData<T>> {}
 
-export interface IToken {
-    access_token: string;
-    refresh_token: string;
-}
-
 export interface ITokens {
     access_token: string;
     access_token_type: string;
@@ -33,10 +28,4 @@ export interface ITokens {
     refresh_token: string;
     refresh_token_type: string;
     refresh_token_expire_time: string;
-}
-
-export interface InitialCookies {
-    session_expires: string | null;
-    access_token: string | null;
-    refresh_token: string | null;
 }

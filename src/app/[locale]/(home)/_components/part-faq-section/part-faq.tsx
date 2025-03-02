@@ -4,8 +4,8 @@ import { motion, Variants } from 'framer-motion';
 import { useState } from 'react';
 import styles from './part-faq.module.scss';
 
-import { Link } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
+import { Link } from '@i18n/routing';
 import {
     FaAddressCard,
     FaBriefcase,

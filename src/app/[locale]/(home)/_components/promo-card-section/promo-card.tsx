@@ -1,7 +1,7 @@
+import WithAnimate from '@components/animation/with-animate';
+import { Link } from '@i18n/routing';
 import Image from 'next/image';
 import styles from './promo-card.module.scss';
-import WithAnimate from '@components/animation/with-animate';
-import { Link } from '@/navigation';
 
 interface IPromoCardProps {
     translated: IntlMessages['Home']['QuickConsultation'] | IntlMessages['Home']['Support'];

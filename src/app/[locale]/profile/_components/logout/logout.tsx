@@ -1,10 +1,10 @@
 import { ConfirmModal } from '@components/modal';
 import { useLocale } from '@providers/locale-provider';
-import authService from '@service/auth/auth-service';
-import { FETCH_API_RL } from '@src/utils/constants';
+import { LOCAL_API_URL } from '@src/utils/constants';
 import { pushAndRefresh, toastPusher, universalFetcher } from '@src/utils/helpers';
 import { useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { logoutAction } from '../../actions';
 import styles from './logout.module.scss';
 
 interface ILogoutProps {
@@ -13,11 +13,10 @@ interface ILogoutProps {
 
 const Logout = ({ translated }: ILogoutProps) => {
     const [isConfLogout, setIsConfLogout] = useState(false);
-
     const { locale } = useLocale();
 
     const onSuccess = async () => {
-        await fetch(`${FETCH_API_RL}/api/clear-cookie`, {
+        await fetch(`${LOCAL_API_URL}/clear-session`, {
             method: 'POST',
             credentials: 'include',
         });
@@ -26,7 +25,7 @@ const Logout = ({ translated }: ILogoutProps) => {
 
     const logoutFetcher = async () => {
         return universalFetcher({
-            requestFn: async () => await authService.logout(),
+            requestFn: async () => await logoutAction(),
             successAction: async () => onSuccess(),
             delay: true,
         });

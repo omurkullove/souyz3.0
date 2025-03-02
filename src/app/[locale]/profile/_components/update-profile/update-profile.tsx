@@ -1,8 +1,8 @@
-import { useRouter } from '@/navigation';
 import { GenericModal } from '@components/modal';
-import { ISession, IUpdateProfileData, IUpdateProfileRequest } from '@my_types/auth-types';
+import { useRouter } from '@i18n/routing';
+import { IUpdateProfileData, IUpdateProfileRequest, IUser } from '@my_types/auth-types';
 import { useUser } from '@providers/user-provider';
-import { FETCH_API_RL, patterns } from '@src/utils/constants';
+import { LOCAL_API_URL, patterns } from '@src/utils/constants';
 import {
     formattedPhoneNumber,
     formDataFormatter,
@@ -21,10 +21,9 @@ const UpdateProfile = ({ translated }: IUpdateProfileProps) => {
     const [isProfileUpdate, setIsProfileUpdate] = useState(false);
 
     const { user, updateUser } = useUser();
-
     const router = useRouter();
 
-    const onSuccessUpdate = (data: ISession) => {
+    const onSuccessUpdate = (data: IUser) => {
         setIsProfileUpdate(false);
         updateUser(data);
         router.refresh();
@@ -34,9 +33,8 @@ const UpdateProfile = ({ translated }: IUpdateProfileProps) => {
         return universalFetcher({
             method: 'POST',
             body: JSON.stringify(update_data_request),
-            url: `${FETCH_API_RL}/api/update-profile`,
-
-            successAction: (data: ISession) => onSuccessUpdate(data),
+            url: `${LOCAL_API_URL}/update-profile`,
+            successAction: (data: IUser) => onSuccessUpdate(data),
         });
     };
 
@@ -127,7 +125,7 @@ const UpdateProfile = ({ translated }: IUpdateProfileProps) => {
                         placeholder={translated.phone}
                         name='phone'
                         minLength={7}
-                        defaultValue={user?.phone.replace('tel:', '')}
+                        defaultValue={user?.phone?.replace('tel:', '')}
                         className={styles.input}
                         autoComplete='tel'
                         required

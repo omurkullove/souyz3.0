@@ -1,11 +1,13 @@
-import { ILoginRequest, ILoginResponse } from '@my_types/auth-types';
+import { ILoginRequest, ISession } from '@my_types/auth-types';
+import { IResponse } from '@my_types/main-types';
 import authService from '@service/auth/auth-service';
-import { encrypt } from '@src/utils/helpers';
+import { COOKIES, sharedCookieDomain } from '@src/utils/constants';
+import { encrypt, parseISOStringToDate } from '@src/utils/helpers';
 
 export async function POST(request: Request) {
     const body: ILoginRequest = await request.json();
 
-    const res = (await authService.login(body)) as ILoginResponse;
+    const res = (await authService.login(body)) as IResponse<ISession>;
     const data = res.data;
 
     if (res.code !== 200) {
@@ -14,26 +16,17 @@ export async function POST(request: Request) {
 
     const headers = new Headers();
 
-    const session = {
-        ...data.user,
-        session_expires: data.access_token_expire_time,
-    };
+    const encrypted_session = encrypt(data);
 
-    const encrypted_session = encrypt(session);
+    console.log(encrypted_session);
 
     headers.append(
         'Set-Cookie',
-        `access_token=${data.access_token}; HttpOnly; Path=/; SameSite=Strict; Secure`
-    );
-
-    headers.append(
-        'Set-Cookie',
-        `refresh_token=${data.refresh_token}; HttpOnly; Path=/; SameSite=Strict; Secure`
-    );
-
-    headers.append(
-        'Set-Cookie',
-        `soyuz_session=${encrypted_session}; HttpOnly; Path=/; SameSite=Strict; Secure`
+        `${
+            COOKIES.SESSION
+        }=${encrypted_session}; Path=/; SameSite=Lax; Domain=${sharedCookieDomain}; Expires=${parseISOStringToDate(
+            data.refresh_token_expire_time
+        )}`
     );
 
     const response = new Response(JSON.stringify({ code: 200, data: data.user }), { headers });

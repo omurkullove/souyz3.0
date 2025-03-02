@@ -1,29 +1,30 @@
 'use client';
 
-import { useRouter } from '@/navigation';
-import { InitialCookies } from '@my_types/main-types';
-import { FETCH_API_RL } from '@src/utils/constants';
-import { decrypt, encrypt } from '@src/utils/helpers';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { useUser } from './user-provider';
+import { useRouter } from '@i18n/routing';
+import { ISession } from '@my_types/auth-types';
+import { LOCAL_API_URL } from '@src/utils/constants';
+import { decrypt } from '@src/utils/helpers';
+import { FC, ReactNode, useCallback, useEffect, useRef } from 'react';
 
-interface IRefreshTokenProviderProps {
+interface IProps {
     children: ReactNode;
-    initialCookies: InitialCookies;
+    initialSession: string;
 }
 
-const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProviderProps) => {
-    const [accessToken, setAccessToken] = useState(initialCookies.access_token);
-    const [refreshToken, setRefreshToken] = useState(initialCookies.refresh_token);
-    const [sessionExpires, setSessionExpires] = useState(initialCookies.session_expires);
+const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
+    const decrypted = decrypt(initialSession);
+    const router = useRouter();
+
+    const access = useRef(decrypted?.access_token);
+    const refresh = useRef(decrypted?.refresh_token);
+    const expires = useRef(decrypted?.access_token_expire_time);
 
     const isRefreshing = useRef(false);
     const refreshTimer = useRef<NodeJS.Timeout | null>(null);
     const isErrorHandled = useRef(false);
-    const { updateUser } = useUser();
+    const abortController = useRef<AbortController | null>(null);
 
-    const isValidSession = !!accessToken && !!refreshToken && !!sessionExpires;
-    const router = useRouter();
+    const isValidSession = !!access.current && !!refresh.current && !!expires.current;
 
     const clearRefreshTimer = () => {
         if (refreshTimer.current) {
@@ -31,71 +32,78 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
             refreshTimer.current = null;
         }
     };
-
-    const onError = async () => {
+    const onError = useCallback(async () => {
         if (isErrorHandled.current) return;
 
         isErrorHandled.current = true;
-        await fetch(`${FETCH_API_RL}/api/clear-cookie`, {
+        abortController.current?.abort();
+
+        await fetch(`${LOCAL_API_URL}/clear-session`, {
             method: 'POST',
             credentials: 'include',
         }).then(() => {
-            updateUser(null);
             router.push('/auth/login');
             router.refresh();
         });
-    };
+    }, [router]);
 
-    const startRefreshTimer = () => {
-        if (sessionExpires && isValidSession && !isRefreshing.current && !isErrorHandled.current) {
-            const sessionExpireDate = new Date(sessionExpires);
-            const now = new Date();
-            const refreshInterval = Math.max(
-                sessionExpireDate.getTime() - now.getTime() - 10000,
-                0
-            );
+    const startRefreshTimer = useCallback(() => {
+        if (!expires.current || !isValidSession || isRefreshing.current || isErrorHandled.current)
+            return;
 
-            clearRefreshTimer();
-            refreshTimer.current = setTimeout(handleRefresh, refreshInterval);
-        }
-    };
-
-    const handleRefresh = async () => {
-        if (isRefreshing.current || !isValidSession || isErrorHandled.current) return;
+        const sessionExpireDate = new Date(expires.current);
+        const now = new Date();
+        const refreshInterval = Math.max(sessionExpireDate.getTime() - now.getTime() - 10000, 0);
 
         clearRefreshTimer();
+        refreshTimer.current = setTimeout(handleRefresh, refreshInterval);
+    }, [isValidSession]);
+
+    const handleRefresh = useCallback(async () => {
+        if (isRefreshing.current || !isValidSession || isErrorHandled.current) return;
+
+        if (document.readyState !== 'complete') {
+            await new Promise((resolve) =>
+                window.addEventListener('load', resolve, { once: true })
+            );
+        }
+
+        if (document.visibilityState !== 'visible') {
+            startRefreshTimer();
+            return;
+        }
+
         isRefreshing.current = true;
+        clearRefreshTimer();
+        abortController.current = new AbortController();
 
         try {
-            const cookie = `access_token=${accessToken}; refresh_token=${refreshToken}`;
-            const res = await fetch(`${FETCH_API_RL}/api/refresh-token`, {
+            const res = await fetch(`${LOCAL_API_URL}/refresh-session`, {
                 method: 'POST',
-                body: JSON.stringify(encrypt(cookie)),
                 credentials: 'include',
+                signal: abortController.current.signal,
+                priority: 'high',
             });
 
             if (!res.ok) throw new Error('Failed to refresh token');
 
             const data = await res.json();
-            const decryptedData = decrypt(data);
+            const decryptedData = decrypt(data) as ISession;
 
-            const { code, newAccessToken, newRefreshToken, newSessionExpires } = decryptedData;
+            if (!decryptedData?.access_token) throw new Error('Invalid token');
 
-            if (code === 200) {
-                setAccessToken(newAccessToken);
-                setRefreshToken(newRefreshToken);
-                setSessionExpires(newSessionExpires);
-                isErrorHandled.current = false;
-                router.refresh();
-            } else if (code === 401) {
-                await onError();
-            }
+            access.current = decryptedData.access_token;
+            refresh.current = decryptedData.refresh_token;
+            expires.current = decryptedData.access_token_expire_time;
+            isErrorHandled.current = false;
+            router.refresh();
+            startRefreshTimer();
         } catch (error) {
             await onError();
         } finally {
             isRefreshing.current = false;
         }
-    };
+    }, [router, onError]);
 
     useEffect(() => {
         if (isValidSession) {
@@ -109,16 +117,33 @@ const RefreshTokenProvider = ({ children, initialCookies }: IRefreshTokenProvide
                 }
             };
 
+            const handleFocus = () => {
+                startRefreshTimer();
+            };
+
+            const handleResume = () => {
+                startRefreshTimer();
+            };
+
             document.addEventListener('visibilitychange', handleVisibilityChange);
+            window.addEventListener('focus', handleFocus);
+            document.addEventListener('resume', handleResume);
 
             return () => {
                 clearRefreshTimer();
                 document.removeEventListener('visibilitychange', handleVisibilityChange);
+                window.removeEventListener('focus', handleFocus);
+                document.removeEventListener('resume', handleResume);
+                abortController.current?.abort();
             };
         }
-    }, [accessToken, refreshToken, sessionExpires, isValidSession]);
+    }, [isValidSession, startRefreshTimer]);
+
+    useEffect(() => {
+        isRefreshing.current = false;
+    }, []);
 
     return <>{children}</>;
 };
 
-export default RefreshTokenProvider;
+export default RefreshOnExpire;

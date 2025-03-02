@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@/navigation';
+import { Link } from '@i18n/routing';
 import styles from './footer.module.scss';
 
 import WithAnimate from '@components/animation/with-animate';

@@ -10,20 +10,20 @@ import { Sidebar } from './sidebar';
 
 interface ILayoutProps {
     children: ReactNode;
-    mode: ModeType;
+    theme: Theme;
 }
 
-const Layout = ({ children, mode }: ILayoutProps) => {
+const Layout = ({ children, theme }: ILayoutProps) => {
     return (
         <div className={styles.container}>
             <Toaster position='bottom-right' />
 
             <aside className={styles.aside}>
-                <Sidebar mode={mode} />
+                <Sidebar theme={theme} />
             </aside>
             <div className={styles.children}>
                 <header className={styles.header}>
-                    <Header mode={mode} />
+                    <Header theme={theme} />
                 </header>
                 <main>{children}</main>
                 <footer className={styles.footer}>

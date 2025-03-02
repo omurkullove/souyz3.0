@@ -49,7 +49,7 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
 
                         <p className={styles.label}>
                             {translated.phone}{' '}
-                            <span className={styles.value}>{user?.phone.replace('tel:', '')}</span>
+                            <span className={styles.value}>{user?.phone?.replace('tel:', '')}</span>
                         </p>
 
                         <p className={styles.label}>

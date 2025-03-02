@@ -18,14 +18,12 @@ class AuthService {
         return requestHandler(() => API.post('/auth/logout'));
     }
 
-    async getMe(cookie: string): Promise<IResponse> {
-        return requestHandler(() => API.get('/sys/users/me', { headers: { Cookie: cookie } }));
+    async getMe(): Promise<IResponse> {
+        return requestHandler(() => API.get('/sys/users/me'));
     }
 
-    async refreshToken(cookie: string): Promise<IResponse<ITokens>> {
-        return requestHandler(() =>
-            API.post('/auth/refresh-token', {}, { headers: { Cookie: cookie } })
-        );
+    async refreshToken(): Promise<IResponse<ITokens>> {
+        return requestHandler(() => API.post('/auth/refresh-token', {}));
     }
 
     async preregister(params: { email: string }): Promise<IResponse> {
@@ -48,10 +46,8 @@ class AuthService {
         return requestHandler(() => API.post('/sys/users/register', user, { params }));
     }
 
-    async updateProfile({ data, path }: IUpdateProfileRequest, cookie: string): Promise<IResponse> {
-        return requestHandler(() =>
-            API.put(`/sys/users/${path.email}`, data, { headers: { Cookie: cookie } })
-        );
+    async updateProfile({ data, path }: IUpdateProfileRequest): Promise<IResponse> {
+        return requestHandler(() => API.put(`/sys/users/${path.email}`, data));
     }
 }
 

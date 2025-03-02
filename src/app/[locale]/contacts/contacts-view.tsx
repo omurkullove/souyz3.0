@@ -1,7 +1,7 @@
 'use client';
 
-import { Link } from '@/navigation';
 import HeroPages from '@components/hero-pages/hero-pages';
+import { Link } from '@i18n/routing';
 import { withTranslate } from '@i18n/withTranslate';
 import { socialMedias } from '@src/utils/constants';
 import {

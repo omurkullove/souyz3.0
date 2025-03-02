@@ -1,6 +1,6 @@
 'use client';
 
-import { Link, usePathname } from '@/navigation';
+import { Link, usePathname } from '@i18n/routing';
 import { withTranslate } from '@i18n/withTranslate';
 import { useUser } from '@providers/user-provider';
 import Image from 'next/image';

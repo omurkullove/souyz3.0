@@ -1,11 +1,11 @@
 'use client';
 
-import { Link, useRouter } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
+import { Link, useRouter } from '@i18n/routing';
 import { withTranslate } from '@i18n/withTranslate';
-import authService from '@service/auth/auth-service';
 import { formDataFormatter, toastPusher, universalFetcher } from '@src/utils/helpers';
 import { FormEvent, useEffect, useState } from 'react';
+import { preregisterAction } from '../actions';
 import styles from './preregister-view.module.scss';
 
 interface IPreregisterViewProps {
@@ -32,7 +32,7 @@ const PreregisterView = ({ translated }: IPreregisterViewProps) => {
 
     const preregisterFetcher = async (data: { email: string }) => {
         return universalFetcher({
-            requestFn: async () => authService.preregister(data),
+            requestFn: async () => await preregisterAction(data),
             successAction: onSuccess,
             onErrorFn: refreshTimer,
         });

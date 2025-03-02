@@ -1,15 +1,15 @@
 'use client';
 
-import { Link, useRouter } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
 import { PasswordInput } from '@components/elements';
+import { Link, useRouter } from '@i18n/routing';
 import { withTranslate } from '@i18n/withTranslate';
 import { IRestorePasswordRequest } from '@my_types/auth-types';
-import authService from '@service/auth/auth-service';
 import { patterns } from '@src/utils/constants';
 import { formDataFormatter, toastPusher, universalFetcher } from '@src/utils/helpers';
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
+import { restoreAction } from '../actions';
 import styles from './restore-view.module.scss';
 
 interface IRestoreViewProps {
@@ -21,7 +21,7 @@ const RestoreView = ({ translated }: IRestoreViewProps) => {
 
     const restorePasswordFetcher = async (data: IRestorePasswordRequest) => {
         return universalFetcher({
-            requestFn: async () => await authService.restorePassword(data),
+            requestFn: async () => await restoreAction(data),
             successAction: () => route.push('/auth/login'),
         });
     };

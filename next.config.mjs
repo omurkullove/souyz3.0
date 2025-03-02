@@ -1,13 +1,19 @@
 import withNextIntl from 'next-intl/plugin';
 
-const nextIntlConfig = withNextIntl('./src/i18n/i18n.ts');
+const nextIntlConfig = withNextIntl('./src/i18n/request.ts');
 
 const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/skgapi/v1/:path*',
-                destination: `https://soyuz.kg/skgapi/v1/:path*`,
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'sclub.example.local',
+                    },
+                ],
+                destination: 'http://localhost:3001/:path*',
             },
         ];
     },

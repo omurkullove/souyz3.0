@@ -4,25 +4,19 @@ import { API } from '@src/axios';
 import { requestHandler } from '../request-handler';
 
 class CardService {
-    async getUserCard(cookie: string): Promise<IUserCardResponse> {
-        return requestHandler(() =>
-            API.get('/biz/card/user-card', { headers: { Cookie: cookie } })
-        );
+    async getUserCard(): Promise<IUserCardResponse> {
+        return requestHandler(() => API.get('/biz/card/user-card'));
     }
 
-    async getQrCode(cookie: string): Promise<IQrCodeResponse> {
-        return requestHandler(() => API.get('/biz/card/qrcode', { headers: { Cookie: cookie } }));
+    async getQrCode(): Promise<IQrCodeResponse> {
+        return requestHandler(() => API.get('/biz/card/qrcode'));
     }
 
-    async getAllTariffs(cookie: string): Promise<ITariffResponse> {
-        return requestHandler(() =>
-            API.get('/biz/tariff/client/all', { headers: { Cookie: cookie } })
-        );
+    async getAllTariffs(): Promise<ITariffResponse> {
+        return requestHandler(() => API.get('/biz/tariff/client/all'));
     }
-    async getTariff(cookie: string, uuid: string): Promise<IResponse<ITariff>> {
-        return requestHandler(() =>
-            API.get(`/biz/tariff/client/${uuid}`, { headers: { Cookie: cookie } })
-        );
+    async getTariff(uuid: string): Promise<IResponse<ITariff>> {
+        return requestHandler(() => API.get(`/biz/tariff/client/${uuid}`));
     }
 }
 

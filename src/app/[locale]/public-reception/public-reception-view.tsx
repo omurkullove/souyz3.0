@@ -15,8 +15,8 @@ import WithAnimate from '@components/animation/with-animate';
 import { FileInput } from '@components/elements';
 import { Sos } from '@components/sos';
 import { IPublicReceptionRequest } from '@my_types/counseling-types';
-import counselingService from '@service/counseling/counseling-service';
 import { FormEvent, useState } from 'react';
+import { publicReceptionAction } from './action';
 
 interface IPublicReceptionViewProps {
     translated: IntlMessages['PublicReception'];
@@ -28,7 +28,7 @@ const PublicReceptionView = ({ translated }: IPublicReceptionViewProps) => {
 
     const submitFetcher = async (data: FormData) => {
         return universalFetcher({
-            requestFn: async () => await counselingService.publicReception(data),
+            requestFn: async () => await publicReceptionAction(data),
         });
     };
 
@@ -43,6 +43,7 @@ const PublicReceptionView = ({ translated }: IPublicReceptionViewProps) => {
 
         Object.entries(data).forEach(([key, value]) => {
             if (key !== 'attachments') {
+                console.log(key, value);
                 formData.append(key, value as string | Blob);
             }
         });

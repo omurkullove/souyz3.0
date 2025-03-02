@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from '@/navigation';
 import HeroPages from '@components/hero-pages/hero-pages';
+import { useRouter } from '@i18n/routing';
 import { IPaginatedData } from '@my_types/main-types';
 import { INews } from '@my_types/news-types';
 import { encrypt } from '@src/utils/helpers';

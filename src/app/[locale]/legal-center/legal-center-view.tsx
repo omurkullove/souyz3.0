@@ -4,7 +4,6 @@ import WithAnimate from '@components/animation/with-animate';
 import HeroPages from '@components/hero-pages/hero-pages';
 import { withTranslate } from '@i18n/withTranslate';
 import { ILegalCenterRequest } from '@my_types/counseling-types';
-import counselingService from '@service/counseling/counseling-service';
 import { patterns } from '@src/utils/constants';
 import {
     formattedPhoneNumber,
@@ -13,6 +12,7 @@ import {
     universalFetcher,
 } from '@src/utils/helpers';
 import { FormEvent } from 'react';
+import { legalCenterAction } from './action';
 import styles from './legal-center-view.module.scss';
 
 interface ILegalCenterViewProps {
@@ -22,7 +22,7 @@ interface ILegalCenterViewProps {
 const LegalCenterView = ({ translated }: ILegalCenterViewProps) => {
     const submitFetcher = async (request_data: FormData) => {
         return universalFetcher({
-            requestFn: async () => counselingService.legalCenter(request_data),
+            requestFn: async () => await legalCenterAction(request_data),
         });
     };
 

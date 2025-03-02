@@ -1,22 +1,23 @@
 'use client';
 
-import { ISession } from '@my_types/auth-types';
+import { IUser } from '@my_types/auth-types';
+import { decrypt } from '@src/utils/helpers';
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 interface UserContextType {
-    user: ISession | null;
-    updateUser: (user: ISession | null) => void;
+    user: IUser | null;
+    updateUser: (user: IUser | null) => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider: React.FC<{
     children: ReactNode;
-    user: ISession;
-}> = ({ children, user }) => {
-    const [state, setState] = useState<ISession | null>(user);
+    session: string;
+}> = ({ children, session }) => {
+    const [state, setState] = useState<IUser | null>(decrypt(session)?.user);
 
-    const handleUpdateUser = (newUser: ISession | null) => {
+    const handleUpdateUser = (newUser: IUser | null) => {
         setState(newUser);
     };
 

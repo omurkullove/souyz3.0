@@ -1,11 +1,10 @@
 'use client';
 
-import { Link, useRouter } from '@/navigation';
 import WithAnimate from '@components/animation/with-animate';
 import { PasswordInput } from '@components/elements';
+import { Link, useRouter } from '@i18n/routing';
 import { withTranslate } from '@i18n/withTranslate';
 import { IRegisterData, IRegisterRequest } from '@my_types/auth-types';
-import authService from '@service/auth/auth-service';
 import { patterns } from '@src/utils/constants';
 import {
     formattedPhoneNumber,
@@ -14,6 +13,7 @@ import {
     universalFetcher,
 } from '@src/utils/helpers';
 import { FormEvent } from 'react';
+import { registerAction } from '../actions';
 import styles from './register-view.module.scss';
 
 interface IRegisterViewProps {
@@ -25,7 +25,7 @@ const RegisterView = ({ translated }: IRegisterViewProps) => {
 
     const registerFetcher = async (data: IRegisterRequest) => {
         return universalFetcher({
-            requestFn: async () => await authService.register(data),
+            requestFn: async () => await registerAction(data),
             delay: true,
             successAction: () => router.push('/auth/login'),
         });

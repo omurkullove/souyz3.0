@@ -1,0 +1,20 @@
+import withNextIntl from 'next-intl/plugin';
+
+const nextIntlConfig = withNextIntl('./src/i18n/i18n.ts');
+
+const nextConfig = {
+    async rewrites() {
+        return [
+            // {
+            //     source: '/skgapi/v1/:path*',
+            //     destination: `https://soyuz.kg/skgapi/v1/:path*`,
+            // },
+            {
+                source: '/sclub/:path*',
+                destination: 'http://localhost:3001/:path*',
+            },
+        ];
+    },
+};
+
+export default nextIntlConfig(nextConfig);

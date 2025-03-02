@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from '@/navigation';
 import { SidebarMobile } from '@components/layout/sidebar';
+import { usePathname, useRouter } from '@i18n/routing';
 import { useLocale } from '@providers/locale-provider';
-import { FETCH_API_RL } from '@src/utils/constants';
+import { COOKIES, LOCAL_API_URL } from '@src/utils/constants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import { FC, useCallback, useState } from 'react';
@@ -12,7 +12,7 @@ import { GrMenu } from 'react-icons/gr';
 import styles from './header-mobile.module.scss';
 
 interface IProps {
-    mode: ModeType;
+    theme: Theme;
 }
 
 const header_variants = {
@@ -27,27 +27,30 @@ const header_variants = {
     },
 };
 
-const HeaderMobile: FC<IProps> = ({ mode }) => {
+const HeaderMobile: FC<IProps> = ({ theme }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const { locale } = useLocale();
 
     const router = useRouter();
+    const path = usePathname();
 
     const handleSetThemeToCookie = () => {
-        const theme = mode === 'light' ? 'dark' : 'light';
-        Cookies.set('mode', theme, { expires: 30, path: '/' });
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        Cookies.set(COOKIES.THEME, newTheme, { expires: 30, path: '/' });
         router.refresh();
     };
 
     const switchLocale = useCallback(
         async (newLocale: Locale) => {
             if (newLocale !== locale) {
-                await fetch(`${FETCH_API_RL}/api/switch-locale`, {
+                await fetch(`${LOCAL_API_URL}/switch-locale`, {
                     method: 'POST',
                     body: JSON.stringify({ locale: newLocale }),
                     credentials: 'include',
                 });
+
+                router.replace(path, { locale: newLocale, scroll: false });
                 router.refresh();
             }
         },
@@ -75,7 +78,7 @@ const HeaderMobile: FC<IProps> = ({ mode }) => {
                 </p>
 
                 <div className={styles.menu_block}>
-                    {mode === 'light' ? (
+                    {theme === 'light' ? (
                         <FaSun
                             className={styles.mode_icon}
                             onClick={handleSetThemeToCookie}
