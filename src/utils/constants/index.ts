@@ -9,6 +9,8 @@ export const WEATHER_KEY = process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY;
 
 export const CRYPTO_KEY = process.env.NEXT_PUBLIC_CRYPTO_KEY;
 
+export const REFRESH_INTERVAL_GUARD = 20 * 1000;
+
 export const patterns = {
     password: '(?=.*[A-ZА-ЯЁ])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-zА-Яа-яЁё\\d@$!%*?&]{8,}',
     only_cyrillic_text: '^[А-Яа-яЁёҢңҮүӨө]+(?: [А-Яа-яЁёҢңҮүӨө]+)*$',

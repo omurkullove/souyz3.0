@@ -82,7 +82,7 @@ const Sidebar = ({ theme, translated }: ISidebarProps) => {
                     </div>
                     <div className={styles.line} />
                     <div className={styles.link_container}>
-                        {translated.links.map((item, index) => {
+                        {translated.links?.map((item, index) => {
                             const isActive =
                                 item.path === path || (path.includes('/auth') && index == 0);
                             const isLast = index === translated.links.length - 1;

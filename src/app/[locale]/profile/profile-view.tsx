@@ -18,7 +18,7 @@ const formatDate = (dateStr: string) => {
 };
 
 interface IProfileViewProps {
-    qrcode_data: string;
+    qrcode_data: any;
     translated: IntlMessages['Profile'];
 }
 
@@ -64,6 +64,8 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                         <UpdateProfile translated={translated.update_profile} />
                         <UpdatePassword translated={translated.update_password} />
                     </div>
+
+                    {JSON.stringify(qrcode_data)}
                 </div>
 
                 <Logout translated={translated.logout} />

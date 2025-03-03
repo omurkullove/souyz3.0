@@ -15,6 +15,16 @@ const nextConfig = {
                 ],
                 destination: 'http://localhost:3001/:path*',
             },
+            {
+                source: '/:path*',
+                has: [
+                    {
+                        type: 'host',
+                        value: 'localhost:3001',
+                    },
+                ],
+                destination: 'http://localhost:3001/:path*',
+            },
         ];
     },
 };

@@ -2,7 +2,7 @@
 
 import { useRouter } from '@i18n/routing';
 import { ISession } from '@my_types/auth-types';
-import { LOCAL_API_URL } from '@src/utils/constants';
+import { LOCAL_API_URL, REFRESH_INTERVAL_GUARD } from '@src/utils/constants';
 import { decrypt } from '@src/utils/helpers';
 import { FC, ReactNode, useCallback, useEffect, useRef } from 'react';
 
@@ -12,12 +12,13 @@ interface IProps {
 }
 
 const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
-    const decrypted = decrypt(initialSession);
+    const decrypted = decrypt(initialSession) as ISession | null;
     const router = useRouter();
 
     const access = useRef(decrypted?.access_token);
     const refresh = useRef(decrypted?.refresh_token);
     const expires = useRef(decrypted?.access_token_expire_time);
+    const lastRefreshed = useRef(decrypted?.last_refreshed);
 
     const isRefreshing = useRef(false);
     const refreshTimer = useRef<NodeJS.Timeout | null>(null);
@@ -26,12 +27,13 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
 
     const isValidSession = !!access.current && !!refresh.current && !!expires.current;
 
-    const clearRefreshTimer = () => {
+    const clearRefreshTimer = useCallback(() => {
         if (refreshTimer.current) {
             clearTimeout(refreshTimer.current);
             refreshTimer.current = null;
         }
-    };
+    }, []);
+
     const onError = useCallback(async () => {
         if (isErrorHandled.current) return;
 
@@ -57,10 +59,17 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
 
         clearRefreshTimer();
         refreshTimer.current = setTimeout(handleRefresh, refreshInterval);
-    }, [isValidSession]);
+    }, [isValidSession, clearRefreshTimer]);
 
     const handleRefresh = useCallback(async () => {
         if (isRefreshing.current || !isValidSession || isErrorHandled.current) return;
+
+        if (
+            lastRefreshed.current &&
+            new Date().getTime() - lastRefreshed.current < REFRESH_INTERVAL_GUARD
+        ) {
+            return;
+        }
 
         if (document.readyState !== 'complete') {
             await new Promise((resolve) =>
@@ -95,6 +104,7 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
             access.current = decryptedData.access_token;
             refresh.current = decryptedData.refresh_token;
             expires.current = decryptedData.access_token_expire_time;
+            lastRefreshed.current = new Date().getTime();
             isErrorHandled.current = false;
             router.refresh();
             startRefreshTimer();
@@ -103,13 +113,13 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
         } finally {
             isRefreshing.current = false;
         }
-    }, [router, onError]);
+    }, [router, onError, startRefreshTimer, isValidSession]);
 
     useEffect(() => {
         if (isValidSession) {
             startRefreshTimer();
 
-            const handleVisibilityChange = () => {
+            const visibilityChangeHandler = () => {
                 if (document.visibilityState === 'visible') {
                     startRefreshTimer();
                 } else {
@@ -117,27 +127,23 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
                 }
             };
 
-            const handleFocus = () => {
-                startRefreshTimer();
-            };
+            const focusHandler = () => startRefreshTimer();
 
-            const handleResume = () => {
-                startRefreshTimer();
-            };
+            const resumeHandler = () => startRefreshTimer();
 
-            document.addEventListener('visibilitychange', handleVisibilityChange);
-            window.addEventListener('focus', handleFocus);
-            document.addEventListener('resume', handleResume);
+            document.addEventListener('visibilitychange', visibilityChangeHandler);
+            window.addEventListener('focus', focusHandler);
+            document.addEventListener('resume', resumeHandler);
 
             return () => {
                 clearRefreshTimer();
-                document.removeEventListener('visibilitychange', handleVisibilityChange);
-                window.removeEventListener('focus', handleFocus);
-                document.removeEventListener('resume', handleResume);
+                document.removeEventListener('visibilitychange', visibilityChangeHandler);
+                window.removeEventListener('focus', focusHandler);
+                document.removeEventListener('resume', resumeHandler);
                 abortController.current?.abort();
             };
         }
-    }, [isValidSession, startRefreshTimer]);
+    }, [isValidSession, startRefreshTimer, clearRefreshTimer]);
 
     useEffect(() => {
         isRefreshing.current = false;

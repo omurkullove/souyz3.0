@@ -22,7 +22,7 @@ export interface IUser {
     establishment: null;
 }
 
-export type ISession = { user: IUser } & ITokens;
+export type ISession = { user: IUser; last_refreshed: number } & ITokens;
 
 export interface IRegisterData {
     first_name: string;
