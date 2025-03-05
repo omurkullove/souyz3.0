@@ -4,7 +4,9 @@ import { useRouter } from '@i18n/routing';
 import { ISession } from '@my_types/auth-types';
 import { LOCAL_API_URL, REFRESH_INTERVAL_GUARD } from '@src/utils/constants';
 import { decrypt } from '@src/utils/helpers';
+import { isAxiosError } from 'axios';
 import { FC, ReactNode, useCallback, useEffect, useRef } from 'react';
+import { useUser } from './user-provider';
 
 interface IProps {
     children: ReactNode;
@@ -12,6 +14,7 @@ interface IProps {
 }
 
 const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
+    const { updateUser } = useUser();
     const decrypted = decrypt(initialSession) as ISession | null;
     const router = useRouter();
 
@@ -45,6 +48,7 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
             credentials: 'include',
         }).then(() => {
             router.push('/auth/login');
+            updateUser(null);
             router.refresh();
         });
     }, [router]);
@@ -107,9 +111,12 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
             lastRefreshed.current = new Date().getTime();
             isErrorHandled.current = false;
             router.refresh();
-            startRefreshTimer();
         } catch (error) {
-            await onError();
+            if (isAxiosError(error) && error.status === 401) {
+                router.refresh();
+            } else {
+                await onError();
+            }
         } finally {
             isRefreshing.current = false;
         }

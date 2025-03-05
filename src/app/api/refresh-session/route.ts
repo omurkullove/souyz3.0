@@ -21,10 +21,9 @@ export async function POST() {
     const res = await authService.refreshToken();
 
     if (res.code !== 200) {
-        return new Response(JSON.stringify(encrypt({ code: 401 })), { status: 200 });
+        return new Response(JSON.stringify(encrypt({ code: 200 })), { status: 200 });
     }
 
-    const headers = new Headers();
     const data = res?.data;
 
     const newSession: ISession = {
@@ -35,18 +34,15 @@ export async function POST() {
 
     const encryptedNewSession = encrypt(newSession);
 
-    headers.append(
-        'Set-Cookie',
-        `${
-            COOKIES.SESSION
-        }=${encryptedNewSession}; Path=/; SameSite=Lax; Domain=${sharedCookieDomain}; Expires=${parseISOStringToDate(
-            data.refresh_token_expire_time
-        )}`
-    );
+    cookieStore.set(COOKIES.SESSION, encryptedNewSession, {
+        path: '/',
+        domain: sharedCookieDomain,
+        sameSite: 'lax',
+        expires: parseISOStringToDate(data.refresh_token_expire_time),
+    });
 
     const response = new Response(JSON.stringify(encryptedNewSession), {
         status: 200,
-        headers,
     });
 
     return response;
