@@ -46,8 +46,8 @@ class AuthService {
         return requestHandler(() => API.post('/sys/users/register', user, { params }));
     }
 
-    async updateProfile({ data, path }: IUpdateProfileRequest): Promise<IResponse> {
-        return requestHandler(() => API.put(`/sys/users/${path.email}`, data));
+    async updateProfile({ data }: IUpdateProfileRequest): Promise<IResponse> {
+        return requestHandler(() => API.patch(`/sys/users/me`, data));
     }
 }
 

@@ -30,44 +30,28 @@ const nextConfig = {
                         key: 'Strict-Transport-Security',
                         value: 'max-age=63072000; includeSubDomains; preload',
                     },
-                    { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'strict-origin-when-cross-origin',
+                    },
                     {
                         key: 'Content-Security-Policy',
-                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' wss://souyz3-0.vercel.app;",
+                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.google-analytics.com",
                     },
                     {
                         key: 'Permissions-Policy',
                         value: 'geolocation=(), microphone=(), camera=(), payment=()',
                     },
                     { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
-                    { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
-                    { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
-                ],
-            },
-        ];
-    },
-
-    async rewrites() {
-        return [
-            {
-                source: '/:path*',
-                has: [
                     {
-                        type: 'host',
-                        value: 'sclub.example.local',
+                        key: 'Cross-Origin-Resource-Policy',
+                        value: 'same-origin',
+                    },
+                    {
+                        key: 'Cross-Origin-Embedder-Policy',
+                        value: 'require-corp',
                     },
                 ],
-                destination: 'http://localhost:3001/:path*',
-            },
-            {
-                source: '/:path*',
-                has: [
-                    {
-                        type: 'host',
-                        value: 'localhost:3001',
-                    },
-                ],
-                destination: 'http://localhost:3001/:path*',
             },
         ];
     },

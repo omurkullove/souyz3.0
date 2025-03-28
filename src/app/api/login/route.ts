@@ -1,7 +1,7 @@
 import { ILoginRequest, ISession } from '@my_types/auth-types';
 import { IResponse } from '@my_types/main-types';
 import authService from '@service/auth/auth-service';
-import { COOKIES, sharedCookieDomain } from '@src/utils/constants';
+import { COOKIES } from '@src/utils/constants';
 import { encrypt, parseISOStringToDate } from '@src/utils/helpers';
 
 export async function POST(request: Request) {
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         'Set-Cookie',
         `${
             COOKIES.SESSION
-        }=${encrypted_session}; Path=/; SameSite=Lax; Domain=${sharedCookieDomain}; Expires=${parseISOStringToDate(
+        }=${encrypted_session}; Path=/; SameSite=Lax; Expires=${parseISOStringToDate(
             data.refresh_token_expire_time
         )}`
     );

@@ -18,7 +18,10 @@ const PopUpChat = ({ translated }: IProps) => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
+            ) {
                 closeChat();
             }
         };
@@ -37,13 +40,18 @@ const PopUpChat = ({ translated }: IProps) => {
             className={styles.container}
             initial={{ height: 40 }}
             animate={{ height: isOpen ? 500 : 40 }}
-            transition={{ duration: 0.1, ease: isOpen ? 'backInOut' : 'backIn' }}
+            transition={{
+                duration: 0.1,
+                ease: isOpen ? 'backInOut' : 'backIn',
+            }}
         >
             <div className={styles.header_box}>
                 <p className={styles.title}>{translated.title}</p>
                 <motion.div
                     initial={{ transform: 'rotate(0deg)' }}
-                    animate={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    animate={{
+                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                    }}
                     transition={{ duration: 0.5 }}
                 >
                     <FaArrowUp

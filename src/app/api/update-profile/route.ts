@@ -1,6 +1,6 @@
 import { ISession, IUpdateProfileRequest } from '@my_types/auth-types';
 import authService from '@service/auth/auth-service';
-import { COOKIES, sharedCookieDomain } from '@src/utils/constants';
+import { COOKIES } from '@src/utils/constants';
 import { decrypt, encrypt, parseISOStringToDate } from '@src/utils/helpers';
 import { cookies } from 'next/headers';
 
@@ -8,6 +8,7 @@ export async function POST(request: Request) {
     const body: IUpdateProfileRequest = JSON.parse(await request.json());
     const res = await authService.updateProfile(body);
 
+    console.log(res);
     if (res.code !== 200) {
         return new Response(JSON.stringify({ code: res.code }), { status: 200 });
     }
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
         'Set-Cookie',
         `${
             COOKIES.SESSION
-        }=${encrypted_soyuz_session}; Path=/; SameSite=Lax; Domain=${sharedCookieDomain}; Expires=${parseISOStringToDate(
+        }=${encrypted_soyuz_session}; Path=/; SameSite=Lax; Expires=${parseISOStringToDate(
             old_soyuz_session.refresh_token_expire_time
         )}`
     );

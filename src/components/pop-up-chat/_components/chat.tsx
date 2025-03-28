@@ -1,7 +1,15 @@
 import WithAnimate from '@components/animation/with-animate';
 import { AnimatePresence, motion } from 'framer-motion';
 import debounce from 'lodash.debounce';
-import { ChangeEvent, FC, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import {
+    ChangeEvent,
+    FC,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import styles from './chat.module.scss';
 
 interface IMessage {
@@ -36,7 +44,9 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
         debounce((text: string) => {
             const searchText = text.trim().toLowerCase();
             if (searchText) {
-                const matches = questions.filter((q) => q.title.toLowerCase().includes(searchText));
+                const matches = questions.filter((q) =>
+                    q.title.toLowerCase().includes(searchText)
+                );
                 setFilteredQuestions(matches);
             } else {
                 setFilteredQuestions([]);
@@ -51,7 +61,11 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
 
             setMessages((prevMessages) => [
                 ...prevMessages,
-                { text: title ?? userMessage, id: prevMessages.length + 1, sender: 'user' },
+                {
+                    text: title ?? userMessage,
+                    id: prevMessages.length + 1,
+                    sender: 'user',
+                },
             ]);
             setUserMessage('');
             setIsLoading(true);
@@ -66,7 +80,9 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
                 setMessages((prevMessages) => [
                     ...prevMessages,
                     {
-                        text: foundQuestion ? foundQuestion.answer : translated.no_answer,
+                        text: foundQuestion
+                            ? foundQuestion.answer
+                            : translated.no_answer,
                         id: prevMessages.length + 1,
                         sender: 'bot',
                     },
@@ -108,12 +124,18 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
                 className={styles.list}
                 ref={chatRef}
             >
-                <div className={styles.message}>{translated.initial_bot_message}</div>
+                <div className={styles.message}>
+                    {translated.initial_bot_message}
+                </div>
 
-                {messages.map((message) => (
+                {messages.map((message, index) => (
                     <WithAnimate
-                        key={message.id}
-                        className={message.sender === 'bot' ? styles.message : styles.my_message}
+                        key={index}
+                        className={
+                            message.sender === 'bot'
+                                ? styles.message
+                                : styles.my_message
+                        }
                         type='fade'
                     >
                         {message.text}
@@ -137,7 +159,9 @@ const Chat: FC<IProps> = ({ questions, translated }) => {
                     <AnimatePresence>
                         {filteredQuestions.map((question) => (
                             <motion.p
-                                onClick={() => handleVariantClick(question.title)}
+                                onClick={() =>
+                                    handleVariantClick(question.title)
+                                }
                                 key={question.title}
                                 initial={{ opacity: 0, translateY: 10 }}
                                 animate={{ opacity: 1, translateY: 0 }}

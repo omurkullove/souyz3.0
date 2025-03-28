@@ -28,7 +28,8 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
     const isErrorHandled = useRef(false);
     const abortController = useRef<AbortController | null>(null);
 
-    const isValidSession = !!access.current && !!refresh.current && !!expires.current;
+    const isValidSession =
+        !!access.current && !!refresh.current && !!expires.current;
 
     const clearRefreshTimer = useCallback(() => {
         if (refreshTimer.current) {
@@ -54,23 +55,33 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
     }, [router]);
 
     const startRefreshTimer = useCallback(() => {
-        if (!expires.current || !isValidSession || isRefreshing.current || isErrorHandled.current)
+        if (
+            !expires.current ||
+            !isValidSession ||
+            isRefreshing.current ||
+            isErrorHandled.current
+        )
             return;
 
         const sessionExpireDate = new Date(expires.current);
         const now = new Date();
-        const refreshInterval = Math.max(sessionExpireDate.getTime() - now.getTime() - 10000, 0);
+        const refreshInterval = Math.max(
+            sessionExpireDate.getTime() - now.getTime() - 10000,
+            0
+        );
 
         clearRefreshTimer();
         refreshTimer.current = setTimeout(handleRefresh, refreshInterval);
     }, [isValidSession, clearRefreshTimer]);
 
     const handleRefresh = useCallback(async () => {
-        if (isRefreshing.current || !isValidSession || isErrorHandled.current) return;
+        if (isRefreshing.current || !isValidSession || isErrorHandled.current)
+            return;
 
         if (
             lastRefreshed.current &&
-            new Date().getTime() - lastRefreshed.current < REFRESH_INTERVAL_GUARD
+            new Date().getTime() - lastRefreshed.current <
+                REFRESH_INTERVAL_GUARD
         ) {
             return;
         }
@@ -138,13 +149,19 @@ const RefreshOnExpire: FC<IProps> = ({ children, initialSession }) => {
 
             const resumeHandler = () => startRefreshTimer();
 
-            document.addEventListener('visibilitychange', visibilityChangeHandler);
+            document.addEventListener(
+                'visibilitychange',
+                visibilityChangeHandler
+            );
             window.addEventListener('focus', focusHandler);
             document.addEventListener('resume', resumeHandler);
 
             return () => {
                 clearRefreshTimer();
-                document.removeEventListener('visibilitychange', visibilityChangeHandler);
+                document.removeEventListener(
+                    'visibilitychange',
+                    visibilityChangeHandler
+                );
                 window.removeEventListener('focus', focusHandler);
                 document.removeEventListener('resume', resumeHandler);
                 abortController.current?.abort();

@@ -10,6 +10,10 @@ class CounselingService {
     async legalCenter(data: FormData): Promise<IResponse> {
         return requestHandler(() => API.post('/org/counseling', data));
     }
+
+    async laborCenter(data: FormData): Promise<IResponse> {
+        return requestHandler(() => API.post('/org/counseling', data));
+    }
 }
 
 export default new CounselingService();

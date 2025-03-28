@@ -39,10 +39,14 @@ const FaqCollapse = ({ translated }: IFaqCollapseProps) => {
                                         alignItems: 'center',
                                         transformOrigin: 'center',
                                     }}
-                                    animate={{ rotate: activeFAQ === index ? 180 : 0 }}
+                                    animate={{
+                                        rotate: activeFAQ === index ? 180 : 0,
+                                    }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                    <IoIosArrowDown className={styles.arrow_icon} />
+                                    <IoIosArrowDown
+                                        className={styles.arrow_icon}
+                                    />
                                 </m.div>
                             </LazyMotion>
                         </div>

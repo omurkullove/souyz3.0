@@ -17,6 +17,7 @@ import styles from './news-portal-view.module.scss';
 
 import toast from 'react-hot-toast';
 import { IoRefreshOutline } from 'react-icons/io5';
+import Sources from './sources/sources';
 
 interface INewsPortalViewProps {
     news: IPaginatedData<INews>;
@@ -24,7 +25,11 @@ interface INewsPortalViewProps {
     translated: IntlMessages['NewsPortal'];
 }
 
-const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps) => {
+const NewsPortalView = ({
+    news,
+    initialPage,
+    translated,
+}: INewsPortalViewProps) => {
     const [isRefreshed, setIsRefreshed] = useState(false);
 
     const isNews = news && news.items && news.items.length;
@@ -101,7 +106,9 @@ const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps)
                             />
                         ))
                     ) : (
-                        <h5 className={styles.no_news_tile}>{translated.no_news}</h5>
+                        <h5 className={styles.no_news_tile}>
+                            {translated.no_news}
+                        </h5>
                     )}
                 </div>
                 {isNews && (
@@ -126,6 +133,7 @@ const NewsPortalView = ({ news, initialPage, translated }: INewsPortalViewProps)
                         </button>
                     </div>
                 )}
+                <Sources sources={translated.sources} />
             </div>
         </div>
     );

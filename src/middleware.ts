@@ -3,7 +3,7 @@ import { ISession } from '@my_types/auth-types';
 import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { COOKIES, sharedCookieDomain } from './utils/constants';
+import { COOKIES } from './utils/constants';
 import { decrypt, encrypt } from './utils/helpers';
 
 const nextIntlMiddleware = createMiddleware({
@@ -57,7 +57,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
         value: theme,
         path: '/',
         sameSite: 'lax',
-        domain: '.example.local',
     });
 
     // locale redirect
@@ -76,7 +75,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     if (validLocale && localeCookie?.value !== pathLocale) {
         response.cookies.set(COOKIES.NEXT_LOCALE, pathLocale, {
             path: '/',
-            domain: sharedCookieDomain,
             sameSite: 'lax',
         });
     }
@@ -84,7 +82,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     if (!localeCookie || !locales.includes(localeCookie.value)) {
         response.cookies.set(COOKIES.NEXT_LOCALE, 'ru', {
             path: '/',
-            domain: sharedCookieDomain,
             sameSite: 'lax',
         });
     }

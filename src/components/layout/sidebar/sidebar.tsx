@@ -54,15 +54,6 @@ const Sidebar = ({ theme, translated }: ISidebarProps) => {
                         >
                             Soyuz.KG
                         </Link>
-                        <Link
-                            href='http://sclub.example.local:3000'
-                            className={styles.subtitle}
-                            style={{ color: 'orange' }}
-                            rel='noopener noreferrer'
-                            target='_parent'
-                        >
-                            Sclub
-                        </Link>
 
                         <p className={styles.subtitle}>{translated.title}</p>
                     </div>
@@ -72,7 +63,9 @@ const Sidebar = ({ theme, translated }: ISidebarProps) => {
                         onClick={handleSetThemeToCookie}
                     >
                         <p className={styles.mode_title}>
-                            {theme === 'light' ? translated.light_mode : translated.dark_mode}
+                            {theme === 'light'
+                                ? translated.light_mode
+                                : translated.dark_mode}
                         </p>
                         {theme === 'light' ? (
                             <FaSun className={styles.mode_icon} />
@@ -84,14 +77,15 @@ const Sidebar = ({ theme, translated }: ISidebarProps) => {
                     <div className={styles.link_container}>
                         {translated.links?.map((item, index) => {
                             const isActive =
-                                item.path === path || (path.includes('/auth') && index == 0);
-                            const isLast = index === translated.links.length - 1;
+                                item.path === path ||
+                                (path.includes('/auth') && index == 0);
+                            const isLast =
+                                index === translated.links.length - 1;
 
                             return (
                                 <Link
                                     className={styles.link}
                                     href={item.path}
-                                    target={item.target}
                                     key={item.label}
                                     style={{
                                         position: 'relative',
@@ -103,7 +97,9 @@ const Sidebar = ({ theme, translated }: ISidebarProps) => {
                                             isActive && styles.active
                                         }`}
                                         initial={'hidden'}
-                                        whileHover={isActive ? 'hidden' : 'visible'}
+                                        whileHover={
+                                            isActive ? 'hidden' : 'visible'
+                                        }
                                     >
                                         <motion.div
                                             variants={variants}
@@ -118,7 +114,11 @@ const Sidebar = ({ theme, translated }: ISidebarProps) => {
                                                 : item.label}
                                         </p>
                                     </motion.div>
-                                    {isLast && <div className={styles.beta_line}>Beta</div>}
+                                    {isLast && (
+                                        <div className={styles.beta_line}>
+                                            Beta
+                                        </div>
+                                    )}
                                 </Link>
                             );
                         })}

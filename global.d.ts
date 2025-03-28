@@ -13,9 +13,9 @@ type CapitalizedKeys<T> = {
         : never;
 }[keyof T];
 
-declare type IntlNamespaces = CapitalizedKeys<RuMessages> | CapitalizedKeys<KgMessages>;
+declare type IntlNamespaces =
+    | CapitalizedKeys<RuMessages>
+    | CapitalizedKeys<KgMessages>;
 
 declare type Locale = 'ru' | 'kg';
 declare type Theme = 'light' | 'dark';
-
-// open weather

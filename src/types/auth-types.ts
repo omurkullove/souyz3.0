@@ -45,10 +45,6 @@ export interface IUpdateProfileData {
 }
 
 export interface IUpdateProfileRequest {
-    path: {
-        email: string;
-    };
-
     data: IUpdateProfileData;
 }
 

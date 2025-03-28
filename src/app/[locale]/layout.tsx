@@ -61,7 +61,7 @@ export default async function RootLayout({
     const cookiesStore = cookies();
 
     const theme = cookiesStore.get(COOKIES.THEME);
-    const { locale } = await params;
+    const { locale } = params;
 
     return (
         <html

@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 export async function requestHandler<T>(
     requestFn: () => Promise<AxiosResponse>
-): Promise<IResponse> {
+): Promise<IResponse<T>> {
     try {
         const res = await requestFn();
         return res.data;

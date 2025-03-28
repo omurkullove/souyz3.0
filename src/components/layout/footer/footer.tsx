@@ -38,12 +38,12 @@ const Footer = ({ translated }: IFooterProps) => {
                         >
                             {translated.contacts}
                         </Link>
-                        <Link
+                        {/* <Link
                             className={styles.link}
                             href={'/reviews'}
                         >
                             {translated.review}
-                        </Link>
+                        </Link> */}
                     </div>
 
                     <div className={styles.child_right}>
@@ -92,15 +92,15 @@ const Footer = ({ translated }: IFooterProps) => {
                         <FaCcMastercard className={styles.logo} />
                         <FaCcPaypal className={styles.logo} />
                     </div>
-                    <Link
+                    {/* <Link
                         href={'/'}
                         className={styles.link}
                     >
                         {translated.public_offer}
-                    </Link>
+                    </Link> */}
 
                     <p className={styles.rights}>
-                        2023-2024 soyuz.kg
+                        2023-2025 soyuz.kg
                         <br />© {translated.rights}
                     </p>
                 </section>

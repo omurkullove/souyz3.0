@@ -1,0 +1,42 @@
+.sources {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .title {
+        font-size: 22px;
+        color: var(--mode-text);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .source {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--pc-text-color);
+            font-size: 16px;
+            font-weight: 500;
+            width: max-content;
+            font-style: italic;
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.2s ease;
+
+            &:hover {
+                color: var(--blue-light);
+                transform: translateX(3px);
+            }
+
+            .icon {
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+        }
+    }
+}

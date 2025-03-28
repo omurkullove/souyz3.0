@@ -14,6 +14,7 @@ API.interceptors.request.use(async (config) => {
     const sessionCookie = cookieStore.get(COOKIES.SESSION);
     const tokens = getTokensFromSession(sessionCookie?.value);
 
+    console.log(config);
     if (tokens) {
         config.headers['Cookie'] = tokens;
     }

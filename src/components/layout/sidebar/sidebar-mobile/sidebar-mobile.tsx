@@ -49,22 +49,27 @@ const SidebarMobile = ({ toggleSidebar, translated }: IProps) => {
 
             <div className={styles.link_container}>
                 {translated.links.map((item, index) => {
-                    const isActive = item.path === path || (path.includes('/auth') && index == 0);
+                    const isActive =
+                        item.path === path ||
+                        (path.includes('/auth') && index == 0);
                     const isLast = index === translated.links.length - 1;
 
                     return (
                         <Link
-                            className={`${styles.link}  ${isActive && styles.active}`}
+                            className={`${styles.link}  ${
+                                isActive && styles.active
+                            }`}
                             href={item.path}
                             onClick={toggleSidebar}
-                            target={item.target}
                             key={item.label}
                         >
                             {index === 0 && user
                                 ? `${user.first_name} ${user.last_name}`
                                 : item.label}
 
-                            {isLast && <div className={styles.beta_line}>Beta</div>}
+                            {isLast && (
+                                <div className={styles.beta_line}>Beta</div>
+                            )}
                         </Link>
                     );
                 })}

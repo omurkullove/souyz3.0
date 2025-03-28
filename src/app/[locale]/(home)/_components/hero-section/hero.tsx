@@ -27,7 +27,9 @@ const Hero = ({ translated }: IHeroProps) => {
     const { ref, inView } = useInView({ threshold: 0 });
 
     const changeSlide = useCallback((nextIndex: number) => {
-        setActivePathIndex((nextIndex + slideshowPaths.length) % slideshowPaths.length);
+        setActivePathIndex(
+            (nextIndex + slideshowPaths.length) % slideshowPaths.length
+        );
     }, []);
 
     const stopSlideshow = useCallback(() => {
@@ -71,13 +73,19 @@ const Hero = ({ translated }: IHeroProps) => {
                 <motion.div
                     className={styles.slideshow_item}
                     key={activePathIndex}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1.5 }}
-                    style={{ backgroundImage: `url(${slideshowPaths[activePathIndex]})` }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{
+                        duration: 1.5,
+                        ease: [0.25, 0.8, 0.25, 1],
+                    }}
+                    style={{
+                        backgroundImage: `url(${slideshowPaths[activePathIndex]})`,
+                    }}
                 />
             </AnimatePresence>
+
             <WithAnimate
                 to='up'
                 type='both'

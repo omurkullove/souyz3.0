@@ -1,4 +1,8 @@
-export type CounselingType = 'public_reception' | 'counseling' | 'low_center';
+export type CounselingType =
+    | 'public_reception'
+    | 'counseling'
+    | 'low_center'
+    | 'labor_center';
 
 export interface IPublicReceptionRequest {
     type: CounselingType;
@@ -14,4 +18,12 @@ export interface ILegalCenterRequest {
     name: string;
     client_email: string;
     phone: string;
+}
+
+export interface ILaborCenterRequest {
+    type: CounselingType;
+    name: string;
+    phone: string;
+    client_email: string;
+    attachments: any[];
 }

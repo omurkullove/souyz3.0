@@ -9,7 +9,6 @@ export async function switchTheme(theme: Theme) {
     console.log(theme);
 
     cookieStore.set(COOKIES.THEME, theme, {
-        domain: '.example.local',
         sameSite: 'lax',
         path: '/',
     });

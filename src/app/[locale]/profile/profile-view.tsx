@@ -44,12 +44,15 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
                         </h3>
 
                         <p className={styles.label}>
-                            {translated.email} <span className={styles.value}>{user?.email}</span>
+                            {translated.email}{' '}
+                            <span className={styles.value}>{user?.email}</span>
                         </p>
 
                         <p className={styles.label}>
                             {translated.phone}{' '}
-                            <span className={styles.value}>{user?.phone?.replace('tel:', '')}</span>
+                            <span className={styles.value}>
+                                {user?.phone?.replace('tel:', '')}
+                            </span>
                         </p>
 
                         <p className={styles.label}>
@@ -62,10 +65,10 @@ const ProfileView = ({ qrcode_data, translated }: IProfileViewProps) => {
 
                     <div className={styles.footer}>
                         <UpdateProfile translated={translated.update_profile} />
-                        <UpdatePassword translated={translated.update_password} />
+                        <UpdatePassword
+                            translated={translated.update_password}
+                        />
                     </div>
-
-                    {JSON.stringify(qrcode_data)}
                 </div>
 
                 <Logout translated={translated.logout} />

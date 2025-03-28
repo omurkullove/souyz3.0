@@ -1,6 +1,6 @@
 import { ISession } from '@my_types/auth-types';
 import authService from '@service/auth/auth-service';
-import { COOKIES, REFRESH_INTERVAL_GUARD, sharedCookieDomain } from '@src/utils/constants';
+import { COOKIES, REFRESH_INTERVAL_GUARD } from '@src/utils/constants';
 import { decrypt, encrypt, parseISOStringToDate } from '@src/utils/helpers';
 import { cookies } from 'next/headers';
 
@@ -21,7 +21,9 @@ export async function POST() {
     const res = await authService.refreshToken();
 
     if (res.code !== 200) {
-        return new Response(JSON.stringify(encrypt({ code: 200 })), { status: 200 });
+        return new Response(JSON.stringify(encrypt({ code: 200 })), {
+            status: 200,
+        });
     }
 
     const data = res?.data;
@@ -36,7 +38,6 @@ export async function POST() {
 
     cookieStore.set(COOKIES.SESSION, encryptedNewSession, {
         path: '/',
-        domain: sharedCookieDomain,
         sameSite: 'lax',
         expires: parseISOStringToDate(data.refresh_token_expire_time),
     });

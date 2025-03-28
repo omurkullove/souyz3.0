@@ -55,9 +55,6 @@ const UpdateProfile = ({ translated }: IUpdateProfileProps) => {
         }
 
         const update_data_request: IUpdateProfileRequest = {
-            path: {
-                email: data.email === user?.email ? data.email : user?.email || '',
-            },
             data: data,
         };
 

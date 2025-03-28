@@ -1,6 +1,6 @@
 import WithAnimate from '@components/animation/with-animate';
-import styles from './generic-modal.module.scss';
 import { ReactNode } from 'react';
+import styles from './generic-modal.module.scss';
 
 interface IGenericModalProps {
     isOpen: boolean;
