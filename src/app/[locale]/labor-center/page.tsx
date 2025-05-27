@@ -1,7 +1,8 @@
-import LaborCenterView from './labor-center-view';
+import { permanentRedirect } from "next/navigation";
 
 const LaborCenter = () => {
-    return <LaborCenterView />;
+	return permanentRedirect("/");
+	// return <LaborCenterView />;
 };
 
 export default LaborCenter;

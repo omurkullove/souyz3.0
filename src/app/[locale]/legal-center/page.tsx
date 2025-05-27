@@ -1,8 +1,9 @@
-import React from 'react';
-import LegalCenterView from './legal-center-view';
+import { permanentRedirect } from "next/navigation";
 
 const LegalCenter = () => {
-    return <LegalCenterView />;
+	return permanentRedirect("/");
+
+	// return <LegalCenterView />;
 };
 
 export default LegalCenter;
